@@ -8,7 +8,7 @@ Make sure the following are installed on your machine:
 - [Git](https://git-scm.com/)
 - [XAMPP (PHP 8.2)](https://www.apachefriends.org/download.html) – for MySQL and PHP
 - [Composer](https://getcomposer.org/) – for PHP dependency management
-- [Node.js & npm](https://nodejs.org/) – for JavaScript backend
+- [Node.js & npm](https://nodejs.org/) – for node dependancies
 - Code editor like [VS Code](https://code.visualstudio.com/)
 
 ---
