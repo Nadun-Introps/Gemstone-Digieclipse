@@ -360,4 +360,23 @@ return [
         'sort'       => 9,
         'icon'       => 'icon-configuration',
     ],
+    /**
+     * Bidding.
+     */
+    [
+        'key'        => 'bidding',
+        'name'       => 'Bidding',
+        'route'      => 'admin.bidding.products.index',
+        'sort'       => 10,
+        'icon'       => 'icon-product',
+    ],
+
+    [
+        'key'        => 'bidding.products',
+        'name'       => 'Products',
+        'route'      => 'admin.bidding.products.index',
+        'sort'       => 1,
+        'icon'       => '',
+    ],
+
 ];

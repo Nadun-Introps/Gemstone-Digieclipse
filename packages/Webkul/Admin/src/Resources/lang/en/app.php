@@ -1704,6 +1704,42 @@ return [
         ],
     ],
 
+    'bidding' => [
+        'bids' => [
+            'index' => [
+                'already-taken' => 'The :name has already been taken.',
+                'create-btn'    => 'Create Products',
+                'title'         => 'Bidding Products',
+
+                'create' => [
+                    'back-btn'     => 'Back',
+                    'auction'      => 'Auction',
+                    'place-btn'    => 'Place Bid',
+                    'amount'       => 'Bid Amount',
+                    'title'        => 'Place a New Bid',
+                    'user'         => 'User',
+                ],
+
+                'datagrid' => [
+                    'active'                 => 'Active',
+                    'auction'                => 'Auction',
+                    'bid-id-value'           => 'Bid ID - :id',
+                    'bid-id'                 => 'Bid ID',
+                    'image'                  => 'Auction Item Image',
+                    'mass-delete-success'    => 'Selected Bids Deleted Successfully',
+                    'mass-update-success'    => 'Selected Bids Updated Successfully',
+                    'name'                   => 'Bidder Name',
+                    'outbid'                 => 'Outbid',
+                    'amount-value'           => '₹:amount',             // adjust currency as needed
+                    'amount'                 => 'Amount',
+                    'status'                 => 'Status',
+                    'update-status'          => 'Update Status',
+                    'user'                   => 'User',
+                ],
+            ],
+        ],
+    ],
+
     'customers' => [
         'customers' => [
             'index' => [
