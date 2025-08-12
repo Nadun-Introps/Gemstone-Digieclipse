@@ -1730,7 +1730,7 @@ return [
                     'mass-update-success'    => 'Selected Bids Updated Successfully',
                     'name'                   => 'Bidder Name',
                     'outbid'                 => 'Outbid',
-                    'amount-value'           => '₹:amount',             // adjust currency as needed
+                    'amount-value'           => '₹:amount',
                     'amount'                 => 'Amount',
                     'status'                 => 'Status',
                     'update-status'          => 'Update Status',
