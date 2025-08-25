@@ -69,6 +69,11 @@
             rel="stylesheet"
             href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap"
         >
+        
+        <script src="https://kit.fontawesome.com/750e98817f.js" crossorigin="anonymous"></script>
+
+        <!-- Swiper CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
 
         @stack('styles')
 
@@ -157,6 +162,22 @@
 
         <script type="text/javascript">
             {!! core()->getConfigData('general.content.custom_scripts.custom_javascript') !!}
+        </script>
+
+        <!-- Swiper JS -->
+        <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+
+        <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            new Swiper('.swiper', {
+                slidesPerView: 1,
+                spaceBetween: 15,
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
+            });
+        });
         </script>
     </body>
 </html>

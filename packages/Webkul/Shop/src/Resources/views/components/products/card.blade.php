@@ -11,10 +11,11 @@
     >
         <!-- Grid Card -->
         <div
-            class="1180:transtion-all group w-full rounded-md 1180:relative 1180:grid 1180:content-start 1180:overflow-hidden 1180:duration-300 1180:hover:shadow-[0_5px_10px_rgba(0,0,0,0.1)]"
+            class="1180:transtion-all group w-full rounded-md 1180:relative 1180:grid 1180:content-start 1180:overflow-hidden 1180:duration-300 1180:hover:shadow-[0_5px_10px_rgba(0,0,0,0.1)] card_p"
             v-if="mode != 'list'"
+            style="min-width: 200px;"
         >
-            <div class="relative max-h-[300px] max-w-[291px] overflow-hidden max-md:max-h-60 max-md:max-w-full max-md:rounded-lg max-sm:max-h-[200px] max-sm:max-w-full">
+            <div class="relative max-h-[300px] max-w-[200px] overflow-hidden max-md:max-h-60 max-md:max-w-full max-md:rounded-lg max-sm:max-h-[200px] max-sm:max-w-full">
                 {!! view_render_event('bagisto.shop.components.products.card.image.before') !!}
 
                 <!-- Product Image -->
@@ -27,7 +28,7 @@
                         ::src="product.base_image.medium_image_url"
                         ::key="product.id"
                         ::index="product.id"
-                        width="291"
+                        width="200"
                         height="300"
                         ::alt="product.name"
                     />
@@ -113,11 +114,11 @@
             </div>
 
             <!-- Product Information Section -->
-            <div class="-mt-9 grid max-w-[291px] translate-y-9 content-start gap-2.5 bg-white p-2.5 transition-transform duration-300 ease-out group-hover:-translate-y-0 group-hover:rounded-t-lg max-md:relative max-md:mt-0 max-md:translate-y-0 max-md:gap-0 max-md:px-0 max-md:py-1.5 max-sm:min-w-[170px] max-sm:max-w-[192px]">
+            <div class="-mt-9 grid max-w-[200px] translate-y-9 content-start gap-2.5 bg-white p-2.5 transition-transform duration-300 ease-out group-hover:-translate-y-0 group-hover:rounded-t-lg max-md:relative max-md:mt-0 max-md:translate-y-0 max-md:gap-0 max-md:px-0 max-md:py-1.5 max-sm:min-w-[170px] max-sm:max-w-[192px]">
 
                 {!! view_render_event('bagisto.shop.components.products.card.name.before') !!}
 
-                <p class="break-all text-base font-medium max-md:mb-1.5 max-md:max-w-56 max-md:whitespace-break-spaces max-md:leading-6 max-sm:max-w-[192px] max-sm:text-sm max-sm:leading-4">
+                <p class="break-all text-base font-medium max-md:mb-0.5 max-md:max-w-56 max-md:whitespace-break-spaces max-md:leading-6 max-sm:max-w-[192px] max-sm:text-sm max-sm:leading-4" style="font-size: 12px;line-height: 0.5rem;">
                     @{{ product.name }}
                 </p>
 
@@ -129,6 +130,7 @@
                 <div
                     class="flex items-center gap-2.5 text-lg font-semibold max-sm:text-sm max-sm:leading-6"
                     v-html="product.price_html"
+                    style="font-size: 13px;line-height: 1rem; color:red;"
                 >
                 </div>
 
@@ -140,8 +142,9 @@
                         {!! view_render_event('bagisto.shop.components.products.card.add_to_cart.before') !!}
 
                         <button
-                            class="secondary-button w-full max-w-full p-2.5 text-sm font-medium max-sm:rounded-xl max-sm:p-2"
+                            class="secondary-button p-2.5 text-sm font-medium max-sm:rounded-xl max-sm:p-2"
                             :disabled="! product.is_saleable || isAddingToCart"
+                            style="width: 80%;"
                             @click="addToCart()"
                         >
                             @lang('shop::app.components.products.card.add-to-cart')
@@ -158,6 +161,7 @@
                             role="button"
                             aria-label="@lang('shop::app.components.products.card.add-to-wishlist')"
                             tabindex="0"
+                            style = "display:none"
                             :class="product.is_wishlist ? 'icon-heart-fill text-red-600' : 'icon-heart'"
                             @click="addToWishlist()"
                         >
@@ -174,6 +178,7 @@
                             role="button"
                             aria-label="@lang('shop::app.components.products.card.add-to-compare')"
                             tabindex="0"
+                            style = "display:none"
                             @click="addToCompare(product.id)"
                         >
                         </span>

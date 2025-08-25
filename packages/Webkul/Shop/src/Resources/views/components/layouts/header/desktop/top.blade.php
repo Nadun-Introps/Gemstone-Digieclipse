@@ -2,9 +2,9 @@
 
 <v-topbar>
     <!-- Shimmer Effect -->
-    <div class="flex items-center justify-between border border-b border-l-0 border-r-0 border-t-0 px-16">
+    <div class="flex items-center justify-between border border-b border-l-0 border-r-0 border-t-0 px-16 menu">
         <!-- Currencies -->
-        <div class="flex w-20 items-center justify-between gap-2.5 py-3">
+        <div class="flex w-20 items-center justify-between gap-2.5 py-3 ">
             <div
                 class="shimmer h-6 w-12 rounded"
                 role="presentation"
@@ -55,7 +55,7 @@
         type="text/x-template"
         id="v-topbar-template"
     >
-        <div class="flex w-full items-center justify-between border border-b border-l-0 border-r-0 border-t-0 px-16">
+        <div class="flex w-full items-center justify-between border border-b border-l-0 border-r-0 border-t-0 px-16" style="background-color:#E69839">
             {!! view_render_event('bagisto.shop.components.layouts.header.desktop.top.currency_switcher.before') !!}
 
             <!-- Currency Switcher -->
@@ -63,7 +63,7 @@
                 <!-- Dropdown Toggler -->
                 <x-slot:toggle>
                     <div
-                        class="flex cursor-pointer gap-2.5 py-3"
+                        class="flex cursor-pointer gap-2.5 money"
                         role="button"
                         tabindex="0"
                         @click="currencyToggler = ! currencyToggler"
@@ -107,12 +107,12 @@
                 <x-slot:toggle>
                     <!-- Dropdown Toggler -->
                     <div
-                        class="flex cursor-pointer items-center gap-2.5 py-3"
+                        class="flex cursor-pointer items-center gap-2.5 lung"
                         role="button"
                         tabindex="0"
                         @click="localeToggler = ! localeToggler"
                     >
-                        <img
+                        <!--<img
                             src="{{ ! empty(core()->getCurrentLocale()->logo_url)
                                     ? core()->getCurrentLocale()->logo_url
                                     : bagisto_asset('images/default-language.svg')
@@ -121,7 +121,7 @@
                             alt="@lang('shop::app.components.layouts.header.desktop.top.default-locale')"
                             width="24"
                             height="16"
-                        />
+                        />-->
                         
                         <span>
                             {{ core()->getCurrentChannel()->locales()->orderBy('name')->where('code', app()->getLocale())->value('name') }}
