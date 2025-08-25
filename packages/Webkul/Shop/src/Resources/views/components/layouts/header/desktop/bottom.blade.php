@@ -1,12 +1,12 @@
 {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.before') !!}
 
-<div class="flex min-h-[78px] w-full justify-between border border-b border-l-0 border-r-0 border-t-0 px-[60px] max-1180:px-8">
+<div class="flex min-h-[45px] w-full justify-between border border-b border-l-0 border-r-0 border-t-0 px-[60px] max-1180:px-8 menu-bar">
     <!--
         This section will provide categories for the first, second, and third levels. If
         additional levels are required, users can customize them according to their needs.
     -->
     <!-- Left Nagivation Section -->
-    <div class="flex items-center gap-x-10 max-[1180px]:gap-x-5">
+    <div class="flex items-center gap-x-10 max-[1180px]:gap-x-5" style="column-gap: 6.5rem;">
         {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.logo.before') !!}
 
         <a
@@ -25,24 +25,73 @@
 
         {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.category.before') !!}
 
-        <v-desktop-category>
-            <div class="flex items-center gap-5">
-                <span
-                    class="shimmer h-6 w-20 rounded"
-                    role="presentation"
-                ></span>
+        <div class="flex items-center">
+            <!-- "All" button for opening the category drawer -->
+            <!--<div
+                class="flex h-[77px] cursor-pointer items-center border-b-4 border-transparent hover:border-b-4 hover:border-navyBlue"
+                @click="toggleCategoryDrawer"
+            >
+                <span class="flex items-center gap-1 px-5 uppercase">
+                    <span class="icon-hamburger text-xl"></span>
+                    @lang('shop::app.components.layouts.header.desktop.bottom.all')
+                </span>
+            </div>-->
 
-                <span
-                    class="shimmer h-6 w-20 rounded"
-                    role="presentation"
-                ></span>
-
-                <span
-                    class="shimmer h-6 w-20 rounded"
-                    role="presentation"
-                ></span>
+            <!-- Manual navigation links -->
+            <div class="group relative flex h-[48px] items-center border-b-4 border-transparent"
+                style="--hover-color: #E69839; --normal-color: #001F54; font-size: 14px;">
+                <a href="{{ url('/') }}"
+                class="inline-block px-5 uppercase"
+                style="color: var(--normal-color); transition: color 0.3s, border-color 0.3s;"
+                onmouseover="this.style.color='var(--hover-color)'; this.parentElement.style.borderColor='var(--hover-color)'"
+                onmouseout="this.style.color='var(--normal-color)'; this.parentElement.style.borderColor='transparent'">
+                Home
+                </a>
             </div>
-        </v-desktop-category>
+           <div class="group relative flex h-[48px] items-center border-b-4 border-transparent"
+                style="--hover-color: #E69839; --normal-color: #001F54; font-size: 14px;">
+                <a href="{{ url('/shop') }}"
+                class="inline-block px-5 uppercase"
+                style="color: var(--normal-color); transition: color 0.3s, border-color 0.3s;"
+                onmouseover="this.style.color='var(--hover-color)'; this.parentElement.style.borderColor='var(--hover-color)'"
+                onmouseout="this.style.color='var(--normal-color)'; this.parentElement.style.borderColor='transparent'">
+                Shop
+                </a>
+            </div>
+
+            <div class="group relative flex h-[48px] items-center border-b-4 border-transparent"
+                style="--hover-color: #E69839; --normal-color: #001F54; font-size: 14px;">
+                <a href="{{ url('/about-us') }}"
+                class="inline-block px-5 uppercase"
+                style="color: var(--normal-color); transition: color 0.3s, border-color 0.3s;"
+                onmouseover="this.style.color='var(--hover-color)'; this.parentElement.style.borderColor='var(--hover-color)'"
+                onmouseout="this.style.color='var(--normal-color)'; this.parentElement.style.borderColor='transparent'">
+                About Us
+                </a>
+            </div>
+
+            <div class="group relative flex h-[48px] items-center border-b-4 border-transparent"
+                style="--hover-color: #E69839; --normal-color: #001F54; font-size: 14px;">
+                <a href="{{ url('/contact-us') }}"
+                class="inline-block px-5 uppercase"
+                style="color: var(--normal-color); transition: color 0.3s, border-color 0.3s;"
+                onmouseover="this.style.color='var(--hover-color)'; this.parentElement.style.borderColor='var(--hover-color)'"
+                onmouseout="this.style.color='var(--normal-color)'; this.parentElement.style.borderColor='transparent'">
+                Contact Us
+                </a>
+            </div>
+
+            <div class="group relative flex h-[48px] items-center border-b-4 border-transparent"
+                style="--hover-color: #E69839; --normal-color: #001F54; font-size: 14px;">
+                <a href="{{ url('/blog') }}"
+                class="inline-block px-5 uppercase"
+                style="color: var(--normal-color); transition: color 0.3s, border-color 0.3s;"
+                onmouseover="this.style.color='var(--hover-color)'; this.parentElement.style.borderColor='var(--hover-color)'"
+                onmouseout="this.style.color='var(--normal-color)'; this.parentElement.style.borderColor='transparent'">
+                Blog
+                </a>
+            </div>
+        </div>
 
         {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.category.after') !!}
     </div>
@@ -52,48 +101,46 @@
 
         {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.search_bar.before') !!}
 
-        <!-- Search Bar Container -->
-        <div class="relative w-full">
-            <form
-                action="{{ route('shop.search.index') }}"
-                class="flex max-w-[445px] items-center"
-                role="search"
+    <!-- Search Bar Container -->
+    <div class="relative w-full">
+        <form
+            action="{{ route('shop.search.index') }}"
+            class="flex max-w-[445px] items-center"
+            role="search"
+        >
+            <label
+                for="organic-search"
+                class="sr-only"
             >
-                <label
-                    for="organic-search"
-                    class="sr-only"
-                >
-                    @lang('shop::app.components.layouts.header.desktop.bottom.search')
-                </label>
+                @lang('shop::app.components.layouts.header.desktop.bottom.search')
+            </label>
 
-                <div class="icon-search pointer-events-none absolute top-2.5 flex items-center text-xl ltr:left-3 rtl:right-3"></div>
+            <!-- Search input -->
+            <input
+                type="text"
+                name="query"
+                value="{{ request('query') }}"
+                class="block w-full rounded-lg border border-transparent bg-zinc-100 pl-3 pr-11 py-3 text-xs font-medium text-gray-900 placeholder-black transition-all hover:border-gray-400 focus:border-gray-400"
+                minlength="{{ core()->getConfigData('catalog.products.search.min_query_length') }}"
+                maxlength="{{ core()->getConfigData('catalog.products.search.max_query_length') }}"
+                placeholder="Search..."
+                aria-label="@lang('shop::app.components.layouts.header.desktop.bottom.search-text')"
+                aria-required="true"
+                pattern="[^\\]+"
+                required
+                style="height: 28px;padding: ;margin: 10px;padding-left: 11px;border-radius: 0;"
+            >
 
-                <input
-                    type="text"
-                    name="query"
-                    value="{{ request('query') }}"
-                    class="block w-full rounded-lg border border-transparent bg-zinc-100 px-11 py-3 text-xs font-medium text-gray-900 transition-all hover:border-gray-400 focus:border-gray-400"
-                    minlength="{{ core()->getConfigData('catalog.products.search.min_query_length') }}"
-                    maxlength="{{ core()->getConfigData('catalog.products.search.max_query_length') }}"
-                    placeholder="@lang('shop::app.components.layouts.header.desktop.bottom.search-text')"
-                    aria-label="@lang('shop::app.components.layouts.header.desktop.bottom.search-text')"
-                    aria-required="true"
-                    pattern="[^\\]+"
-                    required
-                >
-
-                <button
-                    type="submit"
-                    class="hidden"
-                    aria-label="@lang('shop::app.components.layouts.header.desktop.bottom.submit')"
-                >
-                </button>
-
-                @if (core()->getConfigData('catalog.products.settings.image_search'))
-                    @include('shop::search.images.index')
-                @endif
-            </form>
-        </div>
+            <!-- Transparent submit button with icon on right -->
+            <button
+                type="submit"
+                class="top-2.5 right-3 flex items-center text-xl text-gray-500 hover:text-gray-700 bg-transparent border-0 p-0 cursor-pointer"
+                aria-label="@lang('shop::app.components.layouts.header.desktop.bottom.submit')"
+            >
+                <div class="icon-search"></div>
+            </button>
+        </form>
+    </div>
 
         {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.search_bar.after') !!}
 
@@ -109,7 +156,7 @@
                     aria-label="@lang('shop::app.components.layouts.header.desktop.bottom.compare')"
                 >
                     <span
-                        class="icon-compare inline-block cursor-pointer text-2xl"
+                        class="icon-heart inline-block cursor-pointer text-2xl"
                         role="presentation"
                     ></span>
                 </a>
@@ -282,7 +329,7 @@
             v-else-if="'{{ core()->getConfigData('general.design.categories.category_view') }}' !== 'sidebar'"
         >
             <div
-                class="group relative flex h-[77px] items-center border-b-4 border-transparent hover:border-b-4 hover:border-navyBlue"
+                class="group relative flex h-[48px] items-center border-b-4 border-transparent hover:border-b-4 hover:border-navyBlue"
                 v-for="category in categories"
             >
                 <span>
@@ -340,7 +387,7 @@
                     @click="toggleCategoryDrawer"
                 >
                     <span class="flex items-center gap-1 px-5 uppercase">
-                        <span class="icon-hamburger text-xl"></span>
+                        <span class="icon-hamburger text-xl three_line"></span>
 
                         @lang('shop::app.components.layouts.header.desktop.bottom.all')
                     </span>

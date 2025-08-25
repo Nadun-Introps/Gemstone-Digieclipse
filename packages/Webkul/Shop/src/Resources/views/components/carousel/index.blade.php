@@ -6,78 +6,131 @@
     </div>
 </v-carousel>
 
+@pushOnce('styles')
+<style>
+@media (max-width: 576px) {
+    .round_ball{
+        display: none;
+    }
+    .mob_img{
+        height: 250px;
+    }
+    .image_carousel{
+        height: 245px !important;
+    }
+    .image_carousel .absolute {
+        left: 20px !important;
+        top: 20% !important;
+        transform: translateY(0) !important;
+        max-width: 90% !important;
+        height: 4cm;
+    }
+
+    .image_carousel .absolute p {
+        font-size: 1.2rem !important;
+        line-height: 1.4rem !important;
+        margin-bottom: 10px !important;
+    }
+
+    .image_carousel .absolute h2 {
+        font-size: 2rem !important;
+        line-height: 2.2rem !important;
+        margin-bottom: 10px !important;
+    }
+
+    .image_carousel .absolute a {
+        font-size: 1rem !important;
+        padding: 6px 12px !important;
+    }
+}
+</style>
+@endpushOnce
+
 @pushOnce('scripts')
     <script
-        type="text/x-template"
-        id="v-carousel-template"
-    >
-        <div class="relative m-auto flex w-full overflow-hidden">
-            <!-- Slider -->
-            <div 
-                class="inline-flex translate-x-0 cursor-pointer transition-transform duration-700 ease-out will-change-transform"
-                ref="sliderContainer"
+    type="text/x-template"
+    id="v-carousel-template"
+>
+    <div class="relative m-auto flex w-full overflow-hidden image_carousel" style="height: 415px;">
+        <!-- Slider -->
+        <div 
+            class="inline-flex translate-x-0 cursor-pointer transition-transform duration-700 ease-out will-change-transform"
+            ref="sliderContainer"
+        >
+            <div
+                class="relative max-h-screen w-screen bg-cover bg-no-repeat"
+                v-for="(image, index) in images"
+                @click="visitLink(image)"
+                ref="slide"
             >
-                <div
-                    class="max-h-screen w-screen bg-cover bg-no-repeat"
-                    v-for="(image, index) in images"
-                    @click="visitLink(image)"
-                    ref="slide"
-                >
-                    <x-shop::media.images.lazy
-                        class="aspect-[2.743/1] max-h-full w-full max-w-full select-none transition-transform duration-300 ease-in-out"
-                        ::lazy="false"
-                        ::src="image.image"
-                        ::srcset="image.image + ' 1920w, ' + image.image.replace('storage', 'cache/large') + ' 1280w,' + image.image.replace('storage', 'cache/medium') + ' 1024w, ' + image.image.replace('storage', 'cache/small') + ' 525w'"
-                        ::alt="image?.title"
-                        tabindex="0"
-                        fetchpriority="high"
-                    />
-                </div>
-            </div>
-
-            <!-- Navigation -->
-            <span
-                class="icon-arrow-left absolute left-2.5 top-1/2 -mt-[22px] hidden w-auto rounded-full bg-black/80 p-3 text-2xl font-bold text-white opacity-30 transition-all md:inline-block"
-                :class="{
-                    'cursor-not-allowed': direction == 'ltr' && currentIndex == 0,
-                    'cursor-pointer hover:opacity-100': direction == 'ltr' ? currentIndex > 0 : currentIndex <= 0
-                }"
-                role="button"
-                aria-label="@lang('shop::components.carousel.previous')"
-                tabindex="0"
-                v-if="images?.length >= 2"
-                @click="navigate('prev')"
-            >
-            </span>
-
-            <span
-                class="icon-arrow-right absolute right-2.5 top-1/2 -mt-[22px] hidden w-auto rounded-full bg-black/80 p-3 text-2xl font-bold text-white opacity-30 transition-all md:inline-block"
-                :class="{
-                    'cursor-not-allowed': direction == 'rtl' && currentIndex == 0,
-                    'cursor-pointer hover:opacity-100': direction == 'rtl' ? currentIndex < 0 : currentIndex >= 0
-                }"
-                role="button"
-                aria-label="@lang('shop::components.carousel.next')"
-                tabindex="0"
-                v-if="images?.length >= 2"
-                @click="navigate('next')"
-            >
-            </span>
-
-            <!-- Pagination -->
-            <div class="absolute bottom-5 left-0 flex w-full justify-center max-md:bottom-3.5 max-sm:bottom-2.5">
-                <div
-                    v-for="(image, index) in images"
-                    class="mx-1 h-3 w-3 cursor-pointer rounded-full max-md:h-2 max-md:w-2 max-sm:h-1.5 max-sm:w-1.5"
-                    :class="{ 'bg-navyBlue': index === Math.abs(currentIndex), 'opacity-30 bg-gray-500': index !== Math.abs(currentIndex) }"
-                    role="button"
+                <!-- Slider Image -->
+                <x-shop::media.images.lazy
+                    class="aspect-[2.743/1] max-h-full w-full max-w-full select-none transition-transform duration-300 ease-in-out mob_img"
+                    ::lazy="false"
+                    ::src="image.image"
+                    ::srcset="image.image + ' 1920w, ' + image.image.replace('storage', 'cache/large') + ' 1280w,' + image.image.replace('storage', 'cache/medium') + ' 1024w, ' + image.image.replace('storage', 'cache/small') + ' 525w'"
+                    ::alt="image?.title"
                     tabindex="0"
-                    @click="navigateByPagination(index)"
-                >
+                    fetchpriority="high"
+                />
+
+                <!-- Overlay Content -->
+                <div class="absolute left-10 top-1/2 -translate-y-1/2 text-white max-w-md" style="left: 140px;">
+                    <p class="text-lg mb-4" style="font-size: 2.125rem; line-height: 2.2rem;">Natural</p>
+                    <h2 class="text-3xl font-bold mb-3" style="font-weight: 500; font-size: 4.5rem; line-height: 3.25rem;">Gemstone,</h2>
+                    <p class="text-lg mb-4" style="font-size: 2.125rem; line-height: 2.2rem;">Crafted By Earth</p>
+                    <a 
+                        :href="image.link" 
+                        class=" px-5 py-2 rounded text-white "
+                        style="background-color: #F97F2B; background-color: #F97F2B; font-size: 1.2rem;"
+                    >
+                        More Info
+                    </a>
                 </div>
             </div>
         </div>
-    </script>
+
+        <!-- Navigation -->
+        <span
+            class="icon-arrow-left absolute left-2.5 top-1/2 -mt-[22px] hidden w-auto rounded-full bg-black/80 p-3 text-2xl font-bold text-white opacity-30 transition-all md:inline-block image_round"
+            :class="{
+                'cursor-not-allowed': direction == 'ltr' && currentIndex == 0,
+                'cursor-pointer hover:opacity-100': direction == 'ltr' ? currentIndex > 0 : currentIndex <= 0
+            }"
+            role="button"
+            aria-label="@lang('shop::components.carousel.previous')"
+            tabindex="0"
+            v-if="images?.length >= 2"
+            @click="navigate('prev')"
+        ></span>
+
+        <span
+            class="icon-arrow-right absolute right-2.5 top-1/2 -mt-[22px] hidden w-auto rounded-full bg-black/80 p-3 text-2xl font-bold text-white opacity-30 transition-all md:inline-block"
+            :class="{
+                'cursor-not-allowed': direction == 'rtl' && currentIndex == 0,
+                'cursor-pointer hover:opacity-100': direction == 'rtl' ? currentIndex < 0 : currentIndex >= 0
+            }"
+            role="button"
+            aria-label="@lang('shop::components.carousel.next')"
+            tabindex="0"
+            v-if="images?.length >= 2"
+            @click="navigate('next')"
+        ></span>
+
+        <!-- Pagination -->
+        <div class="absolute bottom-5 left-0 flex w-full justify-center max-md:bottom-3.5 max-sm:bottom-2.5">
+            <div
+                v-for="(image, index) in images"
+                class="mx-1 h-3 w-3 cursor-pointer rounded-full max-md:h-2 max-md:w-2 max-sm:h-1.5 max-sm:w-1.5 round_ball"
+                :class="{ 'bg-navyBlue': index === Math.abs(currentIndex), 'opacity-30 bg-gray-500': index !== Math.abs(currentIndex) }"
+                role="button"
+                tabindex="0"
+                @click="navigateByPagination(index)"
+            ></div>
+        </div>
+    </div>
+</script>
+
 
     <script type="module">
         app.component("v-carousel", {
