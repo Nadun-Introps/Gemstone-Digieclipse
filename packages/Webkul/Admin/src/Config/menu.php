@@ -360,4 +360,14 @@ return [
         'sort'       => 9,
         'icon'       => 'icon-configuration',
     ],
+    /**
+     * Bidding.
+     */
+    [
+        'key' => 'bidding',
+        'name' => 'admin::app.components.layouts.sidebar.bidding',
+        'route' => 'admin.bidding.index',
+        'sort' => 10,
+        'icon' => 'icon-promotion',
+    ],
 ];

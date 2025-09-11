@@ -16,10 +16,7 @@
 
             @if (bouncer()->hasPermission('catalog.products.create'))
                 <v-create-product-form>
-                    <button
-                        type="button"
-                        class="primary-button"
-                    >
+                    <button type="button" class="primary-button">
                         @lang('admin::app.catalog.products.index.create-btn')
                     </button>
                 </v-create-product-form>
@@ -32,16 +29,16 @@
     {!! view_render_event('bagisto.admin.catalog.products.list.before') !!}
 
     <!-- Datagrid -->
-    <x-admin::datagrid
-        :src="route('admin.catalog.products.index')"
-        :isMultiRow="true"
-    >
+    <x-admin::datagrid :src="route('admin.catalog.products.index')" :isMultiRow="true">
         <!-- Datagrid Header -->
         @php
-            $hasPermission = bouncer()->hasPermission('catalog.products.edit') || bouncer()->hasPermission('catalog.products.delete');
+            $hasPermission =
+                bouncer()->hasPermission('catalog.products.edit') ||
+                bouncer()->hasPermission('catalog.products.delete');
         @endphp
 
-        <template #header="{
+        <template
+            #header="{
             isLoading,
             available,
             applied,
@@ -54,34 +51,26 @@
             </template>
 
             <template v-else>
-                <div class="row grid grid-cols-[2fr_1fr_1fr] grid-rows-1 items-center border-b px-4 py-2.5 dark:border-gray-800">
-                    <div
-                        class="flex select-none items-center gap-2.5"
-                        v-for="(columnGroup, index) in [['name', 'sku', 'attribute_family'], ['base_image', 'price', 'quantity', 'product_id'], ['status', 'category_name', 'type']]"
-                    >
+                <div
+                    class="row grid grid-cols-[2fr_1fr_1fr] grid-rows-1 items-center border-b px-4 py-2.5 dark:border-gray-800">
+                    <div class="flex select-none items-center gap-2.5"
+                        v-for="(columnGroup, index) in [['name', 'sku', 'attribute_family'], ['base_image', 'price', 'quantity', 'product_id'], ['status', 'category_name', 'type']]">
                         @if ($hasPermission)
-                            <label
-                                class="flex w-max cursor-pointer select-none items-center gap-1"
-                                for="mass_action_select_all_records"
-                                v-if="! index"
-                            >
-                                <input
-                                    type="checkbox"
-                                    name="mass_action_select_all_records"
-                                    id="mass_action_select_all_records"
-                                    class="peer hidden"
+                            <label class="flex w-max cursor-pointer select-none items-center gap-1"
+                                for="mass_action_select_all_records" v-if="! index">
+                                <input type="checkbox" name="mass_action_select_all_records"
+                                    id="mass_action_select_all_records" class="peer hidden"
                                     :checked="['all', 'partial'].includes(applied.massActions.meta.mode)"
-                                    @change="selectAll"
-                                >
+                                    @change="selectAll">
 
-                                <span
-                                    class="icon-uncheckbox cursor-pointer rounded-md text-2xl"
+                                <span class="icon-uncheckbox cursor-pointer rounded-md text-2xl"
                                     :class="[
-                                        applied.massActions.meta.mode === 'all' ? 'peer-checked:icon-checked peer-checked:text-blue-600' : (
-                                            applied.massActions.meta.mode === 'partial' ? 'peer-checked:icon-checkbox-partial peer-checked:text-blue-600' : ''
+                                        applied.massActions.meta.mode === 'all' ?
+                                        'peer-checked:icon-checked peer-checked:text-blue-600' : (
+                                            applied.massActions.meta.mode === 'partial' ?
+                                            'peer-checked:icon-checkbox-partial peer-checked:text-blue-600' : ''
                                         ),
-                                    ]"
-                                >
+                                    ]">
                                 </span>
                             </label>
                         @endif
@@ -89,33 +78,31 @@
                         <p class="text-gray-600 dark:text-gray-300">
                             <span class="[&>*]:after:content-['_/_']">
                                 <template v-for="column in columnGroup">
-                                    <span
-                                        class="after:content-['/'] last:after:content-['']"
+                                    <span class="after:content-['/'] last:after:content-['']"
                                         :class="{
                                             'font-medium text-gray-800 dark:text-white': applied.sort.column == column,
-                                            'cursor-pointer hover:text-gray-800 dark:hover:text-white': available.columns.find(columnTemp => columnTemp.index === column)?.sortable,
+                                            'cursor-pointer hover:text-gray-800 dark:hover:text-white': available
+                                                .columns.find(columnTemp => columnTemp.index === column)?.sortable,
                                         }"
                                         @click="
                                             available.columns.find(columnTemp => columnTemp.index === column)?.sortable ? sort(available.columns.find(columnTemp => columnTemp.index === column)): {}
-                                        "
-                                    >
+                                        ">
                                         @{{ available.columns.find(columnTemp => columnTemp.index === column)?.label }}
                                     </span>
                                 </template>
                             </span>
 
-                            <i
-                                class="align-text-bottom text-base text-gray-800 dark:text-white ltr:ml-1.5 rtl:mr-1.5"
-                                :class="[applied.sort.order === 'asc' ? 'icon-down-stat': 'icon-up-stat']"
-                                v-if="columnGroup.includes(applied.sort.column)"
-                            ></i>
+                            <i class="align-text-bottom text-base text-gray-800 dark:text-white ltr:ml-1.5 rtl:mr-1.5"
+                                :class="[applied.sort.order === 'asc' ? 'icon-down-stat' : 'icon-up-stat']"
+                                v-if="columnGroup.includes(applied.sort.column)"></i>
                         </p>
                     </div>
                 </div>
             </template>
         </template>
 
-        <template #body="{
+        <template
+            #body="{
             isLoading,
             available,
             applied,
@@ -128,26 +115,18 @@
             </template>
 
             <template v-else>
-                <div
-                    class="row grid grid-cols-[2fr_1fr_1fr] grid-rows-1 gap-1.5 border-b px-4 py-2.5 transition-all hover:bg-gray-50 dark:border-gray-800 dark:hover:bg-gray-950"
-                    v-for="record in available.records"
-                >
+                <div class="row grid grid-cols-[2fr_1fr_1fr] grid-rows-1 gap-1.5 border-b px-4 py-2.5 transition-all hover:bg-gray-50 dark:border-gray-800 dark:hover:bg-gray-950"
+                    v-for="record in available.records">
                     <!-- Name, SKU, Attribute Family Columns -->
                     <div class="flex gap-2.5">
                         @if ($hasPermission)
-                            <input
-                                type="checkbox"
-                                :name="`mass_action_select_record_${record.product_id}`"
-                                :id="`mass_action_select_record_${record.product_id}`"
-                                :value="record.product_id"
-                                class="peer hidden"
-                                v-model="applied.massActions.indices"
-                            >
+                            <input type="checkbox" :name="`mass_action_select_record_${record.product_id}`"
+                                :id="`mass_action_select_record_${record.product_id}`" :value="record.product_id"
+                                class="peer hidden" v-model="applied.massActions.indices">
 
                             <label
                                 class="icon-uncheckbox peer-checked:icon-checked cursor-pointer rounded-md text-2xl peer-checked:text-blue-600"
-                                :for="`mass_action_select_record_${record.product_id}`"
-                            ></label>
+                                :for="`mass_action_select_record_${record.product_id}`"></label>
                         @endif
 
                         <div class="flex flex-col gap-1.5">
@@ -169,21 +148,22 @@
                     <div class="flex gap-1.5">
                         <div class="relative">
                             <template v-if="record.base_image">
-                                <img
-                                    class="max-h-[65px] min-h-[65px] min-w-[65px] max-w-[65px] rounded"
-                                    :src='record.base_image'
-                                />
+                                <img class="max-h-[65px] min-h-[65px] min-w-[65px] max-w-[65px] rounded"
+                                    :src='record.base_image' />
 
-                                <span class="absolute bottom-px rounded-full bg-darkPink px-1.5 text-xs font-bold leading-normal text-white ltr:left-px rtl:right-px">
+                                <span
+                                    class="absolute bottom-px rounded-full bg-darkPink px-1.5 text-xs font-bold leading-normal text-white ltr:left-px rtl:right-px">
                                     @{{ record.images_count }}
                                 </span>
                             </template>
 
                             <template v-else>
-                                <div class="relative h-[60px] max-h-[60px] w-full max-w-[60px] rounded border border-dashed border-gray-300 dark:border-gray-800 dark:mix-blend-exclusion dark:invert">
-                                    <img src="{{ bagisto_asset('images/product-placeholders/front.svg')}}">
+                                <div
+                                    class="relative h-[60px] max-h-[60px] w-full max-w-[60px] rounded border border-dashed border-gray-300 dark:border-gray-800 dark:mix-blend-exclusion dark:invert">
+                                    <img src="{{ bagisto_asset('images/product-placeholders/front.svg') }}">
 
-                                    <p class="absolute bottom-1.5 w-full text-center text-[6px] font-semibold text-gray-400">
+                                    <p
+                                        class="absolute bottom-1.5 w-full text-center text-[6px] font-semibold text-gray-400">
                                         @lang('admin::app.catalog.products.index.datagrid.product-image')
                                     </p>
                                 </div>
@@ -203,19 +183,13 @@
                             </div>
 
                             <div v-else>
-                                <p
-                                    class="text-gray-600 dark:text-gray-300"
-                                    v-if="record.quantity > 0"
-                                >
+                                <p class="text-gray-600 dark:text-gray-300" v-if="record.quantity > 0">
                                     <span class="text-green-600">
                                         @{{ "@lang('admin::app.catalog.products.index.datagrid.qty-value')".replace(':qty', record.quantity) }}
                                     </span>
                                 </p>
 
-                                <p
-                                    class="text-gray-600 dark:text-gray-300"
-                                    v-else
-                                >
+                                <p class="text-gray-600 dark:text-gray-300" v-else>
                                     <span class="text-red-600">
                                         @lang('admin::app.catalog.products.index.datagrid.out-of-stock')
                                     </span>
@@ -231,7 +205,7 @@
                     <!-- Status, Category, Type Columns -->
                     <div class="flex items-center justify-between gap-x-4">
                         <div class="flex flex-col gap-1.5">
-                            <p :class="[record.status ? 'label-active': 'label-info']">
+                            <p :class="[record.status ? 'label-active' : 'label-info']">
                                 @{{ record.status ? "@lang('admin::app.catalog.products.index.datagrid.active')" : "@lang('admin::app.catalog.products.index.datagrid.disable')" }}
                             </p>
 
@@ -244,18 +218,16 @@
                             </p>
                         </div>
 
-                        <p
-                            class="flex items-center gap-1.5"
-                            v-if="available.actions.length"
-                        >
+                        <p class="flex items-center gap-1.5" v-if="available.actions.length">
                             <span
                                 class="cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 max-sm:place-self-center"
-                                :class="action.icon"
-                                v-text="! action.icon ? action.title : ''"
-                                v-for="action in record.actions"
-                                @click="performAction(action)"
-                            >
+                                :class="action.icon" v-text="! action.icon ? action.title : ''"
+                                v-for="action in record.actions" @click="performAction(action)">
                             </span>
+
+                            <!-- New BID button -->
+                            <v-bid-product-form :product-id="record.product_id" :product-name="record.name">
+                            </v-bid-product-form>
                         </p>
                     </div>
                 </div>
@@ -266,6 +238,398 @@
     {!! view_render_event('bagisto.admin.catalog.products.list.after') !!}
 
     @pushOnce('scripts')
+        <script type="text/x-template" id="v-bid-product-form-template">
+            <div>
+                <!-- BID Button -->
+                <span
+                    class="cursor-pointer rounded-md bg-blue-600 px-2 py-1 text-xs font-medium text-white transition-all hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
+                    @click="openBidModal"
+                    title="Add this product to Bid">
+                    BID
+                </span>
+
+                <x-admin::form v-slot="{ meta, errors, handleSubmit }" as="div">
+                    <form @submit="handleSubmit($event, submitBid)">
+                        <!-- BID Modal -->
+                        <x-admin::modal ref="bidModal">
+                            <!-- Modal Header -->
+                            <x-slot:header>
+                                <p class="text-lg font-bold text-gray-800 dark:text-white">
+                                    @lang('admin::app.catalog.products.index.bid.title')
+                                </p>
+                            </x-slot>
+
+                            <!-- Modal Content -->
+                            <x-slot:content>
+                                {!! view_render_event('bagisto.admin.catalog.products.bid_form.controls.before') !!}
+
+                                <!-- Hidden Product ID -->
+                                <input type="hidden" name="product_id" :value="productId">
+
+                                <!-- Product Name (readonly) -->
+                                <x-admin::form.control-group>
+                                    <x-admin::form.control-group.label class="required">
+                                        @lang('admin::app.catalog.products.index.bid.product_name')
+                                    </x-admin::form.control-group.label>
+
+                                    <input
+                                        type="text"
+                                        name="product_name"
+                                        v-model="productData.name"
+                                        class="control"
+                                        readonly
+                                        required
+                                    />
+
+                                    <x-admin::form.control-group.error control-name="product_name" />
+                                </x-admin::form.control-group>
+
+                                <!-- Product Price and Currency -->
+                                <div class="flex gap-4">
+                                    <!-- Product Price -->
+                                    <x-admin::form.control-group class="flex-1">
+                                        <x-admin::form.control-group.label class="required">
+                                            @lang('admin::app.catalog.products.index.bid.product_price')
+                                        </x-admin::form.control-group.label>
+
+                                        <input
+                                            type="number"
+                                            name="product_price"
+                                            v-model="productData.price"
+                                            class="control"
+                                            step="0.01"
+                                            readonly
+                                            required
+                                        />
+
+                                        <x-admin::form.control-group.error control-name="product_price" />
+                                    </x-admin::form.control-group>
+
+                                    <!-- Currency -->
+                                    <x-admin::form.control-group class="w-1/4">
+                                        <x-admin::form.control-group.label class="required">
+                                            @lang('admin::app.catalog.products.index.bid.currency')
+                                        </x-admin::form.control-group.label>
+
+                                        <select
+                                            name="currency"
+                                            v-model="formData.currency"
+                                            class="control"
+                                            required
+                                        >
+                                            <option value="USD">USD</option>
+                                            <option value="EUR">EUR</option>
+                                            <option value="GBP">GBP</option>
+                                            <!-- Add more currencies as needed -->
+                                        </select>
+
+                                        <x-admin::form.control-group.error control-name="currency" />
+                                    </x-admin::form.control-group>
+                                </div>
+
+                                <!-- Product Description -->
+                                <x-admin::form.control-group>
+                                    <x-admin::form.control-group.label class="required">
+                                        @lang('admin::app.catalog.products.index.bid.product_description')
+                                    </x-admin::form.control-group.label>
+
+                                    <textarea
+                                        name="product_description"
+                                        v-model="productData.description"
+                                        class="control"
+                                        rows="4"
+                                        readonly
+                                        required
+                                    ></textarea>
+
+                                    <x-admin::form.control-group.error control-name="product_description" />
+                                </x-admin::form.control-group>
+
+                                <div class="my-4 border-t border-gray-200 dark:border-gray-700"></div>
+
+                                <!-- Starting Price -->
+                                <x-admin::form.control-group>
+                                    <x-admin::form.control-group.label class="required">
+                                        @lang('admin::app.catalog.products.index.bid.starting_price')
+                                    </x-admin::form.control-group.label>
+
+                                    <input
+                                        type="number"
+                                        name="starting_price"
+                                        v-model="formData.starting_price"
+                                        class="control"
+                                        step="0.01"
+                                        min="0"
+                                        required
+                                    />
+
+                                    <x-admin::form.control-group.error control-name="starting_price" />
+                                </x-admin::form.control-group>
+
+                                <!-- Min. Increment Amount -->
+                                <x-admin::form.control-group>
+                                    <x-admin::form.control-group.label class="required">
+                                        @lang('admin::app.catalog.products.index.bid.min_increment')
+                                    </x-admin::form.control-group.label>
+
+                                    <input
+                                        type="number"
+                                        name="min_increment"
+                                        v-model="formData.min_increment"
+                                        class="control"
+                                        step="0.01"
+                                        min="0"
+                                        required
+                                    />
+
+                                    <x-admin::form.control-group.error control-name="min_increment" />
+                                </x-admin::form.control-group>
+
+                                <!-- Reserve Price -->
+                                <x-admin::form.control-group>
+                                    <x-admin::form.control-group.label>
+                                        @lang('admin::app.catalog.products.index.bid.reserve_price')
+                                    </x-admin::form.control-group.label>
+
+                                    <input
+                                        type="number"
+                                        name="reserve_price"
+                                        v-model="formData.reserve_price"
+                                        class="control"
+                                        step="0.01"
+                                        min="0"
+                                    />
+
+                                    <x-admin::form.control-group.error control-name="reserve_price" />
+                                </x-admin::form.control-group>
+
+                                <div class="my-4 border-t border-gray-200 dark:border-gray-700"></div>
+
+                                <!-- Start Date and Time -->
+                                <div class="flex gap-4">
+                                    <!-- Start Date -->
+                                    <x-admin::form.control-group class="flex-1">
+                                        <x-admin::form.control-group.label class="required">
+                                            @lang('admin::app.catalog.products.index.bid.start_date')
+                                        </x-admin::form.control-group.label>
+
+                                        <input
+                                            type="date"
+                                            name="start_date"
+                                            v-model="formData.start_date"
+                                            class="control"
+                                            required
+                                        />
+
+                                        <x-admin::form.control-group.error control-name="start_date" />
+                                    </x-admin::form.control-group>
+
+                                    <!-- Start Time -->
+                                    <x-admin::form.control-group class="flex-1">
+                                        <x-admin::form.control-group.label class="required">
+                                            @lang('admin::app.catalog.products.index.bid.start_time')
+                                        </x-admin::form.control-group.label>
+
+                                        <input
+                                            type="time"
+                                            name="start_time"
+                                            v-model="formData.start_time"
+                                            class="control"
+                                            required
+                                        />
+
+                                        <x-admin::form.control-group.error control-name="start_time" />
+                                    </x-admin::form.control-group>
+                                </div>
+
+                                <!-- End Date and Time -->
+                                <div class="flex gap-4">
+                                    <!-- End Date -->
+                                    <x-admin::form.control-group class="flex-1">
+                                        <x-admin::form.control-group.label class="required">
+                                            @lang('admin::app.catalog.products.index.bid.end_date')
+                                        </x-admin::form.control-group.label>
+
+                                        <input
+                                            type="date"
+                                            name="end_date"
+                                            v-model="formData.end_date"
+                                            class="control"
+                                            required
+                                        />
+
+                                        <x-admin::form.control-group.error control-name="end_date" />
+                                    </x-admin::form.control-group>
+
+                                    <!-- End Time -->
+                                    <x-admin::form.control-group class="flex-1">
+                                        <x-admin::form.control-group.label class="required">
+                                            @lang('admin::app.catalog.products.index.bid.end_time')
+                                        </x-admin::form.control-group.label>
+
+                                        <input
+                                            type="time"
+                                            name="end_time"
+                                            v-model="formData.end_time"
+                                            class="control"
+                                            required
+                                        />
+
+                                        <x-admin::form.control-group.error control-name="end_time" />
+                                    </x-admin::form.control-group>
+                                </div>
+
+                                {!! view_render_event('bagisto.admin.catalog.products.bid_form.controls.after') !!}
+                            </x-slot>
+
+                            <!-- Modal Footer -->
+                            <x-slot:footer>
+                                <div class="flex items-center gap-x-2.5">
+                                    <!-- Cancel Button -->
+                                    <x-admin::button
+                                        button-type="button"
+                                        class="transparent-button hover:bg-gray-200 dark:text-white dark:hover:bg-gray-800"
+                                        :title="trans('admin::app.catalog.products.index.bid.cancel-btn')"
+                                        @click="$refs.bidModal.toggle()"
+                                    />
+
+                                    <!-- Submit Bid Button -->
+                                    <x-admin::button
+                                        type="submit"
+                                        class="primary-button"
+                                        :title="trans('admin::app.catalog.products.index.bid.submit-btn')"
+                                        ::loading="isLoading"
+                                        ::disabled="isLoading"
+                                    />
+                                </div>
+                            </x-slot>
+                        </x-admin::modal>
+                    </form>
+                </x-admin::form>
+            </div>
+        </script>
+
+        <script type="module">
+            app.component('v-bid-product-form', {
+                template: '#v-bid-product-form-template',
+
+                props: {
+                    productId: {
+                        type: Number,
+                        required: true
+                    },
+                    productName: {
+                        type: String,
+                        required: true
+                    }
+                },
+
+                data() {
+                    return {
+                        isLoading: false,
+                        productData: {
+                            name: '',
+                            price: 0,
+                            description: ''
+                        },
+                        formData: {
+                            currency: 'USD',
+                            starting_price: '',
+                            min_increment: '',
+                            reserve_price: '',
+                            start_date: '',
+                            start_time: '',
+                            end_date: '',
+                            end_time: ''
+                        }
+                    };
+                },
+
+                methods: {
+                    openBidModal() {
+                        this.fetchProductData();
+                        this.$refs.bidModal.toggle();
+                    },
+
+                    fetchProductData() {
+                        this.isLoading = true;
+
+                        this.$axios.get(`/admin/catalog/products/${this.productId}/bid-data`)
+                            .then((response) => {
+                                this.productData = response.data.data;
+                                this.isLoading = false;
+                            })
+                            .catch(error => {
+                                this.isLoading = false;
+                                console.error('Error fetching product data:', error);
+
+                                // Fallback to basic product name
+                                this.productData = {
+                                    name: this.productName,
+                                    price: 0,
+                                    description: 'Product description not available'
+                                };
+                            });
+                    },
+
+                    submitBid(params, {
+                        resetForm,
+                        setErrors
+                    }) {
+                        this.isLoading = true;
+
+                        // Combine product data and form data
+                        const bidData = {
+                            product_id: this.productId,
+                            product_name: this.productData.name,
+                            product_price: this.productData.price,
+                            product_description: this.productData.description,
+                            ...this.formData
+                        };
+
+                        this.$axios.post("{{ route('admin.catalog.products.bid') }}", bidData)
+                            .then((response) => {
+                                this.isLoading = false;
+
+                                this.$refs.bidModal.toggle();
+
+                                this.$emitter.emit('add-flash', {
+                                    type: 'success',
+                                    message: response.data.message
+                                });
+
+                                // Reset form data
+                                this.formData = {
+                                    currency: 'USD',
+                                    starting_price: '',
+                                    min_increment: '',
+                                    reserve_price: '',
+                                    start_date: '',
+                                    start_time: '',
+                                    end_date: '',
+                                    end_time: ''
+                                };
+
+                                resetForm();
+                            })
+                            .catch(error => {
+                                this.isLoading = false;
+
+                                if (error.response.status == 422) {
+                                    setErrors(error.response.data.errors);
+                                } else {
+                                    this.$emitter.emit('add-flash', {
+                                        type: 'error',
+                                        message: error.response.data.message ||
+                                            'An error occurred while submitting your bid.'
+                                    });
+                                }
+                            });
+                    }
+                }
+            });
+        </script>
+
         <script
             type="text/x-template"
             id="v-create-product-form-template"
@@ -450,7 +814,11 @@
                 },
 
                 methods: {
-                    create(params, { resetForm, resetField, setErrors }) {
+                    create(params, {
+                        resetForm,
+                        resetField,
+                        setErrors
+                    }) {
                         this.isLoading = true;
 
                         this.attributes.forEach(attribute => {
