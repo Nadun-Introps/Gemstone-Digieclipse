@@ -9,6 +9,7 @@ use Webkul\Shop\Http\Controllers\ProductController;
 use Webkul\Shop\Http\Controllers\ProductsCategoriesProxyController;
 use Webkul\Shop\Http\Controllers\SearchController;
 use Webkul\Shop\Http\Controllers\SubscriptionController;
+use Webkul\Shop\Http\Controllers\BiddingController;
 
 /**
  * CMS pages.
@@ -78,3 +79,12 @@ Route::controller(ProductController::class)->group(function () {
  */
 Route::get('booking-slots/{id}', [BookingProductController::class, 'index'])
     ->name('shop.booking-product.slots.index');
+
+/**
+ * Bidding
+ */
+Route::get('bidding-single', [BiddingController::class, 'index'])
+    ->name('shop.bidding.bidding_single')
+    ->middleware('cache.response');
+
+
