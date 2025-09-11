@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Webkul\Shop\Http\Controllers\BidingListController;
 use Webkul\Shop\Http\Controllers\BookingProductController;
 use Webkul\Shop\Http\Controllers\CompareController;
 use Webkul\Shop\Http\Controllers\HomeController;
@@ -9,6 +10,7 @@ use Webkul\Shop\Http\Controllers\ProductController;
 use Webkul\Shop\Http\Controllers\ProductsCategoriesProxyController;
 use Webkul\Shop\Http\Controllers\SearchController;
 use Webkul\Shop\Http\Controllers\SubscriptionController;
+use Webkul\Shop\Http\Controllers\BiddingController;
 
 /**
  * CMS pages.
@@ -78,3 +80,15 @@ Route::controller(ProductController::class)->group(function () {
  */
 Route::get('booking-slots/{id}', [BookingProductController::class, 'index'])
     ->name('shop.booking-product.slots.index');
+
+/**
+ * Bidding
+ */
+Route::get('biding_list', [BidingListController::class, 'index'])
+    ->name('shop.bidinglist.biding_list')
+    ->middleware('cache.response');
+
+Route::get('bidding-single', [BiddingController::class, 'index'])
+    ->name('shop.bidding.bidding_single')
+    ->middleware('cache.response');
+

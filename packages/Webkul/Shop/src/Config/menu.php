@@ -49,5 +49,11 @@ return [
         'route' => 'shop.customers.account.gdpr.index',
         'icon'  => 'icon-gdpr-safe',
         'sort'  => 7,
+    ], [
+        'key'   => 'account.bids',
+        'name'  => 'shop::app.layouts.bids',
+        'route' => 'shop.customers.account.bids.index',
+        'icon'  => 'icon-gdpr-safe',
+        'sort'  => 8,
     ],
 ];

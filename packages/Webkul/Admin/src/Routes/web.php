@@ -58,4 +58,10 @@ Route::group(['middleware' => ['admin', NoCacheMiddleware::class], 'prefix' => c
      * Remaining routes.
      */
     require 'rest-routes.php';
+
+    /**
+     * Bidding routes.
+     */
+    require 'bidding-routes.php';
+
 });

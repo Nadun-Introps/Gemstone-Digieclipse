@@ -364,6 +364,7 @@ return [
      * Bidding.
      */
     [
+
         'key' => 'bidding',
         'name' => 'admin::app.components.layouts.sidebar.bidding',
         'route' => 'admin.bidding.index',
