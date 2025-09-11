@@ -10,6 +10,7 @@ use Webkul\Admin\Http\Controllers\Customers\CustomerController;
 use Webkul\Admin\Http\Controllers\Customers\CustomerGroupController;
 use Webkul\Admin\Http\Controllers\Customers\GDPRController;
 use Webkul\Admin\Http\Controllers\Customers\ReviewController;
+use Webkul\Shop\Http\Controllers\Customer\Account\BidsController;
 
 /**
  * Customers routes.

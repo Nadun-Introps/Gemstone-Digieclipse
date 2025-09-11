@@ -96,3 +96,9 @@ Breadcrumbs::for('product', function (BreadcrumbTrail $trail, $entity) {
     $trail->parent('home');
     $trail->push($entity->name ?? '', route('shop.product_or_category.index', $entity->url_key));
 });
+
+// Home > My Account > Bids
+Breadcrumbs::for('bids', function (BreadcrumbTrail $trail) {
+    $trail->parent('account');
+    $trail->push(trans('shop::app.layouts.bids'), route('shop.customers.account.bids.index'));
+});
