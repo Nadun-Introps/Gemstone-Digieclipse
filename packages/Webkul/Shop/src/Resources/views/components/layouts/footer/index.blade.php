@@ -180,3 +180,4 @@
 </footer>
 
 {!! view_render_event('bagisto.shop.layout.footer.after') !!}
+

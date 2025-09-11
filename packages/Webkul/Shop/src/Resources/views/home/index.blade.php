@@ -30,6 +30,27 @@
     @foreach ($customizations as $customization)
         @php ($data = $customization->options) @endphp
 
+        @if ($customization->sort_order >= 3)
+            @once
+                @include('shop::home.shop_by_cate', [
+                    'src' => route('shop.api.categories.index', $data['filters'] ?? [])
+                ])
+            @endonce
+        @endif
+
+        @if($customization->sort_order >= 4)
+            @once
+                @include('shop::home.bold_collection')
+            @endonce
+        @endif
+
+
+        @if($customization->sort_order >= 5)
+            @once
+                @include('shop::home.auction')
+            @endonce
+        @endif
+
         <!-- Static content -->
         @switch ($customization->type)
             @case ($customization::IMAGE_CAROUSEL)

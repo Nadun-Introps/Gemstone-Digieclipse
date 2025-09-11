@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Webkul\Shop\Http\Controllers\BidingListController;
 use Webkul\Shop\Http\Controllers\BookingProductController;
 use Webkul\Shop\Http\Controllers\CompareController;
 use Webkul\Shop\Http\Controllers\HomeController;
@@ -83,8 +84,11 @@ Route::get('booking-slots/{id}', [BookingProductController::class, 'index'])
 /**
  * Bidding
  */
+Route::get('biding_list', [BidingListController::class, 'index'])
+    ->name('shop.bidinglist.biding_list')
+    ->middleware('cache.response');
+
 Route::get('bidding-single', [BiddingController::class, 'index'])
     ->name('shop.bidding.bidding_single')
     ->middleware('cache.response');
-
 
