@@ -4,8 +4,10 @@ namespace Webkul\Shop\Http\Controllers;
 
 use Illuminate\Support\Facades\Mail;
 use Webkul\Shop\Http\Requests\ContactRequest;
+use Webkul\Product\Models\BiddingProduct;
 use Webkul\Shop\Mail\ContactUs;
 use Webkul\Theme\Repositories\ThemeCustomizationRepository;
+use Carbon\Carbon;
 
 class HomeController extends Controller
 {
@@ -26,7 +28,7 @@ class HomeController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function index()
+   public function index()
     {
         visitor()->visit();
 
@@ -36,9 +38,54 @@ class HomeController extends Controller
             'theme_code' => core()->getCurrentChannel()->theme,
         ]);
 
-        return view('shop::home.index', compact('customizations'));
-    }
+        $categoryApiUrl = route('shop.api.categories.index');
 
+        // ----------------------------
+    // Fetch auctions to show on home
+    // ----------------------------
+    $auctions = BiddingProduct::with(['activePrice', 'mainImage'])
+        ->where('status', 'active')
+        ->get()
+        ->filter(function ($p) {
+            // only include items that have an active price and main image
+            return $p->activePrice && $p->mainImage;
+        })
+        ->map(function ($p) {
+            $price = $p->activePrice;
+            $img = $p->mainImage->image ?? null;
+
+            // Build Carbon datetimes and convert to ISO8601 for client-side JS
+            try {
+                $start = $price->start_date && $price->start_time
+                    ? Carbon::parse($price->start_date . ' ' . $price->start_time)
+                    : null;
+            } catch (\Exception $e) {
+                $start = null;
+            }
+
+            try {
+                $end = $price->end_date && $price->end_time
+                    ? Carbon::parse($price->end_date . ' ' . $price->end_time)
+                    : null;
+            } catch (\Exception $e) {
+                $end = null;
+            }
+
+            return [
+                'id'           => $p->id,
+                'product_name' => $p->product_name,
+                'image'        => $img ? asset('storage/bid/' . $img) : asset('images/placeholder.png'),
+                'price'        => (float) ($price->product_price ?? 0),
+                'currency'     => $price->currency ?? '',
+                'start'        => $start ? $start->toIso8601String() : null,
+                'end'          => $end ? $end->toIso8601String() : null,
+            ];
+        })
+        ->values();
+
+    // pass auctions into the view
+    return view('shop::home.index', compact('customizations', 'categoryApiUrl', 'auctions'));
+}
     /**
      * Loads the home page for the storefront if something wrong.
      *
