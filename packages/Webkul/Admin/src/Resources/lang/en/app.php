@@ -817,6 +817,23 @@ return [
                     'type'                   => 'Type',
                     'update-status'          => 'Update Status',
                 ],
+
+                'bid' => [
+                    'title' => 'Create Bid',
+                    'product_name' => 'Product Name',
+                    'product_price' => 'Product Price',
+                    'currency' => 'Currency',
+                    'product_description' => 'Product Description',
+                    'starting_price' => 'Starting Price',
+                    'min_increment' => 'Min. Increment Amount',
+                    'reserve_price' => 'Reserve Price',
+                    'start_date' => 'Start Date',
+                    'start_time' => 'Start Time',
+                    'end_date' => 'End Date',
+                    'end_time' => 'End Time',
+                    'cancel-btn' => 'Cancel',
+                    'submit-btn' => 'Create Bid',
+                ],
             ],
 
             'edit' => [
@@ -4730,6 +4747,7 @@ return [
                 'transactions'             => 'Transactions',
                 'url-rewrites'             => 'URL Rewrites',
                 'users'                    => 'Users',
+                'bidding'                  => 'Bidding Management',
             ],
 
             'powered-by' => [
@@ -4925,6 +4943,40 @@ return [
                 'vicuna-7b'                => 'Vicuna (7b)',
             ],
         ],
+    ],
+
+    'bidding' => [
+        'title' => 'Bidding Management',
+        'welcome_message' => 'Welcome to Bidding Management',
+        'description' => 'Manage all your auction products and bids in one place.',
+        'index' => [
+            'create-btn' => 'Add Bidding Product',
+            'datagrid' => [
+                'id' => 'ID',
+                'product-image' => 'Image',
+                'name' => 'Name',
+                'auction-status' => 'Auction Status',
+                'price' => 'Price',
+                'current-bid' => 'Current Bid',
+                'start-date' => 'Start Date',
+                'end-date' => 'End Date',
+                'actions' => 'Actions',
+                'active' => 'Active',
+                'inactive' => 'Inactive',
+                'paused' => 'Paused',
+                'edit' => 'Edit',
+                'delete' => 'Delete',
+                'view' => 'View',
+                'pause' => 'Pause',
+                'update-status' => 'Update Status',
+            ],
+        ],
+        'pause-success' => 'Bidding paused successfully',
+        'pause-failed' => 'Failed to pause bidding',
+        'mass-pause-success' => 'Selected biddings paused successfully',
+        'mass-pause-failed' => 'Failed to pause selected biddings',
+        'delete-success' => 'Bidding deleted successfully',
+        'delete-failed' => 'Failed to delete bidding',
     ],
 
     'acl' => [

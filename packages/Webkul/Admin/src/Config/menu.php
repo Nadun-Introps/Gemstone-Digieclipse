@@ -364,19 +364,11 @@ return [
      * Bidding.
      */
     [
-        'key'        => 'bidding',
-        'name'       => 'Bidding',
-        'route'      => 'admin.bidding.products.index',
-        'sort'       => 10,
-        'icon'       => 'icon-product',
-    ],
 
-    [
-        'key'        => 'bidding.products',
-        'name'       => 'Products',
-        'route'      => 'admin.bidding.products.index',
-        'sort'       => 1,
-        'icon'       => '',
+        'key' => 'bidding',
+        'name' => 'admin::app.components.layouts.sidebar.bidding',
+        'route' => 'admin.bidding.index',
+        'sort' => 10,
+        'icon' => 'icon-promotion',
     ],
-
 ];

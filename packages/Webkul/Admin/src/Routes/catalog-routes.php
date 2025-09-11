@@ -110,6 +110,10 @@ Route::prefix('catalog')->group(function () {
 
         Route::post('mass-delete', 'massDestroy')->name('admin.catalog.products.mass_delete');
 
+        Route::post('bid', 'submitBid')->name('admin.catalog.products.bid');
+
+        Route::get('{id}/bid-data', 'getBidData')->name('admin.catalog.products.bid_data');
+
         Route::controller(SimpleController::class)->group(function () {
             Route::get('{id}/simple-customizable-options', 'customizableOptions')->name('admin.catalog.products.simple.customizable-options');
         });
@@ -137,5 +141,6 @@ Route::prefix('catalog')->group(function () {
         Route::get('search', 'search')->name('admin.catalog.products.search');
 
         Route::get('{id}/{attribute_id}', 'download')->name('admin.catalog.products.file.download');
+
     });
 });

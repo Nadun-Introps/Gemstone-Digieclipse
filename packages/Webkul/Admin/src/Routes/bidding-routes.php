@@ -1,16 +1,16 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Webkul\Admin\Http\Controllers\Bidding\BiddingProductController;
+use Webkul\Admin\Http\Controllers\Bidding\BiddingController;
 
-Route::prefix('bidding')->group(function () {
-    Route::controller(BiddingProductController::class)->prefix('products')->group(function () {
-        Route::get('', 'index')->name('admin.bidding.products.index');
-        Route::get('create', 'create')->name('admin.bidding.products.create');
-        Route::post('/store', [BiddingProductController::class, 'store'])->name('admin.bidding.products.store');
-        //Route::get('/edit/{id}', [BiddingProductController::class, 'edit'])->name('edit');
-        //Route::put('/update/{id}', [BiddingProductController::class, 'update'])->name('update');
-        //Route::delete('/delete/{id}', [BiddingProductController::class, 'destroy'])->name('delete');
-    });
+Route::group(['middleware' => ['web', 'admin'], 'prefix' => 'admin'], function () {
+    Route::get('bidding', [BiddingController::class, 'index'])->name('admin.bidding.index');
+    Route::get('bidding/create', [BiddingController::class, 'create'])->name('admin.bidding.create');
+    Route::get('bidding/edit/{id}', [BiddingController::class, 'edit'])->name('admin.bidding.edit');
+    Route::get('bidding/view/{id}', [BiddingController::class, 'view'])->name('admin.bidding.view');
+    Route::delete('bidding/delete/{id}', [BiddingController::class, 'delete'])->name('admin.bidding.delete');
+    Route::post('bidding/mass-delete', [BiddingController::class, 'massDelete'])->name('admin.bidding.mass_delete');
+    Route::post('bidding/mass-update-status', [BiddingController::class, 'massUpdateStatus'])->name('admin.bidding.mass_update_status');
+    Route::post('bidding/pause/{id}', [BiddingController::class, 'pause'])->name('admin.bidding.pause');
+    Route::post('bidding/mass-pause', [BiddingController::class, 'massPause'])->name('admin.bidding.mass_pause');
 });
-

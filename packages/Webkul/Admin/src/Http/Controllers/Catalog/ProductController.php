@@ -22,6 +22,7 @@ use Webkul\Product\Repositories\ProductDownloadableLinkRepository;
 use Webkul\Product\Repositories\ProductDownloadableSampleRepository;
 use Webkul\Product\Repositories\ProductInventoryRepository;
 use Webkul\Product\Repositories\ProductRepository;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -384,5 +385,111 @@ class ProductController extends Controller
         ]);
 
         return Storage::download($productAttribute['text_value']);
+    }
+
+    /**
+     * Get product data for bidding
+     */
+    public function getBidData(int $id): JsonResponse
+    {
+        try {
+            $product = DB::table('product_flat')
+                ->where('product_id', $id)
+                ->where('locale', app()->getLocale())
+                ->first();
+
+            if (!$product) {
+                return new JsonResponse([
+                    'message' => trans('Product not found'),
+                ], 404);
+            }
+
+            return new JsonResponse([
+                'data' => [
+                    'name' => $product->name ?? 'N/A',
+                    'price' => $product->price ?? 0,
+                    'description' => $product->description ?? $product->short_description ?? 'No description available',
+                ],
+            ]);
+        } catch (\Exception $e) {
+            return new JsonResponse([
+                'message' => trans('Failed to fetch product data'),
+                'error' => $e->getMessage() // Optional: for debugging
+            ], 500);
+        }
+    }
+
+    /**
+     * Submit a bid for a product.
+     */
+    public function submitBid(): JsonResponse
+    {
+        $this->validate(request(), [
+            'product_id' => 'required|exists:products,id',
+            'product_name' => 'required|string|max:255',
+            'product_price' => 'required|numeric|min:0',
+            'currency' => 'required|string|max:10',
+            'product_description' => 'required|string',
+            'starting_price' => 'required|numeric|min:0',
+            'min_increment' => 'required|numeric|min:0',
+            'reserve_price' => 'nullable|numeric|min:0',
+            'start_date' => 'required|date',
+            'start_time' => 'required',
+            'end_date' => 'required|date|after_or_equal:start_date',
+            'end_time' => 'required',
+        ]);
+
+        try {
+            DB::beginTransaction();
+
+            // Get category_id from product_categories table
+            $category = DB::table('product_categories')
+                ->where('product_id', request('product_id'))
+                ->first();
+
+            // Insert into bidding_products table
+            $biddingProductId = DB::table('bidding_products')->insertGetId([
+                'product_id' => request('product_id'),
+                'product_name' => request('product_name'),
+                'category_id' => $category->category_id ?? 0, // Default to 0 if no category
+                'carat_weight' => 0, // You'll need to get this from product attributes
+                'color' => '', // You'll need to get this from product attributes
+                'shape' => '', // You'll need to get this from product attributes
+                'description' => request('product_description'),
+                'status' => 'active',
+                'c_date' => now(),
+                'm_date' => now(),
+            ]);
+
+            // Insert into bidding_prices table
+            DB::table('bidding_prices')->insert([
+                'bidding_product_id' => $biddingProductId,
+                'product_price' => request('product_price'),
+                'currency' => request('currency'),
+                'starting_price' => request('starting_price'),
+                'minimum_increment' => request('min_increment'),
+                'reserve_price' => request('reserve_price'),
+                'start_date' => request('start_date'),
+                'start_time' => request('start_time'),
+                'end_date' => request('end_date'),
+                'end_time' => request('end_time'),
+                'status' => 'active',
+                'c_date' => now(),
+                'm_date' => now(),
+            ]);
+
+            DB::commit();
+
+            return new JsonResponse([
+                'message' => trans('Bid created successfully!'),
+            ]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            report($e);
+
+            return new JsonResponse([
+                'message' => trans('Failed to create bid. Please try again.'),
+            ], 500);
+        }
     }
 }
