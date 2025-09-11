@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('bidding_products', function (Blueprint $table) {
-            $table->renameColumn('id', 'bid_pro_id');
+            $table->unsignedBigInteger('product_id')->after('bid_pro_id');
         });
     }
 
@@ -22,7 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('bidding_products', function (Blueprint $table) {
-            $table->renameColumn('bid_pro_id', 'id');
+            $table->dropColumn('product_id');
         });
     }
 };
