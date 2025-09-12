@@ -60,6 +60,9 @@ jobs:
             unzip -o deploy-package.zip -d .
             rm deploy-package.zip
 
+            # Install dependancies
+            composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
+
             # Permissions for all files
             chmod -R 755 .
             chmod -R 775 storage bootstrap/cache
