@@ -30,7 +30,6 @@ jobs:
       - name: Install Node and Build Assets
         run: |
           npm install
-          npm run prod
 
       # 5️⃣ Create Deployment Package
       - name: Create Deployment Package
