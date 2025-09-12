@@ -1,4 +1,4 @@
-name: Deploy Bagisto to Virtualmin
+name: Deploy Gemstone (Bagisto) to Virtualmin
 
 on:
   push:
@@ -64,23 +64,34 @@ jobs:
             # Permissions for all files
             chmod -R 755 .
             chmod -R 775 storage bootstrap/cache
-            chown -R www-data:www-data .
+            chown -R ${{ secrets.DEPLOY_USER }}:${{ secrets.DEPLOY_USER }} .
 
-            # Laravel / Bagisto setup
+            # Copy .env.example if .env doesn't exist
             if [ ! -f .env ]; then
               cp .env.example .env
             fi
+
+            # Replace database and URL values
+            sed -i "s|DB_HOST=.*|DB_HOST=${{ secrets.DB_HOST }}|" .env
+            sed -i "s|DB_DATABASE=.*|DB_DATABASE=${{ secrets.DB_DATABASE }}|" .env
+            sed -i "s|DB_USERNAME=.*|DB_USERNAME=${{ secrets.DB_USERNAME }}|" .env
+            sed -i "s|DB_PASSWORD=.*|DB_PASSWORD=${{ secrets.DB_PASSWORD }}|" .env
+            sed -i "s|APP_URL=.*|APP_URL=${{ secrets.APP_URL }}|" .env
+
+            # Generate APP_KEY if not set
             php artisan key:generate
+
+            # Laravel / Bagisto setup
             php artisan config:cache
             php artisan route:cache
             php artisan migrate --force
-            # php artisan db:seed  # Only run if needed
+            # php artisan db:seed  # optional, uncomment if needed
             php artisan storage:link
 
-            # Build assets on server (optional if already built in GitHub Actions)
+            # Build assets on server (optional)
             npm install
             npm run prod
 
             # Final permissions
             chmod -R 775 storage bootstrap/cache
-            chown -R www-data:www-data storage bootstrap/cache
+            chown -R ${{ secrets.DEPLOY_USER }}:${{ secrets.DEPLOY_USER }} storage bootstrap/cache
