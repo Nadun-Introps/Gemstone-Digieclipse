@@ -16,12 +16,15 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2'   # match your server PHP
-          extensions: mbstring, bcmath, xml, curl, mysql
+          php-version: '8.2'
+          extensions: mbstring, bcmath, xml, curl, mysqli
           coverage: none
 
       - name: Install Composer Dependencies
         run: composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
+
+      - name: Install Node Dependencies
+        run: npm install
 
       - name: Create Deployment Package
         run: |
@@ -47,11 +50,20 @@ jobs:
             unzip -o deploy-package.zip -d .
             rm deploy-package.zip
 
+            # Permissions
+            chmod -R 755 .
+            chmod -R 775 storage bootstrap/cache
+            chown -R www-data:www-data .
+            
             # Laravel setup
             cp .env.example .env || true
+            php artisan key:generate
             php artisan config:cache
             php artisan route:cache
             php artisan migrate --force
+            php artisan db:seed
             php artisan storage:link
-            chown -R www-data:www-data ${{ secrets.DEPLOY_PATH }}
-            chmod -R 755 ${{ secrets.DEPLOY_PATH }}
+
+            # Permissions
+            chmod -R 775 storage bootstrap/cache
+            chown -R www-data:www-data storage bootstrap/cache
