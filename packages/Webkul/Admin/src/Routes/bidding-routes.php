@@ -13,4 +13,5 @@ Route::group(['middleware' => ['web', 'admin'], 'prefix' => 'admin'], function (
     Route::post('bidding/mass-update-status', [BiddingController::class, 'massUpdateStatus'])->name('admin.bidding.mass_update_status');
     Route::post('bidding/pause/{id}', [BiddingController::class, 'pause'])->name('admin.bidding.pause');
     Route::post('bidding/mass-pause', [BiddingController::class, 'massPause'])->name('admin.bidding.mass_pause');
+    Route::put('bidding/update/{id}', [BiddingController::class, 'update'])->name('admin.bidding.update');
 });
