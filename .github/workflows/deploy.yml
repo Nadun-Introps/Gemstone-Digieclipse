@@ -1,4 +1,4 @@
-name: Deploy Laravel to Virtualmin
+name: Deploy Bagisto to Virtualmin
 
 on:
   push:
@@ -10,9 +10,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 1️⃣ Checkout code
       - name: Checkout Repository
         uses: actions/checkout@v3
 
+      # 2️⃣ Setup PHP
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
@@ -20,16 +22,22 @@ jobs:
           extensions: mbstring, bcmath, xml, curl, mysqli
           coverage: none
 
+      # 3️⃣ Install Composer dependencies
       - name: Install Composer Dependencies
         run: composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
 
-      - name: Install Node Dependencies
-        run: npm install
+      # 4️⃣ Install Node dependencies and build assets
+      - name: Install Node and Build Assets
+        run: |
+          npm install
+          npm run prod
 
+      # 5️⃣ Create Deployment Package
       - name: Create Deployment Package
         run: |
-          zip -r deploy-package.zip . -x ".git/*" ".github/*" "tests/*"
+          zip -r deploy-package.zip . -x ".git/*" ".github/*" "tests/*" "node_modules/*" "vendor/*"
 
+      # 6️⃣ Copy files to server
       - name: Copy Files to Server
         uses: appleboy/scp-action@v0.1.7
         with:
@@ -39,6 +47,7 @@ jobs:
           source: "deploy-package.zip"
           target: "${{ secrets.DEPLOY_PATH }}"
 
+      # 7️⃣ SSH into server and deploy
       - name: SSH and Deploy
         uses: appleboy/ssh-action@v0.1.7
         with:
@@ -47,23 +56,31 @@ jobs:
           key: ${{ secrets.DEPLOY_KEY }}
           script: |
             cd ${{ secrets.DEPLOY_PATH }}
+
+            # Unzip package
             unzip -o deploy-package.zip -d .
             rm deploy-package.zip
 
-            # Permissions
+            # Permissions for all files
             chmod -R 755 .
             chmod -R 775 storage bootstrap/cache
             chown -R www-data:www-data .
-            
-            # Laravel setup
-            cp .env.example .env || true
+
+            # Laravel / Bagisto setup
+            if [ ! -f .env ]; then
+              cp .env.example .env
+            fi
             php artisan key:generate
             php artisan config:cache
             php artisan route:cache
             php artisan migrate --force
-            php artisan db:seed
+            # php artisan db:seed  # Only run if needed
             php artisan storage:link
 
-            # Permissions
+            # Build assets on server (optional if already built in GitHub Actions)
+            npm install
+            npm run prod
+
+            # Final permissions
             chmod -R 775 storage bootstrap/cache
             chown -R www-data:www-data storage bootstrap/cache
