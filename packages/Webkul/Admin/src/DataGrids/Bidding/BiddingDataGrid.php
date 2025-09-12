@@ -159,7 +159,7 @@ class BiddingDataGrid extends DataGrid
 
         $this->addAction([
             'index'  => 'pause',
-            'icon'   => 'icon-pause', // or try 'icon-pause-circle'
+            'icon'   => 'icon-pause',
             'title'  => trans('admin::app.bidding.index.datagrid.pause'),
             'method' => 'POST',
             'url'    => function ($row) {
@@ -173,7 +173,7 @@ class BiddingDataGrid extends DataGrid
             'title'  => trans('admin::app.bidding.index.datagrid.edit'),
             'method' => 'GET',
             'url'    => function ($row) {
-                return "javascript:openEditModal({$row->id})";
+                return route('admin.bidding.edit', $row->id);
             },
         ]);
 
