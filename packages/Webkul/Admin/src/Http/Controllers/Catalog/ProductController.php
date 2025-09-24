@@ -404,11 +404,15 @@ class ProductController extends Controller
                 ], 404);
             }
 
+            // Strip HTML tags from description
+            $description = $product->description ?? $product->short_description ?? 'No description available';
+            $plainTextDescription = strip_tags($description);
+
             return new JsonResponse([
                 'data' => [
                     'name' => $product->name ?? 'N/A',
                     'price' => $product->price ?? 0,
-                    'description' => $product->description ?? $product->short_description ?? 'No description available',
+                    'description' => $plainTextDescription,
                 ],
             ]);
         } catch (\Exception $e) {
@@ -452,9 +456,9 @@ class ProductController extends Controller
                 'product_id' => request('product_id'),
                 'product_name' => request('product_name'),
                 'category_id' => $category->category_id ?? 0, // Default to 0 if no category
-                'carat_weight' => 0, // You'll need to get this from product attributes
-                'color' => '', // You'll need to get this from product attributes
-                'shape' => '', // You'll need to get this from product attributes
+                'carat_weight' => 0,
+                'color' => '',
+                'shape' => '',
                 'description' => request('product_description'),
                 'status' => 'active',
                 'c_date' => now(),

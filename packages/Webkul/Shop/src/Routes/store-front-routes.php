@@ -11,6 +11,9 @@ use Webkul\Shop\Http\Controllers\ProductsCategoriesProxyController;
 use Webkul\Shop\Http\Controllers\SearchController;
 use Webkul\Shop\Http\Controllers\SubscriptionController;
 use Webkul\Shop\Http\Controllers\BiddingController;
+use Webkul\Shop\Http\Controllers\BiddingCheckoutController;
+use Webkul\Shop\Http\Controllers\StripeController;
+use Webkul\Shop\Http\Controllers\BiddingStripeController;
 
 /**
  * CMS pages.
@@ -88,7 +91,57 @@ Route::get('biding_list', [BidingListController::class, 'index'])
     ->name('shop.bidinglist.biding_list')
     ->middleware('cache.response');
 
-Route::get('bidding-single', [BiddingController::class, 'index'])
+Route::get('bidding-single/{id}', [BiddingController::class, 'index'])
     ->name('shop.bidding.bidding_single')
     ->middleware('cache.response');
 
+Route::post('bidding-single/{id}/add-to-cart', [BiddingController::class, 'addToCart'])
+    ->name('shop.bidding.add_to_cart');
+
+// Bidding checkout routes
+Route::prefix('bidding-checkout')->group(function () {
+    Route::get('', [BiddingCheckoutController::class, 'index'])
+        ->name('shop.bidding.checkout');
+
+    Route::post('process', [BiddingCheckoutController::class, 'processPayment'])
+        ->name('shop.bidding.checkout.process');
+
+    Route::get('success', [BiddingCheckoutController::class, 'success'])
+        ->name('shop.bidding.success');
+
+    Route::get('cancel', [BiddingCheckoutController::class, 'cancel'])
+        ->name('shop.bidding.checkout.cancel');
+});
+
+// Stripe routes
+Route::prefix('stripe')->group(function () {
+    Route::post('process-payment', [StripeController::class, 'processPayment'])
+        ->name('shop.stripe.process_payment');
+
+    Route::get('success', [StripeController::class, 'success'])
+        ->name('shop.stripe.success');
+
+    Route::get('cancel', [StripeController::class, 'cancel'])
+        ->name('shop.stripe.cancel');
+
+    Route::post('webhook', [StripeController::class, 'webhook'])
+        ->name('shop.stripe.webhook');
+
+    // Bidding specific routes
+    Route::post('bidding/process-payment', [BiddingStripeController::class, 'processBiddingPayment'])
+        ->name('shop.stripe.bidding.process_payment');
+
+    Route::get('bidding/success', [BiddingStripeController::class, 'biddingSuccess'])
+        ->name('shop.stripe.bidding.success');
+
+    Route::post('bidding/webhook', [BiddingStripeController::class, 'handleBiddingWebhook'])
+        ->name('shop.stripe.bidding.webhook');
+});
+
+Route::middleware(['auth:customer'])->group(function () {
+    Route::post('bidding-single/{id}/add-to-cart', [BiddingController::class, 'addToCart'])
+        ->name('shop.bidding.add_to_cart');
+
+    Route::post('bidding-single/{id}/bid', [BiddingController::class, 'placeBid'])
+        ->name('shop.bidding.place_bid');
+});
