@@ -11,6 +11,6 @@ class BiddingPrice extends Model
 
     public function product()
     {
-        return $this->belongsTo(BiddingProduct::class, 'bidding_product_id');
+        return $this->belongsTo(BiddingProduct::class, 'bidding_product_id', 'bid_pro_id');
     }
 }
