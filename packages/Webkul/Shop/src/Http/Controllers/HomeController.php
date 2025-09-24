@@ -41,51 +41,53 @@ class HomeController extends Controller
         $categoryApiUrl = route('shop.api.categories.index');
 
         // ----------------------------
-    // Fetch auctions to show on home
-    // ----------------------------
-    $auctions = BiddingProduct::with(['activePrice', 'mainImage'])
-        ->where('status', 'active')
-        ->get()
-        ->filter(function ($p) {
-            // only include items that have an active price and main image
-            return $p->activePrice && $p->mainImage;
-        })
-        ->map(function ($p) {
-            $price = $p->activePrice;
-            $img = $p->mainImage->image ?? null;
+        // Fetch auctions to show on home
+        // ----------------------------
+        $auctions = BiddingProduct::with(['activePrice', 'mainImage'])
+            ->where('status', 'active')
+            ->get()
+            ->filter(function ($p) {
+                // Only include items that have an active price and main image
+                return $p->activePrice && $p->mainImage;
+            })
+            ->map(function ($p) {
+                $price = $p->activePrice;
+                $img   = $p->mainImage->path ?? null; // <-- Use `path` column from product_images
 
-            // Build Carbon datetimes and convert to ISO8601 for client-side JS
-            try {
-                $start = $price->start_date && $price->start_time
-                    ? Carbon::parse($price->start_date . ' ' . $price->start_time)
-                    : null;
-            } catch (\Exception $e) {
-                $start = null;
-            }
+                // Build Carbon datetimes and convert to ISO8601 for client-side JS
+                try {
+                    $start = $price->start_date && $price->start_time
+                        ? Carbon::parse($price->start_date . ' ' . $price->start_time)
+                        : null;
+                } catch (\Exception $e) {
+                    $start = null;
+                }
 
-            try {
-                $end = $price->end_date && $price->end_time
-                    ? Carbon::parse($price->end_date . ' ' . $price->end_time)
-                    : null;
-            } catch (\Exception $e) {
-                $end = null;
-            }
+                try {
+                    $end = $price->end_date && $price->end_time
+                        ? Carbon::parse($price->end_date . ' ' . $price->end_time)
+                        : null;
+                } catch (\Exception $e) {
+                    $end = null;
+                }
 
-            return [
-                'id'           => $p->id,
-                'product_name' => $p->product_name,
-                'image'        => $img ? asset('storage/bid/' . $img) : asset('images/placeholder.png'),
-                'price'        => (float) ($price->product_price ?? 0),
-                'currency'     => $price->currency ?? '',
-                'start'        => $start ? $start->toIso8601String() : null,
-                'end'          => $end ? $end->toIso8601String() : null,
-            ];
-        })
-        ->values();
+                return [
+                    'id'           => $p->bid_pro_id, // <-- Use correct PK
+                    'product_name' => $p->product_name,
+                    'image'        => $img ? asset('storage/' . $img) : asset('images/placeholder.png'),
+                    'price'        => (float) ($price->product_price ?? 0),
+                    'currency'     => $price->currency ?? '',
+                    'start'        => $start ? $start->toIso8601String() : null,
+                    'end'          => $end ? $end->toIso8601String() : null,
+                ];
+            })
+            ->values();
 
-    // pass auctions into the view
-    return view('shop::home.index', compact('customizations', 'categoryApiUrl', 'auctions'));
-}
+        // ----------------------------
+        // Pass auctions into the view
+        // ----------------------------
+        return view('shop::home.index', compact('customizations', 'categoryApiUrl', 'auctions'));
+    }
     /**
      * Loads the home page for the storefront if something wrong.
      *
