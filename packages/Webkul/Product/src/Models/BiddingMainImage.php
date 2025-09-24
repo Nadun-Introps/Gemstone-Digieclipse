@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class BiddingMainImage extends Model
 {
-    protected $table = 'bidding_main_images';
+    protected $table = 'product_images';
     protected $guarded = [];
 
-    public function product()
+    public function biddingProducts()
     {
-        return $this->belongsTo(BiddingProduct::class, 'bidding_product_id');
+        return $this->hasMany(BiddingProduct::class, 'product_id', 'product_id');
     }
 }
