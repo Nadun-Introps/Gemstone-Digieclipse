@@ -133,8 +133,7 @@
                             </x-admin::form.control-group.label>
 
                             <x-admin::form.control-group.control type="date" name="end_date"
-                                value="{{ old('end_date', $biddingProduct->end_date) }}"
-                                rules="required|after:start_date" />
+                                value="{{ old('end_date', $biddingProduct->end_date) }}" rules="required" />
 
                             <x-admin::form.control-group.error control-name="end_date" />
                         </x-admin::form.control-group>

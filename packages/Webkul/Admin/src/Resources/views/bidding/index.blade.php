@@ -12,7 +12,7 @@
 
         <div class="flex items-center gap-x-2.5">
             @if (bouncer()->hasPermission('bidding.create'))
-                <a href="{{ route('admin.bidding.create') }}" class="primary-button">
+                <a href="{{ route('admin.catalog.products.index') }}" class="primary-button">
                     @lang('admin::app.bidding.index.create-btn')
                 </a>
             @endif

@@ -4952,7 +4952,7 @@ return [
         'index' => [
             'create-btn' => 'Add Bidding Product',
             'datagrid' => [
-                'id' => 'ID',
+                'id' => '#',
                 'product-image' => 'Image',
                 'name' => 'Name',
                 'auction-status' => 'Auction Status',
@@ -4969,6 +4969,7 @@ return [
                 'view' => 'View',
                 'pause' => 'Pause',
                 'update-status' => 'Update Status',
+                'no-bids' => 'No Bids Yet',
             ],
         ],
 
@@ -5007,6 +5008,9 @@ return [
             'status' => 'Status',
             'additional-info' => 'Additional Information',
             'name' => 'Product Name',
+            'minimum-increment' => 'Minimum Increment',
+            'reserve-price' => 'Reserve Price',
+            'not-set' => 'Not Set',
             'starting-price' => 'Starting Price',
             'start-date' => 'Start Date',
             'start-time' => 'Start Time',
@@ -5021,6 +5025,11 @@ return [
             'updated-at' => 'Updated At',
             'back-btn' => 'Back to Bidding',
             'edit-btn' => 'Edit Bidding',
+            'bidding-history' => 'Bidding History',
+            'date-time' => 'Date & Time',
+            'customer-name' => 'Customer Name',
+            'bid-amount' => 'Bid Amount',
+            'no-bids' => 'No bids have been placed yet.',
         ],
         'pause-success' => 'Bidding paused successfully',
         'pause-failed' => 'Failed to pause bidding',

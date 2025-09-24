@@ -3,9 +3,11 @@
 namespace Webkul\Admin\Http\Controllers\Bidding;
 
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\Admin\DataGrids\Bidding\BiddingDataGrid;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class BiddingController extends Controller
 {
@@ -98,6 +100,8 @@ class BiddingController extends Controller
                 ->where('bidding_product_id', $id)
                 ->update([
                     'product_price' => $request->price,
+                    'minimum_increment' => $request->minimum_increment,
+                    'reserve_price' => $request->reserve_price,
                     'start_date' => $request->start_date,
                     'start_time' => $request->start_time,
                     'end_date' => $request->end_date,
@@ -131,6 +135,8 @@ class BiddingController extends Controller
                 'bp.c_date as created_at',
                 'bp.m_date as updated_at',
                 'bpr.product_price as price',
+                'bpr.minimum_increment',
+                'bpr.reserve_price',
                 'bpr.start_date',
                 'bpr.start_time',
                 'bpr.end_date',
@@ -144,7 +150,19 @@ class BiddingController extends Controller
             abort(404);
         }
 
-        return view('admin::bidding.view', compact('biddingProduct'));
+        // Get bidding history
+        $biddingHistory = DB::table('bidding_user_bids as bub')
+        ->select(
+            'bub.created_at',
+            'bub.bid_amount',
+            DB::raw("CONCAT(c.first_name, ' ', c.last_name) as customer_name")
+        )
+        ->leftJoin('customers as c', 'bub.user_id', '=', 'c.id')
+        ->where('bub.bidding_id', $id)
+        ->orderBy('bub.created_at', 'desc')
+        ->get();
+
+        return view('admin::bidding.view', compact('biddingProduct', 'biddingHistory'));
     }
 
     /**
