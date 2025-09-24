@@ -18,18 +18,22 @@ class BiddingDataGrid extends DataGrid
                 'bp.product_name as name',
                 'bp.status as auction_status',
                 'bpr.product_price as price',
-                DB::raw('NULL as current_bid'), // Will be empty for now
+                DB::raw('(
+                    SELECT MAX(bub.bid_amount)
+                    FROM bidding_user_bids as bub
+                    WHERE bub.bidding_id = bp.bid_pro_id
+                ) as current_bid'),
                 'bpr.start_date',
                 'bpr.start_time',
                 'bpr.end_date',
                 'bpr.end_time',
-                DB::raw('NULL as product_image'), // Will be empty for now
+                DB::raw('NULL as product_image'),
                 'bp.c_date as created_at',
                 'bp.m_date as updated_at',
-                DB::raw('ROW_NUMBER() OVER (ORDER BY bp.bid_pro_id) as row_number') // Add row number
+                DB::raw('ROW_NUMBER() OVER (ORDER BY bp.bid_pro_id) as row_number')
             )
             ->leftJoin('bidding_prices as bpr', 'bp.bid_pro_id', '=', 'bpr.bidding_product_id')
-            ->where('bp.status', '!=', 'deleted'); // Exclude deleted records
+            ->where('bp.status', '!=', 'deleted');
 
         return $queryBuilder;
     }
@@ -108,8 +112,8 @@ class BiddingDataGrid extends DataGrid
             'filterable' => true,
             'sortable'   => true,
             'closure'    => function ($row) {
-                // Empty for now as requested
-                return '';
+                // Format the current bid with currency symbol or return placeholder if null
+                return $row->current_bid ? core()->formatPrice($row->current_bid) : trans('admin::app.bidding.index.datagrid.no-bids');
             },
         ]);
 

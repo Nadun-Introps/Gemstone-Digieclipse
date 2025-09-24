@@ -59,6 +59,26 @@
                             {{ core()->formatPrice($biddingProduct->price) }}
                         </p>
                     </div>
+
+                    <!-- Minimum Increment -->
+                    <div class="flex flex-col gap-1.5">
+                        <label class="text-sm font-medium text-gray-600 dark:text-gray-300">
+                            @lang('admin::app.bidding.view.minimum-increment')
+                        </label>
+                        <p class="text-base text-gray-800 dark:text-white">
+                            {{ core()->formatPrice($biddingProduct->minimum_increment ?? 0) }}
+                        </p>
+                    </div>
+
+                    <!-- Reserve Price -->
+                    <div class="flex flex-col gap-1.5">
+                        <label class="text-sm font-medium text-gray-600 dark:text-gray-300">
+                            @lang('admin::app.bidding.view.reserve-price')
+                        </label>
+                        <p class="text-base text-gray-800 dark:text-white">
+                            {{ $biddingProduct->reserve_price ? core()->formatPrice($biddingProduct->reserve_price) : trans('admin::app.bidding.view.not-set') }}
+                        </p>
+                    </div>
                 </div>
             </div>
 
@@ -109,6 +129,55 @@
                         </p>
                     </div>
                 </div>
+            </div>
+
+            <!-- Bidding History -->
+            <div class="box-shadow rounded bg-white p-4 dark:bg-gray-900">
+                <p class="mb-4 text-base font-semibold text-gray-800 dark:text-white">
+                    @lang('admin::app.bidding.view.bidding-history')
+                </p>
+
+                @if ($biddingHistory->count() > 0)
+                    <div class="overflow-x-auto">
+                        <table class="w-full min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                            <thead class="bg-gray-50 dark:bg-gray-800">
+                                <tr>
+                                    <th
+                                        class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                        @lang('admin::app.bidding.view.date-time')
+                                    </th>
+                                    <th
+                                        class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                        @lang('admin::app.bidding.view.customer-name')
+                                    </th>
+                                    <th
+                                        class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                        @lang('admin::app.bidding.view.bid-amount')
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
+                                @foreach ($biddingHistory as $bid)
+                                    <tr>
+                                        <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-white">
+                                            {{ \Carbon\Carbon::parse($bid->created_at)->format('M j, Y g:i A') }}
+                                        </td>
+                                        <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-white">
+                                            {{ $bid->customer_name }}
+                                        </td>
+                                        <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-white">
+                                            {{ core()->formatPrice($bid->bid_amount) }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                @else
+                    <p class="text-sm text-gray-600 dark:text-gray-400">
+                        @lang('admin::app.bidding.view.no-bids')
+                    </p>
+                @endif
             </div>
         </div>
 
