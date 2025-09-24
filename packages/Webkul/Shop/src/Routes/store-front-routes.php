@@ -124,9 +124,6 @@ Route::prefix('stripe')->group(function () {
     Route::get('cancel', [StripeController::class, 'cancel'])
         ->name('shop.stripe.cancel');
 
-    Route::post('webhook', [StripeController::class, 'webhook'])
-        ->name('shop.stripe.webhook');
-
     // Bidding specific routes
     Route::post('bidding/process-payment', [BiddingStripeController::class, 'processBiddingPayment'])
         ->name('shop.stripe.bidding.process_payment');
@@ -134,8 +131,26 @@ Route::prefix('stripe')->group(function () {
     Route::get('bidding/success', [BiddingStripeController::class, 'biddingSuccess'])
         ->name('shop.stripe.bidding.success');
 
+    // Bidding webhook
     Route::post('bidding/webhook', [BiddingStripeController::class, 'handleBiddingWebhook'])
         ->name('shop.stripe.bidding.webhook');
+
+    // Regular Stripe webhook
+    Route::post('webhook', [StripeController::class, 'webhook'])
+        ->name('shop.stripe.webhook');
+});
+
+// Webhook routes without CSRF protection
+Route::withoutMiddleware(['web'])->group(function () {
+    Route::prefix('stripe-webhook')->group(function () {
+        // Bidding webhook
+        Route::post('bidding/webhook', [BiddingStripeController::class, 'handleBiddingWebhook'])
+            ->name('shop.stripe.bidding.webhook');
+
+        // Regular Stripe webhook
+        Route::post('webhook', [StripeController::class, 'webhook'])
+            ->name('shop.stripe.webhook');
+    });
 });
 
 Route::middleware(['auth:customer'])->group(function () {
