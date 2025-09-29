@@ -2,7 +2,7 @@
 <x-shop::layouts>
     <!-- Page Title -->
     <x-slot:title>
-        @lang('shop::app.bidding.success.title')
+        @lang('shop::app.home.bidding_success.title')
     </x-slot>
 
     <!-- Hero Banner -->

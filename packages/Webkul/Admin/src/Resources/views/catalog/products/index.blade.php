@@ -242,7 +242,7 @@
             <div>
                 <!-- BID Button -->
                 <span
-                    class="cursor-pointer rounded-md bg-blue-600 px-2 py-1 text-xs font-medium text-white transition-all hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
+                    class="cursor-pointer rounded-md bg-blue-600 px-3 py-1.5 text-xs font-medium text-white transition-all hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
                     @click="openBidModal"
                     title="Add this product to Bid">
                     BID
@@ -251,7 +251,7 @@
                 <x-admin::form v-slot="{ meta, errors, handleSubmit }" as="div">
                     <form @submit="handleSubmit($event, submitBid)">
                         <!-- BID Modal -->
-                        <x-admin::modal ref="bidModal">
+                        <x-admin::modal ref="bidModal" class="max-w-3xl">
                             <!-- Modal Header -->
                             <x-slot:header>
                                 <p class="text-lg font-bold text-gray-800 dark:text-white">
@@ -261,236 +261,257 @@
 
                             <!-- Modal Content -->
                             <x-slot:content>
-                                {!! view_render_event('bagisto.admin.catalog.products.bid_form.controls.before') !!}
+                                <div class="space-y-6">
+                                    {!! view_render_event('bagisto.admin.catalog.products.bid_form.controls.before') !!}
 
-                                <!-- Hidden Product ID -->
-                                <input type="hidden" name="product_id" :value="productId">
+                                    <!-- Hidden Product ID -->
+                                    <input type="hidden" name="product_id" :value="productId">
 
-                                <!-- Product Name (readonly) -->
-                                <x-admin::form.control-group>
-                                    <x-admin::form.control-group.label class="required">
-                                        @lang('admin::app.catalog.products.index.bid.product_name')
-                                    </x-admin::form.control-group.label>
+                                    <!-- Product Information Section -->
+                                    <div class="rounded-lg bg-gray-50 p-4 dark:bg-gray-900">
+                                        <h3 class="mb-3 text-sm font-semibold text-gray-700 dark:text-gray-300">
+                                            @lang('admin::app.catalog.products.index.bid.product_info')
+                                        </h3>
 
-                                    <input
-                                        type="text"
-                                        name="product_name"
-                                        v-model="productData.name"
-                                        class="control"
-                                        readonly
-                                        required
-                                    />
+                                        <!-- Product Name -->
+                                        <x-admin::form.control-group>
+                                            <x-admin::form.control-group.label class="required">
+                                                @lang('admin::app.catalog.products.index.bid.product_name')
+                                            </x-admin::form.control-group.label>
+                                            <div class="relative">
+                                                <input
+                                                    type="text"
+                                                    name="product_name"
+                                                    v-model="productData.name"
+                                                    class="control w-full bg-white dark:bg-gray-800"
+                                                    readonly
+                                                    required
+                                                />
+                                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+                                                    <span class="icon-lock text-gray-400"></span>
+                                                </div>
+                                            </div>
+                                            <x-admin::form.control-group.error control-name="product_name" />
+                                        </x-admin::form.control-group>
 
-                                    <x-admin::form.control-group.error control-name="product_name" />
-                                </x-admin::form.control-group>
+                                        <!-- Product Price and Currency -->
+                                        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                                            <!-- Product Price -->
+                                            <x-admin::form.control-group>
+                                                <x-admin::form.control-group.label class="required">
+                                                    @lang('admin::app.catalog.products.index.bid.product_price')
+                                                </x-admin::form.control-group.label>
+                                                <div class="relative">
+                                                    <input
+                                                        type="number"
+                                                        name="product_price"
+                                                        v-model="productData.price"
+                                                        class="control w-full bg-white dark:bg-gray-800"
+                                                        step="0.01"
+                                                        readonly
+                                                        required
+                                                    />
+                                                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+                                                        <span class="icon-lock text-gray-400"></span>
+                                                    </div>
+                                                </div>
+                                                <x-admin::form.control-group.error control-name="product_price" />
+                                            </x-admin::form.control-group>
 
-                                <!-- Product Price and Currency -->
-                                <div class="flex gap-4">
-                                    <!-- Product Price -->
-                                    <x-admin::form.control-group class="flex-1">
-                                        <x-admin::form.control-group.label class="required">
-                                            @lang('admin::app.catalog.products.index.bid.product_price')
-                                        </x-admin::form.control-group.label>
+                                            <!-- Currency -->
+                                            <x-admin::form.control-group>
+                                                <x-admin::form.control-group.label class="required">
+                                                    @lang('admin::app.catalog.products.index.bid.currency')
+                                                </x-admin::form.control-group.label>
+                                                <select
+                                                    name="currency"
+                                                    v-model="formData.currency"
+                                                    class="control w-full bg-white dark:bg-gray-800"
+                                                    required
+                                                >
+                                                    <option value="USD">USD ($)</option>
+                                                    <option value="EUR">EUR (€)</option>
+                                                    <option value="GBP">GBP (£)</option>
+                                                </select>
+                                                <x-admin::form.control-group.error control-name="currency" />
+                                            </x-admin::form.control-group>
+                                        </div>
 
-                                        <input
-                                            type="number"
-                                            name="product_price"
-                                            v-model="productData.price"
-                                            class="control"
-                                            step="0.01"
-                                            readonly
-                                            required
-                                        />
+                                        <!-- Product Description -->
+                                        <x-admin::form.control-group>
+                                            <x-admin::form.control-group.label class="required">
+                                                @lang('admin::app.catalog.products.index.bid.product_description')
+                                            </x-admin::form.control-group.label>
+                                            <div class="relative">
+                                                <textarea
+                                                    name="product_description"
+                                                    v-model="productData.description"
+                                                    class="control w-full bg-white dark:bg-gray-800"
+                                                    rows="3"
+                                                    readonly
+                                                    required
+                                                ></textarea>
+                                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-start pr-3 pt-3">
+                                                    <span class="icon-lock text-gray-400"></span>
+                                                </div>
+                                            </div>
+                                            <x-admin::form.control-group.error control-name="product_description" />
+                                        </x-admin::form.control-group>
+                                    </div>
 
-                                        <x-admin::form.control-group.error control-name="product_price" />
-                                    </x-admin::form.control-group>
+                                    <!-- Bid Configuration Section -->
+                                    <div class="rounded-lg bg-gray-50 p-4 dark:bg-gray-900">
+                                        <h3 class="mb-3 text-sm font-semibold text-gray-700 dark:text-gray-300">
+                                            @lang('admin::app.catalog.products.index.bid.bid_configuration')
+                                        </h3>
 
-                                    <!-- Currency -->
-                                    <x-admin::form.control-group class="w-1/4">
-                                        <x-admin::form.control-group.label class="required">
-                                            @lang('admin::app.catalog.products.index.bid.currency')
-                                        </x-admin::form.control-group.label>
+                                        <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                                            <!-- Starting Price -->
+                                            <x-admin::form.control-group>
+                                                <x-admin::form.control-group.label class="required">
+                                                    @lang('admin::app.catalog.products.index.bid.starting_price')
+                                                </x-admin::form.control-group.label>
+                                                <div class="relative">
+                                                    <input
+                                                        type="number"
+                                                        name="starting_price"
+                                                        v-model="formData.starting_price"
+                                                        class="control w-full pl-8 pr-4"
+                                                        step="0.01"
+                                                        min="0"
+                                                        placeholder="0.00"
+                                                        required
+                                                    />
+                                                </div>
+                                                <x-admin::form.control-group.error control-name="starting_price" />
+                                            </x-admin::form.control-group>
 
-                                        <select
-                                            name="currency"
-                                            v-model="formData.currency"
-                                            class="control"
-                                            required
-                                        >
-                                            <option value="USD">USD</option>
-                                            <option value="EUR">EUR</option>
-                                            <option value="GBP">GBP</option>
-                                            <!-- Add more currencies as needed -->
-                                        </select>
+                                            <!-- Min. Increment Amount -->
+                                            <x-admin::form.control-group>
+                                                <x-admin::form.control-group.label class="required">
+                                                    @lang('admin::app.catalog.products.index.bid.min_increment')
+                                                </x-admin::form.control-group.label>
+                                                <div class="relative">
+                                                    <input
+                                                        type="number"
+                                                        name="min_increment"
+                                                        v-model="formData.min_increment"
+                                                        class="control w-full pl-8 pr-4"
+                                                        step="0.01"
+                                                        min="0"
+                                                        placeholder="0.00"
+                                                        required
+                                                    />
+                                                </div>
+                                                <x-admin::form.control-group.error control-name="min_increment" />
+                                            </x-admin::form.control-group>
 
-                                        <x-admin::form.control-group.error control-name="currency" />
-                                    </x-admin::form.control-group>
+                                            <!-- Reserve Price -->
+                                            <x-admin::form.control-group>
+                                                <x-admin::form.control-group.label>
+                                                    @lang('admin::app.catalog.products.index.bid.reserve_price')
+                                                </x-admin::form.control-group.label>
+                                                <div class="relative">
+                                                    <input
+                                                        type="number"
+                                                        name="reserve_price"
+                                                        v-model="formData.reserve_price"
+                                                        class="control w-full pl-8 pr-4"
+                                                        step="0.01"
+                                                        min="0"
+                                                        placeholder="0.00"
+                                                    />
+                                                </div>
+                                                <x-admin::form.control-group.error control-name="reserve_price" />
+                                            </x-admin::form.control-group>
+                                        </div>
+                                    </div>
+
+                                    <!-- Auction Timing Section -->
+                                    <div class="rounded-lg bg-gray-50 p-4 dark:bg-gray-900">
+                                        <h3 class="mb-3 text-sm font-semibold text-gray-700 dark:text-gray-300">
+                                            @lang('admin::app.catalog.products.index.bid.auction_timing')
+                                        </h3>
+
+                                        <!-- Start Date and Time -->
+                                        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                                            <x-admin::form.control-group>
+                                                <x-admin::form.control-group.label class="required">
+                                                    @lang('admin::app.catalog.products.index.bid.start_date')
+                                                </x-admin::form.control-group.label>
+                                                <input
+                                                    type="date"
+                                                    name="start_date"
+                                                    v-model="formData.start_date"
+                                                    class="control w-full"
+                                                    :min="minDate"
+                                                    required
+                                                />
+                                                <x-admin::form.control-group.error control-name="start_date" />
+                                            </x-admin::form.control-group>
+
+                                            <x-admin::form.control-group>
+                                                <x-admin::form.control-group.label class="required">
+                                                    @lang('admin::app.catalog.products.index.bid.start_time')
+                                                </x-admin::form.control-group.label>
+                                                <input
+                                                    type="time"
+                                                    name="start_time"
+                                                    v-model="formData.start_time"
+                                                    class="control w-full"
+                                                    required
+                                                />
+                                                <x-admin::form.control-group.error control-name="start_time" />
+                                            </x-admin::form.control-group>
+                                        </div>
+
+                                        <!-- End Date and Time -->
+                                        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                                            <x-admin::form.control-group>
+                                                <x-admin::form.control-group.label class="required">
+                                                    @lang('admin::app.catalog.products.index.bid.end_date')
+                                                </x-admin::form.control-group.label>
+                                                <input
+                                                    type="date"
+                                                    name="end_date"
+                                                    v-model="formData.end_date"
+                                                    class="control w-full"
+                                                    :min="formData.start_date || minDate"
+                                                    required
+                                                />
+                                                <x-admin::form.control-group.error control-name="end_date" />
+                                            </x-admin::form.control-group>
+
+                                            <x-admin::form.control-group>
+                                                <x-admin::form.control-group.label class="required">
+                                                    @lang('admin::app.catalog.products.index.bid.end_time')
+                                                </x-admin::form.control-group.label>
+                                                <input
+                                                    type="time"
+                                                    name="end_time"
+                                                    v-model="formData.end_time"
+                                                    class="control w-full"
+                                                    required
+                                                />
+                                                <x-admin::form.control-group.error control-name="end_time" />
+                                            </x-admin::form.control-group>
+                                        </div>
+                                    </div>
+
+                                    {!! view_render_event('bagisto.admin.catalog.products.bid_form.controls.after') !!}
                                 </div>
-
-                                <!-- Product Description -->
-                                <x-admin::form.control-group>
-                                    <x-admin::form.control-group.label class="required">
-                                        @lang('admin::app.catalog.products.index.bid.product_description')
-                                    </x-admin::form.control-group.label>
-
-                                    <textarea
-                                        name="product_description"
-                                        v-model="productData.description"
-                                        class="control"
-                                        rows="4"
-                                        readonly
-                                        required
-                                    ></textarea>
-
-                                    <x-admin::form.control-group.error control-name="product_description" />
-                                </x-admin::form.control-group>
-
-                                <div class="my-4 border-t border-gray-200 dark:border-gray-700"></div>
-
-                                <!-- Starting Price -->
-                                <x-admin::form.control-group>
-                                    <x-admin::form.control-group.label class="required">
-                                        @lang('admin::app.catalog.products.index.bid.starting_price')
-                                    </x-admin::form.control-group.label>
-
-                                    <input
-                                        type="number"
-                                        name="starting_price"
-                                        v-model="formData.starting_price"
-                                        class="control"
-                                        step="0.01"
-                                        min="0"
-                                        required
-                                    />
-
-                                    <x-admin::form.control-group.error control-name="starting_price" />
-                                </x-admin::form.control-group>
-
-                                <!-- Min. Increment Amount -->
-                                <x-admin::form.control-group>
-                                    <x-admin::form.control-group.label class="required">
-                                        @lang('admin::app.catalog.products.index.bid.min_increment')
-                                    </x-admin::form.control-group.label>
-
-                                    <input
-                                        type="number"
-                                        name="min_increment"
-                                        v-model="formData.min_increment"
-                                        class="control"
-                                        step="0.01"
-                                        min="0"
-                                        required
-                                    />
-
-                                    <x-admin::form.control-group.error control-name="min_increment" />
-                                </x-admin::form.control-group>
-
-                                <!-- Reserve Price -->
-                                <x-admin::form.control-group>
-                                    <x-admin::form.control-group.label>
-                                        @lang('admin::app.catalog.products.index.bid.reserve_price')
-                                    </x-admin::form.control-group.label>
-
-                                    <input
-                                        type="number"
-                                        name="reserve_price"
-                                        v-model="formData.reserve_price"
-                                        class="control"
-                                        step="0.01"
-                                        min="0"
-                                    />
-
-                                    <x-admin::form.control-group.error control-name="reserve_price" />
-                                </x-admin::form.control-group>
-
-                                <div class="my-4 border-t border-gray-200 dark:border-gray-700"></div>
-
-                                <!-- Start Date and Time -->
-                                <div class="flex gap-4">
-                                    <!-- Start Date -->
-                                    <x-admin::form.control-group class="flex-1">
-                                        <x-admin::form.control-group.label class="required">
-                                            @lang('admin::app.catalog.products.index.bid.start_date')
-                                        </x-admin::form.control-group.label>
-
-                                        <input
-                                            type="date"
-                                            name="start_date"
-                                            v-model="formData.start_date"
-                                            class="control"
-                                            required
-                                        />
-
-                                        <x-admin::form.control-group.error control-name="start_date" />
-                                    </x-admin::form.control-group>
-
-                                    <!-- Start Time -->
-                                    <x-admin::form.control-group class="flex-1">
-                                        <x-admin::form.control-group.label class="required">
-                                            @lang('admin::app.catalog.products.index.bid.start_time')
-                                        </x-admin::form.control-group.label>
-
-                                        <input
-                                            type="time"
-                                            name="start_time"
-                                            v-model="formData.start_time"
-                                            class="control"
-                                            required
-                                        />
-
-                                        <x-admin::form.control-group.error control-name="start_time" />
-                                    </x-admin::form.control-group>
-                                </div>
-
-                                <!-- End Date and Time -->
-                                <div class="flex gap-4">
-                                    <!-- End Date -->
-                                    <x-admin::form.control-group class="flex-1">
-                                        <x-admin::form.control-group.label class="required">
-                                            @lang('admin::app.catalog.products.index.bid.end_date')
-                                        </x-admin::form.control-group.label>
-
-                                        <input
-                                            type="date"
-                                            name="end_date"
-                                            v-model="formData.end_date"
-                                            class="control"
-                                            required
-                                        />
-
-                                        <x-admin::form.control-group.error control-name="end_date" />
-                                    </x-admin::form.control-group>
-
-                                    <!-- End Time -->
-                                    <x-admin::form.control-group class="flex-1">
-                                        <x-admin::form.control-group.label class="required">
-                                            @lang('admin::app.catalog.products.index.bid.end_time')
-                                        </x-admin::form.control-group.label>
-
-                                        <input
-                                            type="time"
-                                            name="end_time"
-                                            v-model="formData.end_time"
-                                            class="control"
-                                            required
-                                        />
-
-                                        <x-admin::form.control-group.error control-name="end_time" />
-                                    </x-admin::form.control-group>
-                                </div>
-
-                                {!! view_render_event('bagisto.admin.catalog.products.bid_form.controls.after') !!}
                             </x-slot>
 
                             <!-- Modal Footer -->
                             <x-slot:footer>
-                                <div class="flex items-center gap-x-2.5">
+                                <div class="flex items-center justify-end gap-x-3">
                                     <!-- Cancel Button -->
                                     <x-admin::button
                                         button-type="button"
                                         class="transparent-button hover:bg-gray-200 dark:text-white dark:hover:bg-gray-800"
                                         :title="trans('admin::app.catalog.products.index.bid.cancel-btn')"
                                         @click="$refs.bidModal.toggle()"
+                                        ::disabled="isLoading"
                                     />
 
                                     <!-- Submit Bid Button -->
@@ -527,6 +548,7 @@
                 data() {
                     return {
                         isLoading: false,
+                        minDate: new Date().toISOString().split('T')[0], // Today's date
                         productData: {
                             name: '',
                             price: 0,

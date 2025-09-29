@@ -160,3 +160,41 @@ Route::middleware(['auth:customer'])->group(function () {
     Route::post('bidding-single/{id}/bid', [BiddingController::class, 'placeBid'])
         ->name('shop.bidding.place_bid');
 });
+
+Route::get('/test-bidding-email', function () {
+    $brevoMailer = app(App\Services\BrevoMailerService::class);
+    $biddingEmailService = app(App\Services\BiddingEmailService::class);
+
+    // Test data
+    $testBid = [
+        'product_name' => 'Test Product',
+        'bid_amount' => 150.00,
+        'sku' => 'BID-TEST-123',
+        'auction_end' => now()->addDays(2)->toDateTimeString()
+    ];
+
+    $testCustomer = (object) [
+        'email' => 'chanukawanigasekara007@gmail.com', // Use your real email
+        'name' => 'Test Chanuka'
+    ];
+
+    try {
+        // Test direct Brevo email
+        $result1 = $brevoMailer->sendEmail(
+            ['email' => $testCustomer->email, 'name' => $testCustomer->name],
+            'Test Brevo Email',
+            '<h1>Test Email</h1><p>This is a test email from Brevo.</p>'
+        );
+
+        // Test bidding email service
+        $result2 = $biddingEmailService->sendPaymentSuccessEmail($testBid, $testCustomer);
+
+        return response()->json([
+            'brevo_direct' => $result1 ? 'Success' : 'Failed',
+            'bidding_service' => $result2 ? 'Success' : 'Failed'
+        ]);
+
+    } catch (\Exception $e) {
+        return response()->json(['error' => $e->getMessage()], 500);
+    }
+});
