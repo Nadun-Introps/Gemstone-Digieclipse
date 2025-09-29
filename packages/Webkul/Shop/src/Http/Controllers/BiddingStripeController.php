@@ -2,12 +2,22 @@
 
 namespace Webkul\Shop\Http\Controllers;
 
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Webkul\Shop\Http\Controllers\Controller;
+use App\Services\BiddingEmailService;
 
 class BiddingStripeController extends Controller
 {
+    protected $biddingEmailService;
+
+    public function __construct(BiddingEmailService $biddingEmailService)
+    {
+        $this->biddingEmailService = $biddingEmailService;
+    }
+
     /**
      * Process bidding payment with Stripe
      *
@@ -94,6 +104,12 @@ class BiddingStripeController extends Controller
                     'updated_at' => now(),
                 ]);
 
+            // Send payment success email
+            if (auth()->check()) {
+                $customer = auth()->user();
+                $this->biddingEmailService->sendPaymentSuccessEmail($bid, $customer);
+            }
+
             // Clear the session
             session()->forget('current_bid');
 
@@ -101,8 +117,13 @@ class BiddingStripeController extends Controller
                 ->with('success', 'Bid placed successfully! Payment confirmed.');
 
         } catch (\Exception $e) {
-            session()->flash('error', 'Failed to process bid: ' . $e->getMessage());
+            // Send payment failed email if user was authenticated
+            if (auth()->check() && isset($bid)) {
+                $customer = auth()->user();
+                $this->biddingEmailService->sendPaymentFailedEmail($bid, $customer, $e->getMessage());
+            }
 
+            session()->flash('error', 'Failed to process bid: ' . $e->getMessage());
             return redirect()->route('shop.bidding.checkout');
         }
     }
@@ -185,17 +206,26 @@ class BiddingStripeController extends Controller
                         ]),
                         'updated_at' => now(),
                     ]);
-            } elseif ($sessionId) {
-                // Update by session ID
-                DB::table('bidding_user_bids')
-                    ->where('session_id', $sessionId)
-                    ->where('payment_status', 'pending')
-                    ->update([
-                        'payment_status' => 'paid',
-                        'stripe_payment_intent_id' => $paymentIntent->id,
-                        'payment_details' => json_encode($paymentIntent),
-                        'updated_at' => now(),
-                    ]);
+
+                // Get bid details and send email
+                $bidRecord = DB::table('bidding_user_bids')
+                    ->where('bub_id', $bidId)
+                    ->first();
+
+                if ($bidRecord) {
+                    $customer = DB::table('users')->where('id', $bidRecord->user_id)->first();
+                    $biddingProduct = DB::table('bidding_products')->where('bid_pro_id', $bidRecord->bidding_id)->first();
+
+                    $bidData = [
+                        'bid_id' => $bidId,
+                        'bidding_id' => $bidRecord->bidding_id,
+                        'bid_amount' => $bidRecord->bid_amount,
+                        'product_name' => $biddingProduct->product_name ?? 'Auction Item',
+                        'created_at' => $bidRecord->created_at
+                    ];
+
+                    $this->biddingEmailService->sendPaymentSuccessEmail($bidData, $customer);
+                }
             }
 
             \Log::info('Bidding payment updated successfully', [

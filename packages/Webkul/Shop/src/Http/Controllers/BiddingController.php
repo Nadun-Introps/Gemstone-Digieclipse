@@ -6,20 +6,23 @@ use Webkul\Checkout\Facades\Cart;
 use Webkul\Theme\Repositories\ThemeCustomizationRepository;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use App\Services\BiddingEmailService;
 
 class BiddingController extends Controller
 {
+    protected $biddingEmailService;
+
+    public function __construct(
+        protected ThemeCustomizationRepository $themeCustomizationRepository,
+        BiddingEmailService $biddingEmailService
+    ) {
+        $this->biddingEmailService = $biddingEmailService;
+    }
+
     /**
      * Using const variable for status
      */
     const STATUS = 1;
-
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct(protected ThemeCustomizationRepository $themeCustomizationRepository) {}
 
     public function index($id)
     {
@@ -167,10 +170,14 @@ class BiddingController extends Controller
             return redirect()->back()->with('error', 'Auction has ended.');
         }
 
-        // Get current highest bid
-        $currentBid = DB::table('bidding_user_bids')
+        // Get current highest bid and bidder
+        $currentBidRecord = DB::table('bidding_user_bids')
             ->where('bidding_id', $id)
-            ->max('bid_amount');
+            ->orderBy('bid_amount', 'desc')
+            ->first();
+
+        $currentBid = $currentBidRecord ? $currentBidRecord->bid_amount : 0;
+        $previousBidderId = $currentBidRecord ? $currentBidRecord->user_id : null;
 
         // Validate bid amount
         $minBid = $currentBid ? $currentBid + $biddingProduct->minimum_increment : $biddingProduct->price;
@@ -195,11 +202,31 @@ class BiddingController extends Controller
                 'updated_at' => now(),
             ]);
 
+            // Send outbid notification to previous bidder
+            if ($previousBidderId && $previousBidderId != auth()->id()) {
+                $previousBidder = DB::table('users')->where('id', $previousBidderId)->first();
+                if ($previousBidder) {
+                    $previousBidData = [
+                        'bid_id' => $currentBidRecord->bub_id,
+                        'bidding_id' => $id,
+                        'bid_amount' => $currentBidRecord->bid_amount,
+                        'product_name' => $biddingProduct->product_name,
+                        'created_at' => $currentBidRecord->created_at
+                    ];
+
+                    $this->biddingEmailService->sendOutbidNotification(
+                        $previousBidData,
+                        $previousBidder,
+                        $validated['bid_amount']
+                    );
+                }
+            }
+
             // Store bid information in session
             session()->put('current_bid', [
                 'bidding_id' => $biddingProduct->bid_pro_id,
-                'bid_id' => $bidId, // Store the database bid ID
-                'session_id' => $sessionId, // Store the session ID
+                'bid_id' => $bidId,
+                'session_id' => $sessionId,
                 'product_id' => $biddingProduct->product_id,
                 'bid_amount' => $validated['bid_amount'],
                 'product_name' => $biddingProduct->product_name,

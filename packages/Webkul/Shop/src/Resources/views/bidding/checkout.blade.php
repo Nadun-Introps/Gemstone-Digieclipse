@@ -2,7 +2,7 @@
 <x-shop::layouts>
     <!-- Page Title -->
     <x-slot:title>
-        @lang('shop::app.bidding.checkout.title')
+        @lang('shop::app.home.bidding_checkout.title')
     </x-slot>
 
     <!-- Checkout Content -->
