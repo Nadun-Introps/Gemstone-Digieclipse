@@ -1156,6 +1156,14 @@ return [
             'title' => 'Bidding',
         ],
 
+        'bidding_checkout' => [
+            'title' => 'Bidding Checkout',
+        ],
+
+        'bidding_success' => [
+            'title' => 'Bidding Success',
+        ],
+
         'thanks-for-contact' => 'Thanks for contacting us with your comments and questions. We all respond to you very soon.',
     ],
 
