@@ -84,17 +84,19 @@
 
         .countdown {
             display: flex;
-            gap: 8px;
+            gap: 14px;
             font-size: 12px;
             margin-top: 8px;
+            margin-left: 20px;
+            margin-bottom: 10px;
         }
 
         .countdown div {
             text-align: center;
-            padding: 4px 6px;
+            padding: 1px 10px;
             border: 1px solid #ddd;
-            border-radius: 4px;
-            background: #f9f9f9;
+            border-radius: 28px;
+            background: #eee;
         }
 
         .countdown span {

@@ -86,7 +86,7 @@
     "src": "src/Resources/assets/js/app.js",
     "isEntry": true,
     "css": [
-      "assets/app-DsP8OK1c.css"
+      "assets/"
     ]
   }
 }
