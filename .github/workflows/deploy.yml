@@ -89,6 +89,11 @@ jobs:
                 php artisan migrate --force
                 # php artisan db:seed  # optional
             fi
+
+            # Clear previous cache
+            php artisan view:clear
+            php artisan cache:clear
+            php artisan config:clear
             
             # Laravel / Bagisto setup
             php artisan config:cache
