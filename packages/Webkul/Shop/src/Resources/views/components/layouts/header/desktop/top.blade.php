@@ -55,11 +55,24 @@
 
                         <!-- User Links -->
                         <ul class="header-user-links">
-                            <li>
-                                <a href="#">
-                                    Login or Register
-                                </a>
-                            </li>
+                            @if(auth()->guard('customer')->check())
+                                <li>
+                                    <a href="{{ route('shop.customer.profile.index') }}">
+                                        {{ auth()->guard('customer')->user()->first_name }}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('shop.customer.session.destroy') }}">
+                                        Logout
+                                    </a>
+                                </li>
+                            @else
+                                <li>
+                                    <a href="{{ route('shop.customer.session.index') }}">
+                                        Login or Register
+                                    </a>
+                                </li>
+                            @endif
                         </ul>
                     </div>
                 </div>

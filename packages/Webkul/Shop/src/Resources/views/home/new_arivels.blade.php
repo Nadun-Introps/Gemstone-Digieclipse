@@ -22,11 +22,12 @@ a<div class="stelina-product produc-featured rows-space-40">
                         <!-- Product Image -->
                         <div class="product-thumb">
                             <div class="thumb-inner">
-                                <a href="#">
+                                <a href="{{ route('shop.product_or_category.index', $product->url_key) }}">
                                     <img src="{{ $product->image_url }}" alt="{{ $product->name }}">
                                 </a>
                                 <div class="thumb-group">
-                                    <a href="#" class="button quick-wiew-button">Quick View</a>
+                                    <a href="{{ route('shop.product_or_category.index', $product->url_key) }}"
+                                        class="button quick-wiew-button">Quick View</a>
                                     <div class="loop-form-add-to-cart">
                                         <form method="POST" action="">
                                             @csrf
@@ -44,7 +45,7 @@ a<div class="stelina-product produc-featured rows-space-40">
                         <!-- Product Info -->
                         <div class="product-info">
                             <h5 class="product-name product_title">
-                                <a href="#">
+                                <a href="{{ route('shop.product_or_category.index', $product->url_key) }}">
                                     {{ $product->name }}
                                 </a>
                             </h5>
