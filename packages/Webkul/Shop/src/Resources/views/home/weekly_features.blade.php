@@ -23,7 +23,7 @@
 
                             <div class="product-thumb">
                                 <div class="thumb-inner">
-                                    <a href="">
+                                    <a href="{{ route('shop.product_or_category.index', $product->url_key) }}">
                                         <img src="{{ $product->image_url }}" alt="{{ $product->name }}">
                                     </a>
                                     <div class="thumb-group">
@@ -32,7 +32,8 @@
                                                 <a href="#">Add to Wishlist</a>
                                             </div>
                                         </div>
-                                        <a href="#" class="button quick-wiew-button">Quick View</a>
+                                        <a href="{{ route('shop.product_or_category.index', $product->url_key) }}"
+                                            class="button quick-wiew-button">Quick View</a>
                                         <div class="loop-form-add-to-cart">
                                             <button class="single_add_to_cart_button button">Add to cart</button>
                                         </div>
@@ -42,7 +43,7 @@
 
                             <div class="product-info">
                                 <h5 class="product-name product_title">
-                                    <a href="#">
+                                    <a href="{{ route('shop.product_or_category.index', $product->url_key) }}">
                                         {{ $product->name }}
                                     </a>
                                 </h5>

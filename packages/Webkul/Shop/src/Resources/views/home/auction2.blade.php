@@ -43,7 +43,8 @@
 
             @forelse($auctions as $a)
                 <div class="product-item style-5 auction-card" data-end="{{ $a['end'] }}"
-                    data-start="{{ $a['start'] }}" data-product-id="{{ $a['id'] }}">
+                    data-start="{{ $a['start'] }}" data-product-id="{{ $a['id'] }}"
+                    onclick="window.location.href='{{ route('shop.bidding.bidding_single', ['id' => $a['id']]) }}'">
 
                     <div class="product-inner equal-element">
                         <div class="product-top">
@@ -54,7 +55,7 @@
 
                         <div class="product-thumb">
                             <div class="thumb-inner">
-                                <a href="#">
+                                <a href="{{ route('shop.bidding.bidding_single', ['id' => $a['id']]) }}">
                                     <img src="{{ $a['image'] }}" alt="{{ $a['product_name'] }}">
                                 </a>
                                 <div class="thumb-group">
@@ -70,7 +71,6 @@
                                 </div>
                             </div>
 
-                            {{-- ✅ Old style countdown --}}
                             <div class="countdown">
                                 <div><span class="days">0</span>DAYS</div>
                                 <div><span class="hours">00</span>HRS</div>
@@ -80,7 +80,9 @@
 
                             <div class="product-info">
                                 <h5 class="product-name product_title">
-                                    <a href="#">{{ $a['product_name'] }}</a>
+                                    <a href="{{ route('shop.bidding.bidding_single', ['id' => $a['id']]) }}">
+                                        {{ $a['product_name'] }}
+                                    </a>
                                 </h5>
                                 <div class="group-info">
                                     <div class="stars-rating">
@@ -98,7 +100,6 @@
             @empty
                 <p>No auctions available</p>
             @endforelse
-
         </div>
     </div>
 </div>
