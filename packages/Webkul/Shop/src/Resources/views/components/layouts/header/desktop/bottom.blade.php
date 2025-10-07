@@ -29,7 +29,7 @@
             <div class="col-lg-4 col-sm-6 col-md-4 col-xs-5 col-ts-12">
                 <div class="logo">
                     <a href="index-2.html">
-                        <img src="test_assets/images/gem_logo.png" alt="logo">
+                        <img src="/test_assets/images/gem_logo.png" alt="logo">
                     </a>
                 </div>
             </div>
@@ -68,7 +68,7 @@
             <div class="header-nav">
                 <div class="container-wapper">
                     <ul class="stelina-clone-mobile-menu stelina-nav main-menu " id="menu-main-menu">
-                        <li class="menu-item menu-item-has-children">
+                        <li class="menu-item">
                             <a href="{{ route('shop.home.index') }}" class="stelina-menu-item-title" title="Home"
                                 id="home">
                                 Home
@@ -91,7 +91,7 @@
                                 title="Blogs">Blogs</a>
                         </li>
                         <li class="menu-item">
-                            <a href="about-us" class="stelina-menu-item-title" title="About">About</a>
+                            <a href="page/about-us" class="stelina-menu-item-title" title="About">About</a>
                         </li>
                     </ul>
                 </div>
