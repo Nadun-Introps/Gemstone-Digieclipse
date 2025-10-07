@@ -81,13 +81,17 @@ jobs:
             
                 # Generate APP_KEY
                 php artisan key:generate
+
+                # Database Initialization
+                php artisan migrate --force
+                php artisan db:seed
             
                 # Only storage link on first deployment
                 php artisan storage:link
             else
                 # Subsequent deployments
                 php artisan migrate --force
-                # php artisan db:seed  # optional
+                php artisan db:seed  # optional
             fi
 
             # Clear previous cache
