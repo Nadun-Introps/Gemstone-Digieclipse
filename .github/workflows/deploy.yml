@@ -1,0 +1,107 @@
+name: Deploy Gemstone (Bagisto) to Virtualmin
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1️⃣ Checkout code
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      # 2️⃣ Setup PHP
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, bcmath, xml, curl, mysqli
+          coverage: none
+
+      # 3️⃣ Install Composer dependencies
+      - name: Install Composer Dependencies
+        run: composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
+
+      # 4️⃣ Install Node dependencies and build assets
+      - name: Install Node and Build Assets
+        run: |
+          npm install
+
+      # 5️⃣ Create Deployment Package
+      - name: Create Deployment Package
+        run: |
+          zip -r deploy-package.zip . -x ".git/*" ".github/*" "tests/*" "node_modules/*" "vendor/*"
+
+      # 6️⃣ Copy files to server
+      - name: Copy Files to Server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_KEY }}
+          source: "deploy-package.zip"
+          target: "${{ secrets.DEPLOY_PATH }}"
+
+      # 7️⃣ SSH into server and deploy
+      - name: SSH and Deploy
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_KEY }}
+          script: |
+            cd ${{ secrets.DEPLOY_PATH }}
+
+            # Unzip package
+            unzip -o deploy-package.zip -d .
+            rm deploy-package.zip
+
+            # Install dependancies
+            composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
+
+            # Permissions for all files
+            chmod -R 755 .
+            chmod -R 775 storage bootstrap/cache
+            chown -R ${{ secrets.DEPLOY_USER }}:${{ secrets.DEPLOY_USER }} .
+
+            if [ ! -f .env ]; then
+                # First deployment
+                cp .env.example .env
+            
+                # Replace database and URL values
+                sed -i "s|DB_HOST=.*|DB_HOST=${{ secrets.DB_HOST }}|" .env
+                sed -i "s|DB_DATABASE=.*|DB_DATABASE=${{ secrets.DB_DATABASE }}|" .env
+                sed -i "s|DB_USERNAME=.*|DB_USERNAME=${{ secrets.DB_USERNAME }}|" .env
+                sed -i "s|DB_PASSWORD=.*|DB_PASSWORD=${{ secrets.DB_PASSWORD }}|" .env
+                sed -i "s|APP_URL=.*|APP_URL=${{ secrets.APP_URL }}|" .env
+            
+                # Generate APP_KEY
+                php artisan key:generate
+            
+                # Only storage link on first deployment
+                php artisan storage:link
+            else
+                # Subsequent deployments
+                php artisan migrate --force
+                # php artisan db:seed  # optional
+            fi
+
+            # Clear previous cache
+            php artisan view:clear
+            php artisan cache:clear
+            php artisan config:clear
+            
+            # Laravel / Bagisto setup
+            php artisan config:cache
+            php artisan route:cache
+
+            # Build assets on server (optional)
+            npm install
+
+            # Final permissions
+            chmod -R 775 storage bootstrap/cache
+            chown -R ${{ secrets.DEPLOY_USER }}:${{ secrets.DEPLOY_USER }} storage bootstrap/cache
