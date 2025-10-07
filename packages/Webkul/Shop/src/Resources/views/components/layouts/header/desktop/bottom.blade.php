@@ -4,14 +4,19 @@
 <div class="container">
     <div class="main-header">
         <div class="row">
+            {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.search_bar.before') !!}
+
             <div class="col-lg-4 col-sm-6 col-md-4 col-xs-7 col-ts-12 header-element">
                 <div class="block-search-block">
-                    <form class="form-search">
+                    <form class="form-search" action="{{ route('shop.search.index') }}" method="GET" role="search">
                         <div class="form-content">
                             <div class="inner">
-                                <input type="text" class="input" name="s" value=""
-                                    placeholder="Search here">
-                                <button class="btn-search" type="submit">
+                                <input type="text" name="query" value="{{ request('query') }}" class="input"
+                                    placeholder="Search here"
+                                    minlength="{{ core()->getConfigData('catalog.products.search.min_query_length') }}"
+                                    maxlength="{{ core()->getConfigData('catalog.products.search.max_query_length') }}"
+                                    aria-label="@lang('shop::app.components.layouts.header.desktop.bottom.search-text')" pattern="[^\\]+" required>
+                                <button class="btn-search" type="submit" aria-label="@lang('shop::app.components.layouts.header.desktop.bottom.submit')">
                                     <span class="icon-search"></span>
                                 </button>
                             </div>
@@ -19,6 +24,8 @@
                     </form>
                 </div>
             </div>
+
+            {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.search_bar.after') !!}
             <div class="col-lg-4 col-sm-6 col-md-4 col-xs-5 col-ts-12">
                 <div class="logo">
                     <a href="index-2.html">
@@ -61,129 +68,30 @@
             <div class="header-nav">
                 <div class="container-wapper">
                     <ul class="stelina-clone-mobile-menu stelina-nav main-menu " id="menu-main-menu">
-                        <li class="menu-item  menu-item-has-children">
-                            <a href="index-2.html" class="stelina-menu-item-title" title="Home">Home</a>
-                            <span class="toggle-submenu"></span>
-                            <ul class="submenu">
-                                <li class="menu-item">
-                                    <a href="index-2.html">Home 01</a>
-                                </li>
-                                <li class="menu-item">
-                                    <a href="home2.html">Home 02</a>
-                                </li>
-                                <li class="menu-item">
-                                    <a href="home3.html">Home 03</a>
-                                </li>
-                            </ul>
-                        </li>
                         <li class="menu-item menu-item-has-children">
-                            <a href="gridproducts.html" class="stelina-menu-item-title" title="Shop">Shop</a>
+                            <a href="{{ route('shop.home.index') }}" class="stelina-menu-item-title" title="Home"
+                                id="home">
+                                Home
+                            </a>
                             <span class="toggle-submenu"></span>
-                            <ul class="submenu">
-                                <li class="menu-item">
-                                    <a href="gridproducts.html">Grid Fullwidth</a>
-                                </li>
-                                <li class="menu-item">
-                                    <a href="gridproducts_leftsidebar.html">Grid Left sidebar</a>
-                                </li>
-                                <li class="menu-item">
-                                    <a href="gridproducts_bannerslider.html">Grid Bannerslider</a>
-                                </li>
-                                <li class="menu-item">
-                                    <a href="listproducts.html">List</a>
-                                </li>
-                            </ul>
                         </li>
-                        <li class="menu-item  menu-item-has-children item-megamenu">
+                        <li class="menu-item ">
+                            <a href="{{ route('shop.search.index') }}?new=1&sort=created_at-desc&limit=10"
+                                class="stelina-menu-item-title" title="Shop" id="shop">
+                                Shop
+                            </a>
+                            <span class="toggle-submenu"></span>
+                            <ul class="submenu"></ul>
+                        </li>
+                        <!--<li class="menu-item  menu-item-has-children item-megamenu">
                             <a href="#" class="stelina-menu-item-title" title="Pages">Pages</a>
-                            <span class="toggle-submenu"></span>
-                            <div class="submenu mega-menu menu-page">
-                                <div class="row">
-                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 menu-page-item">
-                                        <div class="stelina-custommenu default">
-                                            <h2 class="widgettitle">Shop Pages</h2>
-                                            <ul class="menu">
-                                                <li class="menu-item">
-                                                    <a href="shoppingcart.html">Shopping Cart</a>
-                                                </li>
-                                                <li class="menu-item">
-                                                    <a href="checkout.html">Checkout</a>
-                                                </li>
-                                                <li class="menu-item">
-                                                    <a href="contact.html">Contact us</a>
-                                                </li>
-                                                <li class="menu-item">
-                                                    <a href="404page.html">404</a>
-                                                </li>
-                                                <li class="menu-item">
-                                                    <a href="login.html">Login/Register</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 menu-page-item">
-                                        <div class="stelina-custommenu default">
-                                            <h2 class="widgettitle">Product</h2>
-                                            <ul class="menu">
-                                                <li class="menu-item">
-                                                    <a href="productdetails-fullwidth.html">Product Fullwidth</a>
-                                                </li>
-                                                <li class="menu-item">
-                                                    <a href="productdetails-leftsidebar.html">Product left
-                                                        sidebar</a>
-                                                </li>
-                                                <li class="menu-item">
-                                                    <a href="productdetails-rightsidebar.html">Product right
-                                                        sidebar</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 menu-page-item">
-                                    </div>
-                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 menu-page-item">
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="menu-item  menu-item-has-children">
+                        </li>-->
+                        <li class="menu-item">
                             <a href="inblog_right-siderbar.html" class="stelina-menu-item-title"
                                 title="Blogs">Blogs</a>
-                            <span class="toggle-submenu"></span>
-                            <ul class="submenu">
-                                <li class="menu-item menu-item-has-children">
-                                    <a href="#" class="stelina-menu-item-title" title="Blog Style">Blog
-                                        Style</a>
-                                    <span class="toggle-submenu"></span>
-                                    <ul class="submenu">
-                                        <li class="menu-item">
-                                            <a href="bloggrid.html">Grid</a>
-                                        </li>
-                                        <li class="menu-item">
-                                            <a href="bloglist.html">List</a>
-                                        </li>
-                                        <li class="menu-item">
-                                            <a href="bloglist-leftsidebar.html">List Sidebar</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="menu-item menu-item-has-children">
-                                    <a href="#" class="stelina-menu-item-title" title="Post Layout">Post
-                                        Layout</a>
-                                    <span class="toggle-submenu"></span>
-                                    <ul class="submenu">
-                                        <li class="menu-item">
-                                            <a href="inblog_left-siderbar.html">Left Sidebar</a>
-                                        </li>
-                                        <li class="menu-item">
-                                            <a href="inblog_right-siderbar.html">Right Sidebar</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
                         </li>
                         <li class="menu-item">
-                            <a href="about.html" class="stelina-menu-item-title" title="About">About</a>
+                            <a href="about-us" class="stelina-menu-item-title" title="About">About</a>
                         </li>
                     </ul>
                 </div>
