@@ -95,12 +95,13 @@ class HomeController extends Controller
                 ->orderBy('products.created_at', 'desc');
         })->paginate(8);
 
+        $hostname = request()->getSchemeAndHttpHost();
         // Attach images manually
-        $newArrivals->getCollection()->transform(function ($product) {
+        $newArrivals->getCollection()->transform(function ($product) use ($hostname) {
             $image = ProductImage::where('product_id', $product->id)->first();
             $product->image_url = $image
-                ? asset('storage/' . $image->path)
-                : asset('images/placeholder.png');
+                ? $hostname . '/storage/' . $image->path
+                : $hostname . '/images/placeholder.png';
             return $product;
         });
 
@@ -116,11 +117,11 @@ class HomeController extends Controller
         })->paginate(8);
 
         // Attach images manually
-        $featuredProducts->getCollection()->transform(function ($product) {
+        $newArrivals->getCollection()->transform(function ($product) use ($hostname) {
             $image = ProductImage::where('product_id', $product->id)->first();
             $product->image_url = $image
-                ? asset('storage/' . $image->path)
-                : asset('images/placeholder.png');
+                ? $hostname . '/storage/' . $image->path
+                : $hostname . '/images/placeholder.png';
             return $product;
         });
 
