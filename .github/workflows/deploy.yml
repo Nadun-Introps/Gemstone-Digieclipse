@@ -1,4 +1,4 @@
-name: Deploy Gemstone (Bagisto) to Virtualmin
+name: Deploy Gemstone (Bagisto) to Virtualmin - V2
 
 on:
   push:
