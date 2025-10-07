@@ -54,26 +54,43 @@
                         </div>
 
                         <!-- User Links -->
-                        <ul class="header-user-links">
+                        <ul class="header-user-links flex items-center gap-4">
                             @if(auth()->guard('customer')->check())
-                                <li>
-                                    <a href="{{ route('shop.customer.profile.index') }}">
+                                <li class="flex items-center gap-2">
+                                    <a href="{{ route('shop.customers.account.profile.index') }}" class="text-gray-800 hover:text-blue-600 font-medium">
                                         {{ auth()->guard('customer')->user()->first_name }}
                                     </a>
-                                </li>
-                                <li>
-                                    <a href="{{ route('shop.customer.session.destroy') }}">
+
+                                    <span class="text-gray-400">|</span>
+
+                                    <!-- Logout form -->
+                                    <form
+                                        id="customerLogout"
+                                        action="{{ route('shop.customer.session.destroy') }}"
+                                        method="POST"
+                                        class="hidden"
+                                    >
+                                        @csrf
+                                        @method('DELETE')
+                                    </form>
+
+                                    <a
+                                        href="{{ route('shop.customer.session.destroy') }}"
+                                        class="text-red-500 hover:text-red-700 font-medium cursor-pointer"
+                                        onclick="event.preventDefault(); document.getElementById('customerLogout').submit();"
+                                    >
                                         Logout
                                     </a>
                                 </li>
                             @else
                                 <li>
-                                    <a href="{{ route('shop.customer.session.index') }}">
+                                    <a href="{{ route('shop.customer.session.index') }}" class="text-gray-800 hover:text-blue-600 font-medium">
                                         Login or Register
                                     </a>
                                 </li>
                             @endif
                         </ul>
+
                     </div>
                 </div>
             </div>
