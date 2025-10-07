@@ -7715,10 +7715,17 @@ ul.list-products {
 }
 
 .top-bar .header-user-links {
-	display: inline-block;
-	margin: 0;
+	display: flex;
+	align-items: center;
+	gap: 10px;
 	list-style: none;
-	padding-left: 15px;
+	margin: 0;
+	padding: 0;
+}
+
+top-bar .header-user-links li a {
+	text-decoration: none;
+	font-weight: 500;
 }
 
 .top-bar .social-header {
