@@ -13,7 +13,8 @@
                              <div class="start-from">
                                  start from <span>Dec 27</span> to <span>dec 29</span>
                              </div>
-                             <a href="#" class="button btn-shop-now">Shop now</a>
+                             <a href="{{ route('shop.search.index') }}?new=1&sort=created_at-desc&limit=10"
+                                 class="button btn-shop-now">Shop now</a>
                          </div>
                      </div>
                  </div>

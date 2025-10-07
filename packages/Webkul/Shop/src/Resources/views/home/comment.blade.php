@@ -81,7 +81,8 @@
                                 <div class="description">
                                     Wheel Collections <br />New Arrivals
                                 </div>
-                                <a href="#" class="button btn-view-the-look">Shop now</a>
+                                <a href="{{ route('shop.search.index') }}?new=1&sort=created_at-desc&limit=10"
+                                    class="button btn-view-the-look">Shop now</a>
                             </div>
                         </div>
                     </div>
@@ -96,7 +97,8 @@
                                 <div class="description">
                                     Stelina style, day by day <br />functionality!
                                 </div>
-                                <a href="#" class="button btn-view-the-look">Shop now</a>
+                                <a href="{{ route('shop.search.index') }}?new=1&sort=created_at-desc&limit=10"
+                                    class="button btn-view-the-look">Shop now</a>
                             </div>
                         </div>
                     </div>

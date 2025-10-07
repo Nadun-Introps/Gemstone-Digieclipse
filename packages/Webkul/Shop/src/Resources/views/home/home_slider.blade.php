@@ -19,7 +19,9 @@
                                 $25.00
                             </span>
                         </div>
-                        <a href="#" class="button btn-shop-the-look bgroud-style">Shop now</a>
+                        <a href="{{ route('shop.search.index') }}?new=1&sort=created_at-desc&limit=10"
+                            class="button btn-shop-the-look bgroud-style">Shop
+                            now</a>
                     </div>
                 </div>
             </div>
@@ -41,7 +43,9 @@
                                 STELINA
                             </span>
                         </div>
-                        <a href="#" class="button btn-view-promotion bgroud-style">Shop now</a>
+                        <a
+                            href="{{ route('shop.search.index') }}?new=1&sort=created_at-desc&limit=10"class="button btn-view-promotion bgroud-style">Shop
+                            now</a>
                     </div>
                 </div>
             </div>
@@ -63,7 +67,9 @@
                                 $89.00
                             </span>
                         </div>
-                        <a href="#" class="button btn-lets-create bgroud-style">Shop now</a>
+                        <a href="{{ route('shop.search.index') }}?new=1&sort=created_at-desc&limit=10"
+                            class="button btn-lets-create bgroud-style">Shop
+                            now</a>
                     </div>
                 </div>
             </div>
