@@ -28,7 +28,7 @@
             {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.search_bar.after') !!}
             <div class="col-lg-4 col-sm-6 col-md-4 col-xs-5 col-ts-12">
                 <div class="logo">
-                    <a href="index-2.html">
+                    <a href="{{ route('shop.home.index') }}">
                         <img src="/test_assets/images/gem_logo.png" alt="logo">
                     </a>
                 </div>
