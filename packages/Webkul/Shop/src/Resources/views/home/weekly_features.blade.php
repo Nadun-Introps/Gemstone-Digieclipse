@@ -10,7 +10,7 @@
                 data-slick='{"autoplay":false, "autoplaySpeed":1000, "arrows":true, "dots":false, "infinite":true, "speed":800,"infinite":false}'
                 data-responsive='[{"breakpoint":"2000","settings":{"slidesToShow":3}},{"breakpoint":"1200","settings":{"slidesToShow":2}},{"breakpoint":"992","settings":{"slidesToShow":1}},{"breakpoint":"768","settings":{"slidesToShow":2}},{"breakpoint":"481","settings":{"slidesToShow":1}}]'>
 
-                @foreach ($featuredProducts as $product)
+                @foreach ($newArrivals as $product)
                     <div class="product-item style-1 product-type-variable">
                         <div class="product-inner equal-element">
                             <div class="product-top">
