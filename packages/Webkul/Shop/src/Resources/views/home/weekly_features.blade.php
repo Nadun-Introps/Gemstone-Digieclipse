@@ -33,7 +33,7 @@
                                             </div>
                                         </div> --}}
                                         <a href="{{ route('shop.product_or_category.index', $product->url_key) }}"
-                                            class="button quick-wiew-button">Quick View</a>
+                                            class="button quick-view-button">Quick View</a>
                                         <div class="loop-form-add-to-cart">
                                             <form method="POST" onsubmit="addToCart2(event, {{ $product->id }})">
                                                 @csrf
