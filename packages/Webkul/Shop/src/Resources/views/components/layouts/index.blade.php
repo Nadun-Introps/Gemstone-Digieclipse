@@ -163,7 +163,7 @@
     <script src="{{ asset('test_assets/js/frontend-plugin.js') }}"></script>
     <!-- Swiper JS -->
     <!---<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>-->
-
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <!--<script>
         document.addEventListener('DOMContentLoaded', () => {
             new Swiper('.swiper', {
