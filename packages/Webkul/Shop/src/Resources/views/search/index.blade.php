@@ -1,20 +1,14 @@
 @php
     $title = request()->has('query')
-            ? trans('shop::app.search.title', ['query' => request()->query('query')])
-            : trans('shop::app.search.results');
+        ? trans('shop::app.search.title', ['query' => request()->query('query')])
+        : trans('shop::app.search.results');
 @endphp
 
 <!-- SEO Meta Content -->
 @push('meta')
-    <meta
-        name="description"
-        content="{{ $title }}"
-    />
+    <meta name="description" content="{{ $title }}" />
 
-    <meta
-        name="keywords"
-        content="{{ $title }}"
-    />
+    <meta name="keywords" content="{{ $title }}" />
 @endPush
 
 <x-shop::layouts :has-feature="false">
@@ -29,10 +23,7 @@
         @endif
 
         <div class="mt-8 flex items-center justify-between max-md:mt-5">
-            <h1
-                class="text-2xl font-medium max-sm:text-base"
-                v-text="'{{ preg_replace('/[,\\"\\\']+/', '', $title) }}'"
-            >
+            <h1 class="text-2xl font-medium max-sm:text-base" v-text="'{{ preg_replace('/[,\\"\\\']+/', '', $title) }}'">
             </h1>
         </div>
     </div>
@@ -102,7 +93,7 @@
                         <div v-else>
                             <!-- Product Card Shimmer Effect -->
                             <template v-if="isLoading">
-                                <div class="mt-8 grid grid-cols-3 gap-8 max-1060:grid-cols-2 max-md:gap-x-4 max-sm:mt-5 max-sm:justify-items-center max-sm:gap-y-5">
+                                <div class="mt-8 grid grid-cols-3 gap-8 max-1060:grid-cols-2 max-md:gap-x-4 max-sm:mt-5 max-sm:justify-items-center max-sm:gap-y-5 product-grid-2">
                                     <x-shop::shimmer.products.cards.grid count="12" />
                                 </div>
                             </template>
@@ -110,13 +101,13 @@
                             <!-- Product Card Listing -->
                             <template v-else>
                                 <template v-if="products.length">
-                                    <div class="mt-8 grid grid-cols-3 gap-8 max-1060:grid-cols-2 max-md:mt-5 max-md:justify-items-center max-md:gap-x-4 max-md:gap-y-5">
+                                    <ul class="row list-products auto-clear equal-container product-grid">
                                         <x-shop::products.card
                                             ::mode="'grid'"
                                             v-for="product in products"
                                             :navigation-link="route('shop.search.index')"
                                         />
-                                    </div>
+                                    </ul>
                                 </template>
 
                                 <!-- Empty Products Container -->
@@ -223,8 +214,8 @@
                         };
 
                         this.$axios.get(("{{ route('shop.api.products.index') }}"), {
-                            params: this.queryParams
-                        })
+                                params: this.queryParams
+                            })
                             .then(response => {
                                 this.isLoading = false;
 
@@ -249,8 +240,8 @@
                     },
 
                     removeJsonEmptyValues(params) {
-                        Object.keys(params).forEach(function (key) {
-                            if ((! params[key] && params[key] !== undefined)) {
+                        Object.keys(params).forEach(function(key) {
+                            if ((!params[key] && params[key] !== undefined)) {
                                 delete params[key];
                             }
 

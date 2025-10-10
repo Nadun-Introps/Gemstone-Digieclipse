@@ -4,7 +4,7 @@
 
 {!! view_render_event('bagisto.shop.categories.view.toolbar.after') !!}
 
-@inject('toolbar' , 'Webkul\Product\Helpers\Toolbar')
+@inject('toolbar', 'Webkul\Product\Helpers\Toolbar')
 
 @pushOnce('scripts')
     <script
@@ -13,7 +13,7 @@
     >
         <div>
             <!-- Desktop Toolbar -->
-            <div class="flex justify-between max-md:hidden">
+            <div class="flex justify-between max-md:hidden" style="display: none;">
                 {!! view_render_event('bagisto.shop.categories.toolbar.filter.before') !!}
 
                 <!-- Product Sorting Filters -->
@@ -27,7 +27,7 @@
                             @{{ sortLabel ?? "@lang('shop::app.products.sort-by.title')" }}
 
                             <span
-                                class="icon-arrow-down text-2xl"
+                                class="icon-arrow-down text-2xl arrow2"
                                 role="presentation"
                             ></span>
                         </button>
@@ -59,7 +59,7 @@
                                 @{{ filters.applied.limit ?? "@lang('shop::app.categories.toolbar.show')" }}
 
                                 <span
-                                    class="icon-arrow-down text-2xl"
+                                    class="icon-arrow-down text-2xl arrow3"
                                     role="presentation"
                                 ></span>
                             </button>

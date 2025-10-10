@@ -1,9 +1,4 @@
-<v-datagrid-filter
-    :is-loading="isLoading"
-    :available="available"
-    :applied="applied"
-    @applyFilters="filter"
->
+<v-datagrid-filter :is-loading="isLoading" :available="available" :applied="applied" @applyFilters="filter">
     {{ $slot }}
 </v-datagrid-filter>
 
@@ -465,7 +460,7 @@
                                                         >
                                                         </span>
 
-                                                        <span class="icon-arrow-down text-2xl"></span>
+                                                        <span class="icon-arrow-down text-2xl arrow1"></span>
                                                     </button>
                                                 </x-slot>
 
@@ -681,7 +676,7 @@
                         requestedValue === undefined ||
                         requestedValue === '' ||
                         (appliedColumn?.allow_multiple_values && appliedColumn?.value.includes(requestedValue)) ||
-                        (! appliedColumn?.allow_multiple_values && appliedColumn?.value === requestedValue)
+                        (!appliedColumn?.allow_multiple_values && appliedColumn?.value === requestedValue)
                     ) {
                         return;
                     }
@@ -689,7 +684,9 @@
                     switch (column.type) {
                         case 'date':
                         case 'datetime':
-                            let { range } = additional;
+                            let {
+                                range
+                            } = additional;
 
                             if (appliedColumn) {
                                 if (range) {
@@ -770,17 +767,19 @@
                  * @param {object} appliedColumn
                  * @returns {string}
                  */
-                getFormattedDates(appliedColumn)
-                {
-                    if (! appliedColumn) {
+                getFormattedDates(appliedColumn) {
+                    if (!appliedColumn) {
                         return '';
                     }
 
                     if (typeof appliedColumn.value === 'string') {
-                        const availableColumn = this.available.columns.find(column => column.index === appliedColumn.index);
+                        const availableColumn = this.available.columns.find(column => column.index === appliedColumn
+                            .index);
 
-                        if (availableColumn.filterable_type === 'date_range' || availableColumn.filterable_type === 'datetime_range') {
-                            const option = availableColumn.filterable_options.find(option => option.name === appliedColumn.value);
+                        if (availableColumn.filterable_type === 'date_range' || availableColumn.filterable_type ===
+                            'datetime_range') {
+                            const option = availableColumn.filterable_options.find(option => option.name ===
+                                appliedColumn.value);
 
                             return option.label;
                         }
@@ -788,7 +787,7 @@
                         return appliedColumn.value;
                     }
 
-                    if (! appliedColumn.value.length) {
+                    if (!appliedColumn.value.length) {
                         return '';
                     }
 
@@ -828,7 +827,7 @@
                 hasAnyAppliedColumnValues(columnIndex) {
                     let appliedColumn = this.findAppliedColumn(columnIndex);
 
-                    if (! appliedColumn) {
+                    if (!appliedColumn) {
                         return false;
                     }
 
@@ -865,7 +864,8 @@
                         appliedColumn.value = [];
                     } else {
                         if (appliedColumn.allow_multiple_values) {
-                            appliedColumn.value = appliedColumn?.value.filter(value => value !== appliedColumnValue);
+                            appliedColumn.value = appliedColumn?.value.filter(value => value !==
+                            appliedColumnValue);
                         } else {
                             appliedColumn.value = '';
                         }
@@ -874,7 +874,7 @@
                     /**
                      * Clean up is done here. If there are no applied values present, there is no point in including the applied column as well.
                      */
-                    if (! appliedColumn.value.length) {
+                    if (!appliedColumn.value.length) {
                         this.filters.columns = this.filters.columns.filter(column => column.index !== columnIndex);
                     }
 

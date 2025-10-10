@@ -30,7 +30,7 @@
                     </p>
                 </div>
 
-                <ul class="grid gap-2.5 text-base max-sm:text-sm">
+                <ul class="grid gap-2.5 text-base max-sm:text-sm tex3">
                     <li v-for="option in options">
                         <span class="mb-1.5 inline-block max-sm:mb-0">
                             @{{ option.label }}
@@ -308,10 +308,11 @@
 
                         for (var key in this.options) {
                             for (var key1 in this.options[key].products) {
-                                if (! this.options[key].products[key1].is_default)
+                                if (!this.options[key].products[key1].is_default)
                                     continue;
 
-                                total += this.options[key].products[key1].qty * this.options[key].products[key1].price.final.price;
+                                total += this.options[key].products[key1].qty * this.options[key].products[key1]
+                                    .price.final.price;
                             }
                         }
 
@@ -330,7 +331,8 @@
                         var selectedProductIds = Array.isArray(value) ? value : [value];
 
                         for (var key in option.products) {
-                            option.products[key].is_default = selectedProductIds.indexOf(option.products[key].id) > -1 ? 1 : 0;
+                            option.products[key].is_default = selectedProductIds.indexOf(option.products[key].id) >
+                                -1 ? 1 : 0;
                         }
                     }
                 }
@@ -343,7 +345,8 @@
 
                 data: function() {
                     return {
-                        selectedProduct: (this.option.type == 'checkbox' || this.option.type == 'multiselect')  ? [] : null,
+                        selectedProduct: (this.option.type == 'checkbox' || this.option.type == 'multiselect') ?
+                        [] : null,
                     };
                 },
 
@@ -353,7 +356,7 @@
 
                         this.option.products.forEach((product, key) => {
                             if (this.selectedProduct == product.id) {
-                                qty =  this.option.products[key].qty;
+                                qty = this.option.products[key].qty;
                             }
                         });
 
@@ -362,14 +365,14 @@
                 },
 
                 watch: {
-                    selectedProduct: function (value) {
+                    selectedProduct: function(value) {
                         this.$emit('onProductSelected', value);
                     }
                 },
 
                 created: function() {
                     for (var key in this.option.products) {
-                        if (! this.option.products[key].is_default)
+                        if (!this.option.products[key].is_default)
                             continue;
 
                         if (this.option.type == 'checkbox' || this.option.type == 'multiselect') {
@@ -382,7 +385,7 @@
 
                 methods: {
                     qtyUpdated: function(qty) {
-                        if (! this.option.products.find(data => data.id == this.selectedProduct)) {
+                        if (!this.option.products.find(data => data.id == this.selectedProduct)) {
                             return;
                         }
 
