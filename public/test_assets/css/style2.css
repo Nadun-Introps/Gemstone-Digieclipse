@@ -4375,7 +4375,7 @@ blockquote .author .desc {
 /*        SIDEBAR       */
 /* -------------------- */
 .widget {
-	margin-bottom: 45px;
+	margin-bottom: 10px;
 }
 
 .widget:last-child {
@@ -12680,7 +12680,7 @@ iframe {
 	}
 
 	.widget {
-		margin-bottom: 30px;
+		margin-bottom: 0px;
 	}
 
 	.newsletter-widget {

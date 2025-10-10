@@ -1,8 +1,4 @@
-<v-products-carousel
-    src="{{ $src }}"
-    title="{{ $title }}"
-    navigation-link="{{ $navigationLink ?? '' }}"
->
+<v-products-carousel src="{{ $src }}" title="{{ $title }}" navigation-link="{{ $navigationLink ?? '' }}">
     <x-shop::shimmer.products.carousel :navigation-link="$navigationLink ?? false" />
 </v-products-carousel>
 
@@ -26,7 +22,7 @@
                         class="hidden max-lg:flex"
                         v-if="navigationLink"
                     >
-                        <p class="items-center text-xl max-md:text-base max-sm:text-sm">
+                        <p class="items-center text-xl max-md:text-base max-sm:text-sm tex1">
                             @lang('shop::app.components.products.carousel.view-all')
 
                             <span class="icon-arrow-right text-2xl max-md:text-lg max-sm:text-sm"></span>
