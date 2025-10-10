@@ -1,105 +1,50 @@
-<!-- For large screens greater than 1180px. -->
-<div class="sticky top-20 flex h-max gap-8 max-1180:hidden">
-    <!-- Product Image and Videos Slider -->
-    <div class="flex-24 h-509 flex min-w-[100px] max-w-[100px] flex-wrap place-content-start justify-center gap-2.5 overflow-y-auto overflow-x-hidden">
-        <!-- Arrow Up -->
-        <span
-            class="icon-arrow-up cursor-pointer text-2xl"
-            role="button"
-            aria-label="@lang('shop::app.components.products.carousel.previous')"
-            tabindex="0"
-            @click="swipeDown"
-            v-if="lengthOfMedia"
-        >
-        </span>
-
-        <!-- Swiper Container -->
-        <div
-            ref="swiperContainer"
-            class="flex flex-col max-h-[540px] gap-2.5 [&>*]:flex-[0] overflow-auto scroll-smooth scrollbar-hide"
-        >
-            <template v-for="(media, index) in [...media.images, ...media.videos]">
-                <video
-                    v-if="media.type == 'videos'"
-                    :class="`transparent max-h-[100px] min-w-[100px] cursor-pointer rounded-xl border ${isActiveMedia(index) ? 'pointer-events-none border-navyBlue' : 'border-white'}`"
-                    @click="change(media, index)"
-                    alt="{{ $product->name }}"
-                    tabindex="0"
-                >
-                    <source
-                        :src="media.video_url"
-                        type="video/mp4"
-                    />
-                </video>
-
-                <img
-                    v-else
-                    :class="`transparent max-h-[100px] min-w-[100px] cursor-pointer rounded-xl border ${isActiveMedia(index) ? 'pointer-events-none border border-navyBlue' : 'border-white'}`"
-                    :src="media.small_image_url"
-                    alt="{{ $product->name }}"
-                    width="100"
-                    height="100"
-                    tabindex="0"
-                    @click="change(media, index)"
-                />
-            </template>
+<div class="details-product flex flex-wrap gap-8"> <!-- Left: Image Gallery -->
+    <div class="flex-1 max-w-[560px]"> <v-product-gallery ref="gallery"> <x-shop::shimmer.products.gallery />
+        </v-product-gallery> </div> <!-- Right: Product Info -->
+    <div class="flex-1 min-w-[300px]">
+        <h1 class="text-2xl font-semibold">{{ $product->name }}</h1>
+        <div class="flex items-center gap-2 my-2">
+            <div class="star-rating"> <span class="star-5"></span> </div>
+            <div class="text-sm text-gray-500">({{ $product->reviews_count }})</div>
         </div>
-
-        <!-- Arrow Down -->
-        <span
-            class="icon-arrow-down cursor-pointer text-2xl"
-            v-if= "lengthOfMedia"
-            role="button"
-            aria-label="@lang('shop::app.components.products.carousel.previous')"
-            tabindex="0"
-            @click="swipeTop"
-        >
-        </span>
-    </div>
-
-    <!-- Product Base Image and Video with Shimmer-->
-    <div
-        class="max-h-[610px] max-w-[560px]"
-        v-show="isMediaLoading"
-    >
-        <div class="shimmer min-h-[607px] min-w-[560px] rounded-xl bg-zinc-200"></div>
-    </div>
-
-    <div
-        class="max-h-[610px] max-w-[560px]"
-        v-show="! isMediaLoading"
-    >
-        <img
-            class="min-w-[450px] cursor-pointer rounded-xl"
-            :src="baseFile.path"
-            v-if="baseFile.type == 'image'"
-            alt="{{ $product->name }}"
-            width="560"
-            height="610"
-            tabindex="0"
-            @click="isImageZooming = !isImageZooming"
-            @load="onMediaLoad()"
-            fetchpriority="high"
-        />
-
-        <div
-            class="min-w-[450px] cursor-pointer rounded-xl"
-            tabindex="0"
-            v-if="baseFile.type == 'video'"
-        >
-            <video
-                controls
-                width="475"
-                alt="{{ $product->name }}"
-                @click="isImageZooming = !isImageZooming"
-                @loadeddata="onMediaLoad()"
-                :key="baseFile.path"
-            >
-                <source
-                    :src="baseFile.path"
-                    type="video/mp4"
-                />
-            </video>
+        <div class="my-2"> <span class="font-medium">Availability:</span> <span
+                class="text-green-600">{{ $product->haveSufficientQuantity(1) ? 'In Stock' : 'Out of Stock' }}</span>
+        </div>
+        <div class="text-xl font-bold my-2">${{ $product->price }}</div>
+        <ul class="list-disc pl-5 text-gray-600 my-2">
+            @foreach ($product->description as $desc)
+                <li>{{ $desc }}</li>
+                @endforeach
+        </ul> <!-- Variations -->
+        <div class="my-4">
+            <div class="mb-2"> <span class="font-medium">Color:</span>
+                <div class="flex gap-2 mt-1">
+                    @foreach ($product->colors as $color)
+                        <button class="w-6 h-6 rounded-full border"
+                            :class="{ 'ring ring-navyBlue': selectedColor == '{{ $color->id }}' }"
+                            @click="selectedColor='{{ $color->id }}'"
+                            style="background-color: {{ $color->hex }}"></button>
+                        @endforeach
+                </div>
+            </div>
+            <div> <span class="font-medium">Size:</span>
+                <div class="flex gap-2 mt-1">
+                    @foreach ($product->sizes as $size)
+                        <button class="px-2 py-1 border rounded"
+                            :class="{ 'bg-navyBlue text-white': selectedSize == '{{ $size->id }}' }"
+                            @click="selectedSize='{{ $size->id }}'">{{ strtoupper($size->name) }}</button>
+                    @endforeach
+                </div>
+            </div>
+        </div> <!-- Wishlist + Add to Cart -->
+        <div class="flex items-center gap-4 mt-4"> <x-shop::products.add-to-wishlist-button :product="$product" />
+            <div class="flex items-center gap-2"> <input type="number" min="1" value="1"
+                    class="w-16 border rounded px-2 py-1"> <x-shop::products.add-to-cart-button :product="$product" />
+            </div>
         </div>
     </div>
-</div>
+</div> @pushOnce('scripts')
+    <script>
+        // Vue Gallery logic (based on your old code) app.component('v-product-gallery', { template: '#v-product-gallery-template', data() { return { isImageZooming: false, isMediaLoading: true, media: { images: @json(product_image()->getGalleryImages($product)), videos: @json(product_video()->getVideos($product)), }, baseFile: { type: '', path: '' }, activeIndex: 0, containerOffset: 110, }; }, mounted() { if (this.media.images.length) { this.baseFile.type = 'image'; this.baseFile.path = this.media.images[0].large_image_url; } else if (this.media.videos.length) { this.baseFile.type = 'video'; this.baseFile.path = this.media.videos[0].video_url; } }, computed: { attachments() { return [...this.media.images, ...this.media.videos]; }, lengthOfMedia() { return [...this.media.images, ...this.media.videos].length > 5; } }, methods: { change(media, index) { this.isMediaLoading = true; this.baseFile.type = media.type === 'videos' ? 'video' : 'image'; this.baseFile.path = media.type === 'videos' ? media.video_url : media.large_image_url; this.activeIndex = index; this.isMediaLoading = false; }, swipeTop() { this.$refs.swiperContainer.scrollTop -= this.containerOffset; }, swipeDown() { this.$refs.swiperContainer.scrollTop += this.containerOffset; }, isActiveMedia(index) { return index === this.activeIndex; } } }); 
+    </script>
+@endpushOnce
