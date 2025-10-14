@@ -64,7 +64,7 @@
                                             <a href="#">Add to Wishlist</a>
                                         </div>
                                     </div>
-                                    <a href="#" class="button quick-wiew-button">Quick View</a>
+                                    <a href="#" class="button quick-view-button">Quick View</a>
                                     <div class="loop-form-add-to-cart">
                                         <button class="single_add_to_cart_button button">Add to cart</button>
                                     </div>
