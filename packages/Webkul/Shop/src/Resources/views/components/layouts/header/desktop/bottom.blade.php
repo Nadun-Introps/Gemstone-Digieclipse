@@ -76,7 +76,7 @@
                                 title="Blogs">Blogs</a>
                         </li>
                         <li class="menu-item">
-                            <a href="page/about-us" class="stelina-menu-item-title" title="About">About</a>
+                            <a href="/page/about-us" class="stelina-menu-item-title" title="About">About</a>
                         </li>
                     </ul>
                 </div>
