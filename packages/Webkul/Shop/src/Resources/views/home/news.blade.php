@@ -7,11 +7,11 @@
             <div class="owl-slick equal-container nav-center"
                 data-slick='{"autoplay":false, "autoplaySpeed":1000, "arrows":false, "dots":true, "infinite":true, "speed":800, "rows":1}'
                 data-responsive='[{"breakpoint":"2000","settings":{"slidesToShow":2}},{"breakpoint":"1200","settings":{"slidesToShow":1}},{"breakpoint":"992","settings":{"slidesToShow":1}},{"breakpoint":"768","settings":{"slidesToShow":1}},{"breakpoint":"481","settings":{"slidesToShow":1}}]'>
-                <div class="stelina-blog-item equal-element style2">
+                <div class="stelina-blog-item equal-element style2" style="height: 300px;">
                     <div class="stelina-blog-inner">
                         <div class="post-thumb">
                             <a href="#">
-                                <img src="test_assets/images/slider-blog-thumb-5.jpg" alt="img">
+                                <img src="test_assets/images/slider-blog-thumb-5.png" alt="img" style="width: 100%;height: 300px;">
                             </a>
                         </div>
                         <div class="blog-info">
@@ -65,11 +65,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="stelina-blog-item equal-element style2">
+                <div class="stelina-blog-item equal-element style2" style="height: 300px;">
                     <div class="stelina-blog-inner">
                         <div class="post-thumb">
                             <a href="#">
-                                <img src="test_assets/images/slider-blog-thumb-6.jpg" alt="img">
+                                <img src="test_assets/images/slider-blog-thumb-6.png" alt="img" style="width: 100%;height: 300px;">
                             </a>
                         </div>
                         <div class="blog-info">
@@ -123,11 +123,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="stelina-blog-item equal-element style2">
+                <div class="stelina-blog-item equal-element style2" style="height: 300px;">
                     <div class="stelina-blog-inner">
                         <div class="post-thumb">
                             <a href="#">
-                                <img src="test_assets/images/slider-blog-thumb-7.jpg" alt="img">
+                                <img src="test_assets/images/slider-blog-thumb-7.png" alt="img" style="width: 100%;height: 300px;">
                             </a>
                         </div>
                         <div class="blog-info">

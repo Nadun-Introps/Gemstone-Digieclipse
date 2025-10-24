@@ -5,10 +5,16 @@
             gap: 5px;
             font-size: 12px;
             margin-top: 8px;
-            margin-left: 20px;
+            /* margin-left: 20px; */
             margin-bottom: 10px;
+            justify-content: center;
         }
-
+        .product-inner.equal-element {
+            height: 410px !important;
+        }
+        .product-item.style-5.auction-card {
+            padding: 25px !important;
+        }
         .countdown div {
             text-align: center;
             padding: 0px 0px 0px;
@@ -27,8 +33,37 @@
         .countdown span {
             display: block;
             font-weight: bold;
-            font-size: 13px;
+            font-size: 16px;
             color: #020000;
+        }
+
+        .quick-wiew-button {
+            color: #fff;
+            background-color: #ab8e66;
+            transition: all 0.3s ease;
+        }
+
+        /* .quick-wiew-button:hover {
+            color: #fff;
+        } */
+
+        /* .product-item .thumb-group .loop-form-add-to-cart:hover .single_add_to_cart_button::before {
+            color: #fff;
+        } */
+
+        @media (max-width: 480px) {
+            .countdown {
+                display: flex;
+                gap: 5px;
+                font-size: 12px;
+                margin-top: 8px;
+                margin-left: 6px;
+                margin-bottom: 10px;
+            }
+
+             .slick-slide {
+                padding: 40px;
+            }
         }
     </style>
 @endpush
@@ -36,10 +71,10 @@
 <div class="stelina-product produc-featured rows-space-65">
     <div class="container">
         <h3 class="custommenu-title-blog">Auctions</h3>
-
+        
         <div class="owl-products owl-slick equal-container nav-center"
             data-slick='{"autoplay":false, "autoplaySpeed":1000, "arrows":false, "dots":true, "infinite":false, "speed":800, "rows":1}'
-            data-responsive='[{"breakpoint":"2000","settings":{"slidesToShow":4}},{"breakpoint":"1200","settings":{"slidesToShow":3}},{"breakpoint":"992","settings":{"slidesToShow":2}},{"breakpoint":"480","settings":{"slidesToShow":1}}]'>
+            data-responsive='[{"breakpoint":"2000","settings":{"slidesToShow":4}},{"breakpoint":"1200","settings":{"slidesToShow":3}},{"breakpoint":"992","settings":{"slidesToShow":2}},{"breakpoint":"480","settings":{"slidesToShow":1}}, {"breakpoint":"380","settings":{"slidesToShow":1}}]'>
 
             @forelse($auctions as $a)
                 <div class="product-item style-5 auction-card" data-end="{{ $a['end'] }}"
@@ -64,7 +99,7 @@
                                             <a href="#">Add to Wishlist</a>
                                         </div>
                                     </div>
-                                    <a href="#" class="button quick-wiew-button">Quick View</a>
+                                    <a href="#" class="button quick-view-button">Quick View</a>
                                     <div class="loop-form-add-to-cart">
                                         <button class="single_add_to_cart_button button">Add to cart</button>
                                     </div>
@@ -89,8 +124,15 @@
                                         <div class="star-rating"><span class="star-5"></span></div>
                                         <div class="count-star">(5)</div>
                                     </div>
-                                    <div class="price">
-                                        <ins>{{ $a['currency'] }} {{ number_format($a['price'], 2) }}</ins>
+                                    <div class="price" style="font-size: 13px;">
+                                        {{-- <ins>{{ $a['currency'] }} {{ number_format($a['price'], 2) }}</ins> --}}
+                                        <ins>
+                                            @if ($a['currency'] === 'USD')
+                                            ${{ number_format($a['price'], 2) }}
+                                            @else
+                                                {{ $a['currency'] }} {{ number_format($a['price'], 2) }}
+                                            @endif
+                                        </ins>
                                     </div>
                                 </div>
                             </div>
@@ -101,6 +143,7 @@
                 <p>No auctions available</p>
             @endforelse
         </div>
+
     </div>
 </div>
 

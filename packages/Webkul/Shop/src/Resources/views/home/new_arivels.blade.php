@@ -1,11 +1,19 @@
+@push('styles')
+    <style>
+    .product-inner.equal-element.arrivals-card{
+        height: 395px !important;
+    }
+    </style>
+@endpush
+
 <div class="stelina-product produc-featured rows-space-40">
     <div class="container">
         <h3 class="custommenu-title-blog">New Arrivals</h3>
 
         <ul class="row list-products auto-clear equal-container product-grid">
             @foreach ($newArrivals as $product)
-                <li class="product-item col-lg-3 col-md-4 col-sm-6 col-xs-6 col-ts-12 style-1">
-                    <div class="product-inner equal-element">
+                <li class="product-item col-lg-3 col-md-3 col-sm-4 col-xs-4 col-ts-6 style-1">
+                    <div class="product-inner equal-element arrivals-card">
                         <!-- Top Badge -->
                         <div class="product-top">
                             @if ($product->new)
@@ -49,7 +57,7 @@
                                 </a>
                             </h5>
                             <div class="group-info">
-                                <div class="stars-rating">
+                                <div class="stars-rating" style="margin-bottom:4px;">
                                     <div class="star-rating">
                                         <span class="star-{{ round($product->reviews->avg('rating')) }}"></span>
                                     </div>
