@@ -329,7 +329,7 @@ return [
                 'services-content' => [
                     'description' => [
                         'emi-available-info'   => 'No cost EMI available on all major credit cards',
-                        'free-shipping-info'   => 'Enjoy free shipping on all orders',
+                        'icon-truck flex items-center justify-center w-[60px] h-[60px] bg-white border border-black rounded-full text-4xl text-navyBlue p-2.5 max-md:m-auto max-md:w-16 max-md:h-16 max-sm:w-10 max-sm:h-10 max-sm:text-2xl'   => 'Enjoy free shipping on all orders',
                         'product-replace-info' => 'Easy Product Replacement Available!',
                         'time-support-info'    => 'Dedicated 24/7 support via chat and email',
                     ],

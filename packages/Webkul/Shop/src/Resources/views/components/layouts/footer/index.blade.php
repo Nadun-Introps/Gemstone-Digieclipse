@@ -13,7 +13,7 @@
     ]);
 @endphp
 
-<footer class="footer style7">
+<footer class="footer style7 mt-9">
     <div class="container">
         <div class="container-wapper">
             <div class="row">
