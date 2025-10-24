@@ -1,7 +1,4 @@
-<v-datagrid-mass-action
-    :available="available"
-    :applied="applied"
->
+<v-datagrid-mass-action :available="available" :applied="applied">
     {{ $slot }}
 </v-datagrid-mass-action>
 
@@ -29,7 +26,7 @@
                                 @lang('shop::app.components.datagrid.toolbar.mass-actions.select-action')
                             </span>
 
-                            <span class="icon-arrow-down text-2xl"></span>
+                            <span class="icon-arrow-down text-2xl arrow4"></span>
                         </button>
                     </x-slot>
 
@@ -135,14 +132,20 @@
                  * @returns {void}
                  */
                 validateMassAction() {
-                    if (! this.massActions.indices.length) {
-                        this.$emitter.emit('add-flash', { type: 'warning', message: "@lang('shop::app.components.datagrid.toolbar.mass-actions.no-records-selected')" });
+                    if (!this.massActions.indices.length) {
+                        this.$emitter.emit('add-flash', {
+                            type: 'warning',
+                            message: "@lang('shop::app.components.datagrid.toolbar.mass-actions.no-records-selected')"
+                        });
 
                         return false;
                     }
 
-                    if (! this.massActions.meta.action) {
-                        this.$emitter.emit('add-flash', { type: 'warning', message: "@lang('shop::app.components.datagrid.toolbar.mass-actions.must-select-a-mass-action')" });
+                    if (!this.massActions.meta.action) {
+                        this.$emitter.emit('add-flash', {
+                            type: 'warning',
+                            message: "@lang('shop::app.components.datagrid.toolbar.mass-actions.must-select-a-mass-action')"
+                        });
 
                         return false;
                     }
@@ -151,7 +154,10 @@
                         this.massActions.meta.action?.options?.length &&
                         this.massActions.value === null
                     ) {
-                        this.$emitter.emit('add-flash', { type: 'warning', message: "@lang('shop::app.components.datagrid.toolbar.mass-actions.must-select-a-mass-action-option')" });
+                        this.$emitter.emit('add-flash', {
+                            type: 'warning',
+                            message: "@lang('shop::app.components.datagrid.toolbar.mass-actions.must-select-a-mass-action-option')"
+                        });
 
                         return false;
                     }
@@ -173,11 +179,13 @@
                         this.massActions.value = currentOption.value;
                     }
 
-                    if (! this.validateMassAction()) {
+                    if (!this.validateMassAction()) {
                         return;
                     }
 
-                    const { action } = this.massActions.meta;
+                    const {
+                        action
+                    } = this.massActions.meta;
 
                     const method = action.method.toLowerCase();
 
@@ -192,12 +200,18 @@
                                             value: this.massActions.value,
                                         })
                                         .then((response) => {
-                                            this.$emitter.emit('add-flash', { type: 'success', message: response.data.message });
+                                            this.$emitter.emit('add-flash', {
+                                                type: 'success',
+                                                message: response.data.message
+                                            });
 
                                             this.$parent.get();
                                         })
                                         .catch((error) => {
-                                            this.$emitter.emit('add-flash', { type: 'error', message: error.response.data.message });
+                                            this.$emitter.emit('add-flash', {
+                                                type: 'error',
+                                                message: error.response.data.message
+                                            });
 
                                             this.$parent.get();
                                         });
@@ -209,7 +223,10 @@
                                             indices: this.massActions.indices
                                         })
                                         .then(response => {
-                                            this.$emitter.emit('add-flash', { type: 'success', message: response.data.message });
+                                            this.$emitter.emit('add-flash', {
+                                                type: 'success',
+                                                message: response.data.message
+                                            });
 
                                             /**
                                              * Need to check reason why this.$emit('massActionSuccess') not emitting.
@@ -217,7 +234,10 @@
                                             this.$parent.get();
                                         })
                                         .catch((error) => {
-                                            this.$emitter.emit('add-flash', { type: 'error', message: error.response.data.message });
+                                            this.$emitter.emit('add-flash', {
+                                                type: 'error',
+                                                message: error.response.data.message
+                                            });
 
                                             /**
                                              * Need to check reason why this.$emit('massActionSuccess') not emitting.
@@ -233,7 +253,7 @@
                                     break;
                             }
 
-                            this.massActions.indices  = [];
+                            this.massActions.indices = [];
                         },
                     });
                 },

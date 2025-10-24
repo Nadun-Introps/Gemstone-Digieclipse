@@ -44,26 +44,26 @@
 
                     <!-- Email -->
                     <x-shop::form.control-group>
-                        <x-shop::form.control-group.label class="required">
+                        <x-shop::form.control-group.label class="required" style="line-height: 3rem;">
                             @lang('shop::app.customers.login-form.email')
                         </x-shop::form.control-group.label>
 
                         <x-shop::form.control-group.control type="email" class="px-6 py-4 max-md:py-3 max-sm:py-2"
-                            name="email" rules="required|email" value="" :label="trans('shop::app.customers.login-form.email')"
-                            placeholder="email@example.com" :aria-label="trans('shop::app.customers.login-form.email')" aria-required="true" />
+                            style="border-radius: 4px;" name="email" rules="required|email" value=""
+                            :label="trans('shop::app.customers.login-form.email')" placeholder="email@example.com" :aria-label="trans('shop::app.customers.login-form.email')" aria-required="true" />
 
                         <x-shop::form.control-group.error control-name="email" />
                     </x-shop::form.control-group>
 
                     <!-- Password -->
                     <x-shop::form.control-group>
-                        <x-shop::form.control-group.label class="required">
+                        <x-shop::form.control-group.label class="required" style="line-height: 3rem;">
                             @lang('shop::app.customers.login-form.password')
                         </x-shop::form.control-group.label>
 
                         <x-shop::form.control-group.control type="password" class="px-6 py-4 max-md:py-3 max-sm:py-2"
-                            id="password" name="password" rules="required|min:6" value="" :label="trans('shop::app.customers.login-form.password')"
-                            :placeholder="trans('shop::app.customers.login-form.password')" :aria-label="trans('shop::app.customers.login-form.password')" aria-required="true" />
+                            style="border-radius: 4px;" id="password" name="password" rules="required|min:6"
+                            value="" :label="trans('shop::app.customers.login-form.password')" :placeholder="trans('shop::app.customers.login-form.password')" :aria-label="trans('shop::app.customers.login-form.password')" aria-required="true" />
 
                         <x-shop::form.control-group.error control-name="password" />
                     </x-shop::form.control-group>
@@ -106,7 +106,7 @@
                         class="mt-8 flex flex-wrap items-center gap-9 max-sm:justify-center max-sm:gap-5 max-sm:text-center">
                         <button
                             class="primary-button m-0 mx-auto block w-full max-w-[374px] rounded-2xl px-11 py-4 text-center text-base max-md:max-w-full max-md:rounded-lg max-md:py-3 max-sm:py-1.5 ltr:ml-0 rtl:mr-0"
-                            type="submit">
+                            style="width: auto;padding: 20px;" type="submit">
                             @lang('shop::app.customers.login-form.button-title')
                         </button>
 

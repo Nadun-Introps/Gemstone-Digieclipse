@@ -95,15 +95,14 @@
         <!-- Filters Container -->
         <template v-else>
             <div class="panel-side journal-scroll grid max-h-[1320px] min-w-[342px] grid-cols-[1fr] overflow-y-auto overflow-x-hidden max-xl:min-w-[270px] md:max-w-[342px] md:ltr:pr-7 md:rtl:pl-7">
-                <div class="wrapper-sidebar shop-sidebar">
                 <!-- Filters Header Container -->
-                <div class="flex h-[50px] items-center justify-between border-b border-zinc-200 pb-2.5 max-md:hidden widget widget-categories">
-                    <p class="widgettitle">
+                <div class="flex h-[50px] items-center justify-between border-b border-zinc-200 pb-2.5 max-md:hidden">
+                    <p class="text-lg font-semibold max-sm:font-medium">
                         @lang('shop::app.categories.filters.filters')
                     </p>
 
                     <p
-                        class="widgettitle cursor-pointer"
+                        class="cursor-pointer text-xs font-medium"
                         tabindex="0"
                         @click="clear()"
                     >
@@ -120,7 +119,6 @@
                     @values-applied="applyFilter(filter, $event)"
                 >
                 </v-filter-item>
-                </div>
             </div>
         </template>
     </script>
@@ -133,15 +131,15 @@
         <x-shop::accordion class="last:border-b-0">
             <!-- Filter Item Header -->
             <x-slot:header class="px-0 py-2.5 max-sm:!pb-1.5">
-                <div class="flex items-center justify-between widget widget-categories">
-                    <p class="widgettitle">
+                <div class="flex items-center justify-between">
+                    <p class="text-lg font-semibold max-sm:text-base max-sm:font-medium">
                         @{{ filter.name }}
                     </p>
                 </div>
             </x-slot>
 
             <!-- Filter Item Content -->
-            <x-slot:content class="!p-0 widget widget-categories">
+            <x-slot:content class="!p-0">
                 <!-- Price Range Filter -->
                 <ul v-if="filter.type === 'price'">
                     <li>
@@ -162,12 +160,11 @@
                         v-if="filter.type !== 'boolean'"
                     >
                         <div class="relative">
-                            <div class="icon-search pointer-events-none absolute top-3 flex items-center text-2xl max-md:text-xl max-sm:top-2.5 ltr:left-3 rtl:right-3" style="margin-top: 4px;margin-left: 6px;font-size: 20px;"></div>
+                            <div class="icon-search pointer-events-none absolute top-3 flex items-center text-2xl max-md:text-xl max-sm:top-2.5 ltr:left-3 rtl:right-3"></div>
 
                             <input
                                 type="text"
                                 class="block w-full rounded-xl border border-zinc-200 px-11 py-3.5 text-sm font-medium text-gray-900 max-md:rounded-lg max-md:px-10 max-md:py-3 max-md:font-normal max-sm:text-xs"
-                                style="font-size: 15px;padding-left: 38px;"
                                 placeholder="@lang('shop::app.categories.filters.search.title')"
                                 v-model="searchQuery"
                                 v-debounce:500="searchOptions"
@@ -187,7 +184,7 @@
                     </div>
 
                     <!-- Filter Options -->
-                    <ul class="list-brand">
+                    <ul class="pb-3 text-base text-gray-700">
                         <template v-if="options.length">
                             <li
                                 :key="`${filter.id}_${option.id}`"
@@ -215,7 +212,7 @@
                                     </label>
 
                                     <label
-                                        class="label-text cursor-pointer"
+                                        class="w-full cursor-pointer p-2 text-base text-gray-900 max-sm:p-1 max-sm:text-sm ltr:pl-0 rtl:pr-0"
                                         :id="'label_option_' + option.id"
                                         :for="`filter_${filter.id}_option_ ${option.id}`"
                                         role="button"
@@ -501,7 +498,8 @@
                             this.isLoadingMore = false;
 
                             this.options = replace ?
-                                response.data.data : [...this.options, ...response.data.data];
+                                response.data.data :
+                                [...this.options, ...response.data.data];
 
                             this.meta = response.data.meta;
                         })
