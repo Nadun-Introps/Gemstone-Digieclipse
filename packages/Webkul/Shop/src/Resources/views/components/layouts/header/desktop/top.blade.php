@@ -12,8 +12,10 @@
                     
                     <!-- Left corner welcome text -->
                     <div class="top-bar-left">
-                        <div class="header-message">
-                            Welcome to our online store!
+                       <div class="header-message">
+                            <a href="https://gemstone.introps.com" target="_blank">
+                                gemstone.introps.com
+                            </a>
                         </div>
                     </div>
 
@@ -54,17 +56,17 @@
                         </div>
 
                         <!-- User Links -->
-                        <ul class="header-user-links flex items-center gap-4">
+                        <!--<ul class="header-user-links flex items-center gap-4">
                             @if(auth()->guard('customer')->check())
                                 <li class="flex items-center gap-2">
                                     <a href="{{ route('shop.customers.account.profile.index') }}" class="text-gray-800 hover:text-blue-600 font-medium">
                                         {{ auth()->guard('customer')->user()->first_name }}
                                     </a>
 
-                                    <span class="text-gray-400">|</span>
+                                    <span class="text-gray-400">|</span>-->
 
                                     <!-- Logout form -->
-                                    <form
+                                    <!--<form
                                         id="customerLogout"
                                         action="{{ route('shop.customer.session.destroy') }}"
                                         method="POST"
@@ -89,13 +91,23 @@
                                     </a>
                                 </li>
                             @endif
-                        </ul>
+                        </ul>-->
 
                     </div>
                 </div>
             </div>
     </script>
+<style scoped>
+.switcher-option a {
+    color: #000; 
+    text-decoration: none;
+    transition: color 0.2s ease-in-out;
+}
 
+.switcher-option a:hover {
+    color: #ab8e66; 
+}
+</style>
     <!-- Currency Switcher Template -->
     <script type="text/x-template" id="v-currency-switcher-template">
         <ul>
@@ -168,3 +180,5 @@
         });
     </script>
 @endPushOnce
+
+

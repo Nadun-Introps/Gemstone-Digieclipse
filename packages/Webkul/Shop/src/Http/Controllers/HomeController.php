@@ -10,6 +10,8 @@ use Webkul\Product\Repositories\ProductRepository;
 // use Webkul\Product\Contracts\ProductImage;
 use Webkul\Product\Models\ProductImage;
 use Webkul\Theme\Repositories\ThemeCustomizationRepository;
+use Webkul\Category\Repositories\CategoryRepository;
+use Webkul\Shop\Http\Resources\CategoryTreeResource;
 use Carbon\Carbon;
 
 class HomeController extends Controller
@@ -26,7 +28,8 @@ class HomeController extends Controller
      */
     public function __construct(
         protected ThemeCustomizationRepository $themeCustomizationRepository,
-        protected ProductRepository $productRepository
+        protected ProductRepository $productRepository,
+        protected CategoryRepository $categoryRepository
     ) {}
 
     /**
@@ -125,7 +128,11 @@ class HomeController extends Controller
             return $product;
         });
 
-        return view('shop::home.index', compact('customizations', 'categoryApiUrl', 'auctions', 'newArrivals', 'featuredProducts'));
+        $categories = $this->categoryRepository->getVisibleCategoryTree(core()->getCurrentChannel()->root_category_id);
+
+        $categories = CategoryTreeResource::collection($categories);
+
+        return view('shop::home.index', compact('customizations', 'categories', 'categoryApiUrl', 'auctions', 'newArrivals', 'featuredProducts'));
     }
     /**
      * Loads the home page for the storefront if something wrong.

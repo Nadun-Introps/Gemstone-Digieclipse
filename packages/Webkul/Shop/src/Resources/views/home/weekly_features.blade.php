@@ -1,3 +1,37 @@
+@push('styles')
+    <style>
+        .slick-slide {
+            padding: 0px 35px;
+        }
+        .product-item .price ins {
+            font-size: 13px;
+        }
+
+        .stelina-product.layout1 {
+            background: #ab8e66;
+            padding: 70px 0 0px;
+        }
+
+        @media (max-width: 768px) {
+            .slick-slide {
+                padding: 0 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .slick-slide {
+                padding: 0 15px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .slick-slide {
+                padding: 0 60px;
+            }
+        }
+
+    </style>
+@endpush
 <div class="stelina-product layout1">
     <div class="container">
         <div class="container-wapper">
@@ -5,14 +39,13 @@
                 <h3 class="title">Weekly Featured</h3>
                 <div class="subtitle">Let’s Shop our featured item this week</div>
             </div>
-
             <div class="product-list-owl owl-slick equal-container nav-center-left"
                 data-slick='{"autoplay":false, "autoplaySpeed":1000, "arrows":true, "dots":false, "infinite":true, "speed":800,"infinite":false}'
-                data-responsive='[{"breakpoint":"2000","settings":{"slidesToShow":3}},{"breakpoint":"1200","settings":{"slidesToShow":2}},{"breakpoint":"992","settings":{"slidesToShow":1}},{"breakpoint":"768","settings":{"slidesToShow":2}},{"breakpoint":"481","settings":{"slidesToShow":1}}]'>
+                data-responsive='[{"breakpoint":"2000","settings":{"slidesToShow":3}},{"breakpoint":"1200","settings":{"slidesToShow":2}},{"breakpoint":"992","settings":{"slidesToShow":2}},{"breakpoint":"767","settings":{"slidesToShow":3, "arrows":false}},{"breakpoint":"481","settings":{"slidesToShow":2, "arrows":false}}, {"breakpoint":"381","settings":{"slidesToShow":1,"arrows":false}}]'>
 
                 @foreach ($newArrivals as $product)
-                    <div class="product-item style-1 product-type-variable">
-                        <div class="product-inner equal-element">
+                    <div class="product-item style-1 product-type-variable" style="height: 330px;">
+                        <div class="product-inner equal-element weekly-featured-card">
                             <div class="product-top">
                                 @if ($product->new)
                                     <div class="flash">
@@ -48,7 +81,7 @@
                             </div>
 
                             <div class="product-info">
-                                <h5 class="product-name product_title">
+                                <h5 class="product-name product_title weekly">
                                     <a href="{{ route('shop.product_or_category.index', $product->url_key) }}">
                                         {{ $product->name }}
                                     </a>
@@ -61,10 +94,10 @@
                                     </div>
                                     <div class="price">
                                         @if ($product->special_price)
-                                            <del>${{ $product->price }}</del>
-                                            <ins>${{ $product->special_price }}</ins>
+                                            <del>${{ number_format($product->price, 2) }}</del>
+                                            <ins>${{ number_format($product->special_price, 2) }}</ins>
                                         @else
-                                            <ins>${{ $product->price }}</ins>
+                                            <ins>${{ number_format($product->price, 2) }}</ins>
                                         @endif
                                     </div>
                                 </div>

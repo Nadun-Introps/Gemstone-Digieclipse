@@ -34,14 +34,17 @@
         @endif
 
         <!--@if ($customization->sort_order >= 3)
-@once
-                                                                    @include('shop::home.shop_by_cate', [
-                                                                        'src' => route(
-                                                                            'shop.api.categories.index',
-                                                                            $data['filters'] ?? []),
-                                                                    ])
-            @endonce
-@endif-->
+            @once
+                @include(
+                    'shop::home.shop_by_cate',
+                    [
+                        'src' => route(
+                            'shop.api.categories.index',
+                            $data['filters'] ?? []),
+                    ]
+                )
+                        @endonce
+            @endif-->
 
         @if ($customization->sort_order >= 4)
             @once

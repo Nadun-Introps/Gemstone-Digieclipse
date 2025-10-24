@@ -57,7 +57,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap">
 
     <script src="https://kit.fontawesome.com/750e98817f.js" crossorigin="anonymous"></script>
-
+    
     <!-- Swiper CSS
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" /> -->
 

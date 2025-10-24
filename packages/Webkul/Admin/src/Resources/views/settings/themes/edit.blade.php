@@ -101,7 +101,7 @@
                 @includeWhen($theme->type === 'footer_links', 'admin::settings.themes.edit.footer-links')
 
                 <!-- Services-content Template -->
-                @includeWhen($theme->type === 'services_content', 'admin::settings.themes.edit.services-content')
+                {{-- @includeWhen($theme->type === 'services_content', 'admin::settings.themes.edit.services-content') --}}
             </div>
 
             <!-- General -->

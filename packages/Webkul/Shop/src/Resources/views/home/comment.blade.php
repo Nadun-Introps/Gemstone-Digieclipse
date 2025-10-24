@@ -1,4 +1,4 @@
-<div class="stelina-testimonials-newsletter-wrapp">
+<!-- <div class="stelina-testimonials-newsletter-wrapp">
     <div class="container">
         <div class="row">
             <div class="col-lg-9">
@@ -68,11 +68,11 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 <div class="banner-wrapp rows-space-30">
     <div class="container">
         <div class="row">
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 col-xxs-12">
                 <div class="banner">
                     <div class="item-banner style16">
                         <div class="inner">
@@ -88,7 +88,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-6 col-xxs-12">
                 <div class="banner">
                     <div class="item-banner style15">
                         <div class="inner">
