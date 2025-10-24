@@ -114,9 +114,9 @@ h6 {
     font-size: 16px;
 }
 
-p {
+/* p {
     margin-bottom: 20px;
-}
+} */
 
 blockquote,
 q {
@@ -157,7 +157,6 @@ blockquote::before {
     overflow: hidden;
 }
 
-input[type="text"],
 input[type="email"],
 input[type="password"],
 input[type="tel"],
@@ -169,6 +168,13 @@ select {
     padding: 7px 20px;
     max-width: 100%;
     background: none;
+}
+
+input[type="text"] {
+    border: 1px solid #eeeeee;
+    /* padding: 7px 20px; */
+    max-width: 100%;
+    background-color: rgb(244 244 245);
 }
 
 input[type="text"],
@@ -13763,4 +13769,26 @@ a:active,
 
 .product-item .product-inner img {
     width: 100%;
+}
+
+/* bottom bar styles */
+.gap-x-9 {
+    -moz-column-gap: 2.25rem;
+    column-gap: 2.25rem;
+}
+
+.items-center {
+    align-items: center;
+}
+
+.relative {
+    position: relative;
+}
+
+.bg-white {
+  --tw-bg-opacity: 1;
+}
+
+.max-w-\[445px\] {
+  max-width: 445px;
 }
