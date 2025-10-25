@@ -172,12 +172,12 @@ select {
 
 input[type="text"] {
     border: 1px solid #eeeeee;
-    /* padding: 7px 20px; */
+    height: 42px;
     max-width: 100%;
     background-color: rgb(244 244 245);
 }
 
-input[type="text"],
+
 input[type="email"],
 input[type="password"],
 input[type="tel"],
