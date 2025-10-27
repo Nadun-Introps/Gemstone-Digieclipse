@@ -7150,7 +7150,7 @@ ul.list-products {
     letter-spacing: -0.05em;
     font-weight: 500;
     display: block;
-    margin-bottom: 35px;
+    margin-bottom: 8px;
 }
 
 .slider-item.slick-active .price,
@@ -8070,7 +8070,7 @@ top-bar .header-user-links li a {
 
 .slider-item.style6 .slider-inner .slider-infor {
     padding-bottom: 90px;
-    padding-top: 153px;
+    padding-top: 75px;
     padding-left: 770px;
     padding-right: 30px;
     float: right;
@@ -8443,7 +8443,7 @@ body.vertical-menu-open .vertical-menu-overlay {
 }
 
 .slider-inner.equal-element {
-    height: 500px !important;
+    height: 400px !important;
 }
 
 
@@ -12209,6 +12209,10 @@ iframe {
     .col-lg-4.banner-wrapp .banner:last-child {
         float: right;
     }
+
+    .product-inner.equal-element.arrivals-card{
+        height: 330px !important;
+    }
 }
 
 @media (max-width: 991px) {
@@ -12473,6 +12477,12 @@ iframe {
 }
 
 @media (max-width: 767px) {
+
+    .slider-inner.equal-element {
+        height: 335px !important;
+    }
+
+
     .product-item .product-name {
         font-size: 14px;
     }
@@ -12622,8 +12632,8 @@ iframe {
     .slider-item.style25 .slider-inner .slider-infor,
     .slider-item.style26 .slider-inner .slider-infor,
     .slider-item.style27 .slider-inner .slider-infor {
-        padding-top: 70px;
-        padding-bottom: 70px;
+        padding-top: 60px;
+        padding-bottom: 45px;
     }
 
     .item-banner.style1 .inner .title {
@@ -12649,7 +12659,6 @@ iframe {
         line-height: 44px;
     }
 
-    input[type="text"],
     input[type="email"],
     input[type="password"],
     input[type="tel"],
@@ -13317,7 +13326,7 @@ iframe {
     }
 
     .slider-inner.equal-element {
-		height: 500px !important;
+		height: 210px !important;
 	}
 
     .item-banner.style15 .banner-content {
@@ -13544,7 +13553,7 @@ iframe {
     .slider-item.style27 .slider-inner .slider-infor {
         padding-right: 15px;
         padding-left: 15px;
-        padding-top: 55px;
+        padding-top: 15px;
         padding-bottom: 55px;
     }
 
