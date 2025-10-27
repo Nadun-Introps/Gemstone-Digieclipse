@@ -1,8 +1,19 @@
+@push('styles')
+    <style>
+    @media (max-width: 767px) {
+        .slider-infor{
+            height: 180px !important;
+        }
+
+    }
+
+    </style>
+@endpush
 <div class="home-slider fullwidth rows-space-60">
     <div class="slider-owl owl-slick equal-container nav-center equal-container"
         data-slick='{"autoplay":true, "autoplaySpeed":10000, "arrows":true, "dots":true, "infinite":true, "speed":800, "rows":1}'
         data-responsive='[{"breakpoint":"2000","settings":{"slidesToShow":1}}]'>
-         <div class="slider-item style6" style="height: 480px;">
+         <div class="slider-item style6">
             <div class="slider-inner equal-element">
                 <div class="container">
                     <div class="slider-infor">
@@ -27,7 +38,7 @@
             </div>
         </div>
         
-        <div class="slider-item style5">
+        {{-- <div class="slider-item style5">
             <div class="slider-inner equal-element">
                 <div class="container">
                     <div class="slider-infor">
@@ -74,6 +85,6 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
 </div>
