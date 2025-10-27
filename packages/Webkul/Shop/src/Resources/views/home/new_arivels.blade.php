@@ -3,6 +3,37 @@
     .product-inner.equal-element.arrivals-card{
         height: 395px !important;
     }
+
+    @media (max-width: 1200px) and (min-width: 768px) {
+        .product-inner.equal-element.arrivals-card{
+            height: 330px !important;
+        }
+    }
+
+    @media (max-width: 1200px) and (min-width: 768px) {
+        .product-inner.equal-element.arrivals-card{
+            height: 330px !important;
+        }
+    }
+
+    @media (max-width: 768px){
+        .product-inner.equal-element.arrivals-card{
+            height: auto !important;
+        }
+    }
+
+    /* @media (max-width: 576px){
+    .product-inner.equal-element.arrivals-card {
+        height: 250px !important;
+    }
+    }
+
+     @media (max-width: 480px) {
+    .product-inner.equal-element.arrivals-card {
+        height: 300px !important;
+    }
+    } */
+
     </style>
 @endpush
 
