@@ -38,7 +38,7 @@
             </div>
         </div>
         
-        {{-- <div class="slider-item style5">
+        <div class="slider-item style5">
             <div class="slider-inner equal-element">
                 <div class="container">
                     <div class="slider-infor">
@@ -85,6 +85,6 @@
                     </div>
                 </div>
             </div>
-        </div> --}}
+        </div>
     </div>
 </div>
