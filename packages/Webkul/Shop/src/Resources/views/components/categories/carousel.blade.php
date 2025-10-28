@@ -15,6 +15,12 @@
         margin-bottom: 2.5rem !important;
     }
 
+    @media (min-width: 1200px) {
+        .container {
+            width: 1135px;
+        }
+    }
+
     </style>
 @endpush
 
@@ -24,7 +30,7 @@
         id="v-categories-carousel-template"
     >
         <div
-            class="container mt-14 max-lg:px-8 max-md:mt-7 max-md:!px-0 max-sm:mt-5 mb-10"
+            class="container mt-14 max-lg:px-8 max-md:mt-7 max-md:!px-0 max-sm:mt-5 mb-10 carousel-categories"
             v-if="! isLoading && categories?.length"
         >
         <!--<h3 class="custommenu-title-blog">Gem Categories</h3>-->
