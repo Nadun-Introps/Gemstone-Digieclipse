@@ -1,4 +1,4 @@
-        <div class="banner-video-wrapp rows-space-40 type2">
+        <div class="banner-video-wrapp rows-space-40 type2 mt-10">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-6">

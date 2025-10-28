@@ -51,14 +51,22 @@
             color: #fff;
         } */
 
+        @media (max-width: 1200px) {
+            .product-inner.equal-element {
+                height: 430px !important;
+            }
+        }
+
+
+        @media (max-width: 992px) {
+            .product-item.style-5.auction-card {
+                width: 290px !important;
+            }
+        }
+
         @media (max-width: 480px) {
-            .countdown {
-                display: flex;
-                gap: 5px;
-                font-size: 12px;
-                margin-top: 8px;
-                margin-left: 6px;
-                margin-bottom: 10px;
+            .product-item.style-5.auction-card {
+                width: 300px !important;
             }
 
              .slick-slide {

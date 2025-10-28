@@ -27,6 +27,17 @@
             @endonce
         @endif
 
+         @if ($customization->type === $customization::CATEGORY_CAROUSEL)
+            @once
+                <x-shop::categories.carousel 
+                    :title="$data['title'] ?? ''" 
+                    :src="route('shop.api.categories.index', $data['filters'] ?? [])" 
+                    :navigation-link="route('shop.home.index')"
+                    aria-label="{{ trans('shop::app.home.index.categories-carousel') }}" 
+                />
+            @endonce
+        @endif
+
         @if ($customization->sort_order >= 3)
             @once
                 @include('shop::home.offer_section')
@@ -108,11 +119,11 @@
                 @endif
             @break
 
-            @case ($customization::CATEGORY_CAROUSEL)
+            {{-- @case ($customization::CATEGORY_CAROUSEL)
                 <!-- Categories carousel -->
                 <x-shop::categories.carousel :title="$data['title'] ?? ''" :src="route('shop.api.categories.index', $data['filters'] ?? [])" :navigation-link="route('shop.home.index')"
                     aria-label="{{ trans('shop::app.home.index.categories-carousel') }}" />
-            @break
+            @break --}}
 
             @case ($customization::PRODUCT_CAROUSEL)
                 <!-- Product Carousel -->
