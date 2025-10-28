@@ -13362,6 +13362,7 @@ iframe {
 
     .stelina-blog-item.style2 .blog-title {
         margin-bottom: 30px;
+        height: 80px;
     }
 
     .stelina-blog-item.style2 .blog-info {
@@ -13715,7 +13716,7 @@ a:active,
 
 @media (min-width: 1367px) {
     .home-slider.fullwidth.rows-space-60 {
-        margin-bottom: 80px;
+        margin-bottom: 55px;
     }
 
     .banner-wrapp.rows-space-35 {
@@ -13760,7 +13761,7 @@ a:active,
     }
 
     .home-slider.fullwidth.rows-space-60 {
-        margin-bottom: 80px;
+        margin-bottom: 40px;
     }
 
     .stelina-product.produc-featured.rows-space-40 {

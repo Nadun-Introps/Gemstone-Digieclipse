@@ -9,15 +9,25 @@
     />
 </v-categories-carousel>
 
+@push('styles')
+    <style>
+    .mb-10 {
+        margin-bottom: 2.5rem !important;
+    }
+
+    </style>
+@endpush
+
 @pushOnce('scripts')
     <script
         type="text/x-template"
         id="v-categories-carousel-template"
     >
         <div
-            class="container mt-14 max-lg:px-8 max-md:mt-7 max-md:!px-0 max-sm:mt-5"
+            class="container mt-14 max-lg:px-8 max-md:mt-7 max-md:!px-0 max-sm:mt-5 mb-10"
             v-if="! isLoading && categories?.length"
         >
+        <!--<h3 class="custommenu-title-blog">Gem Categories</h3>-->
             <div class="relative">
                 <div
                     ref="swiperContainer"
@@ -33,7 +43,13 @@
                             :aria-label="category.name"
                         >
                             <x-shop::media.images.lazy
-                                ::src="category.logo?.large_image_url || '{{ bagisto_asset('images/small-product-placeholder.webp') }}'"
+                                ::src="category.logo?.small_image_url || fallback"
+                                ::srcset="`
+                                    ${(category.logo?.small_image_url || fallback)} 60w,
+                                    ${(category.logo?.medium_image_url || fallback)} 110w,
+                                    ${(category.logo?.large_image_url || fallback)} 300w
+                                `"
+                                sizes="(max-width: 640px) 60px, 110px"
                                 width="110"
                                 height="110"
                                 class="w-full rounded-full max-sm:h-[60px] max-sm:w-[60px]"
@@ -54,22 +70,23 @@
                     </div>
                 </div>
 
-                <span
-                    class="icon-arrow-left-stylish absolute -left-10 top-9 flex h-[50px] w-[50px] cursor-pointer items-center justify-center rounded-full border border-black bg-white text-2xl transition hover:bg-black hover:text-white max-lg:-left-7 max-md:hidden"
+               <span
+                    class="absolute -left-10 top-9 flex h-[50px] w-[50px] items-center justify-center text-2xl transition max-lg:-left-7 max-md:hidden"
                     role="button"
                     aria-label="@lang('shop::components.carousel.previous')"
                     tabindex="0"
                     @click="swipeLeft"
                 >
+                    <i class="fa fa-chevron-left"></i>
                 </span>
-
                 <span
-                    class="icon-arrow-right-stylish absolute -right-6 top-9 flex h-[50px] w-[50px] cursor-pointer items-center justify-center rounded-full border border-black bg-white text-2xl transition hover:bg-black hover:text-white max-lg:-right-7 max-md:hidden"
+                    class="absolute -right-6 top-9 flex h-[50px] w-[50px] cursor-pointer items-center justify-center text-2xl transition max-lg:-right-7 max-md:hidden"
                     role="button"
                     aria-label="@lang('shop::components.carousel.next')"
                     tabindex="0"
                     @click="swipeRight"
                 >
+                <i class="fa fa-chevron-right"></i>
                 </span>
             </div>
         </div>
@@ -100,6 +117,8 @@
                     categories: [],
 
                     offset: 323,
+
+                    fallback: "{{ bagisto_asset('images/small-product-placeholder.webp') }}"
                 };
             },
 
